@@ -34,3 +34,46 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+## Our Next Project Structure
+src/
+├── app/                     # Next.js App Router (routes, layouts, pages)
+│   ├── (dashboard)/         # Route groups
+│   ├── api/                 # API routes (Next.js server functions)
+│   └── layout.tsx
+│   └── page.tsx
+│
+├── components/              # UI components (stateless)
+│   ├── ui/                  # Shared UI (buttons, inputs, modals)
+│   ├── layout/              # Navbar, Sidebar, etc.
+│   └── domain/              # Domain-specific UI
+│
+├── features/                # Feature-based modules
+│   ├── auth/
+│   │   ├── components/
+│   │   ├── services/
+│   │   ├── hooks/
+│   │   └── types.ts
+│   ├── assessments/
+│   │   ├── components/
+│   │   ├── services/
+│   │   └── model.ts
+│   └── index.ts
+│
+├── domain/                  # Core business logic (entities, interfaces)
+│   ├── models/              # Pure data models (no Next.js or React)
+│   ├── repositories/        # Abstract interfaces for data sources
+│   └── usecases/            # Business rules (pure functions)
+│
+├── infrastructure/          # Data access & external integrations
+│   ├── api/                 # Axios/fetch clients, backend adapters
+│   ├── prisma/              # Prisma setup (if using)
+│   └── repositories/        # Implementations of domain repositories
+│
+├── hooks/                   # Global custom hooks
+├── lib/                     # Utilities, helpers, constants
+├── styles/                  # Global CSS / Tailwind
+├── types/                   # Shared TypeScript types
+└── utils/                   # Formatting, validation, etc.
