@@ -2,12 +2,10 @@
 
 import React from "react";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-    return (
-        <html lang="en">
-        <body>
-        <main className="container mx-auto p-4">{children}</main>
-        </body>
-        </html>
-    );
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <main className="w-full  mx-auto">{children}</main>;
 }
