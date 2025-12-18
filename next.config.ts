@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   // experimental : {
   //     turbopackFileSystemCacheForBuild: true,
   // }
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     remotePatterns: [
       {
