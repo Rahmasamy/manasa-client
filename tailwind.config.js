@@ -55,6 +55,9 @@ module.exports = {
           5: "hsl(var(--chart-5))",
         },
       },
+      fontFamily: {
+        sans: ["var(--font-tajawal)", "sans-serif"],
+      },
     },
   },
   plugins: ["tailwindcss-animate", "tailwindcss-rtl"],

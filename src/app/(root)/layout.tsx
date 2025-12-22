@@ -1,11 +1,16 @@
-// app/(root)/layout.tsx
-
-import React from "react";
+import NavBar from "@/src/components/layout/NavBar/NavBar";
+import Footer from "@/src/components/layout/Footer/Footer";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <main className="w-full  mx-auto">{children}</main>;
+  return (
+    <>
+      <NavBar />
+      <main className="w-full mx-auto">{children}</main>
+      <Footer />
+    </>
+  );
 }
