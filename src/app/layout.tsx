@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Tajawal } from "next/font/google";
 
+import AuthProvider from "../components/providers/AuthProvider";
+
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -35,7 +37,12 @@ export default function RootLayout({
       <body
         className={` ${tajawal.variable} antialiased`}
       >
-        {children}
+
+        <AuthProvider>
+         
+          {children}
+         
+        </AuthProvider>
       </body>
     </html>
   );

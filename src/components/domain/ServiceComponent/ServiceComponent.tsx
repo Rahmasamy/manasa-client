@@ -1,11 +1,16 @@
 import { Service } from "@/src/types/services/services";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 interface ServiceCardProps {
   service: Service;
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
+  const serviceDetailUrl = service.id 
+    ? `/acedemic/single/${service.id}` 
+    : "#";
+
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100 hover:border-[#2885AC]/30">
       {/* Header */}
@@ -26,13 +31,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
         
         {/* Link Button */}
         <div className="flex items-center justify-end gap-3 pt-2">
-          <a
-            href="#"
+          <Link
+            href={serviceDetailUrl}
             className="inline-flex items-center gap-2 text-[#2885AC] font-semibold hover:text-[#2885AC]/80 transition-colors group"
           >
             {service.link_text}
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-          </a>
+          </Link>
         </div>
       </div>
     </div>
