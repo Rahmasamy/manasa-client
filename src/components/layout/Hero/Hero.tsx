@@ -114,13 +114,13 @@ export default function Hero() {
           onClick={() => setShowSuccessPopup(false)}
         >
           <div
-            className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 flex flex-col items-center gap-6"
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 flex flex-col items-center gap-4 sm:gap-6 mx-4"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Success Icon */}
-            <div className="w-20 h-20 bg-[#39A975]/10 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#39A975]/10 rounded-full flex items-center justify-center">
               <svg
-                className="w-12 h-12 text-[#39A975]"
+                className="w-10 h-10 sm:w-12 sm:h-12 text-[#39A975]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -135,11 +135,11 @@ export default function Hero() {
             </div>
 
             {/* Success Message */}
-            <div className="text-center space-y-3">
-              <p className="text-gray-800 font-semibold text-lg leading-relaxed">
+            <div className="text-center space-y-2 sm:space-y-3">
+              <p className="text-gray-800 font-semibold text-base sm:text-lg leading-relaxed">
                 سيتم التواصل معك بخصوص طلبك في أقرب وقت
               </p>
-              <p className="text-[#2885AC] font-bold text-xl">
+              <p className="text-[#2885AC] font-bold text-lg sm:text-xl">
                 شكراً لاختيارك HSP
               </p>
             </div>
@@ -147,7 +147,7 @@ export default function Hero() {
             {/* Close Button */}
             <Button
               onClick={() => setShowSuccessPopup(false)}
-              className="bg-[#2885AC] text-white hover:bg-[#2885AC]/90 px-8 py-2 rounded-md transition-colors"
+              className="bg-[#2885AC] text-white hover:bg-[#2885AC]/90 px-6 sm:px-8 py-2 rounded-md transition-colors text-sm sm:text-base w-full sm:w-auto"
             >
               موافق
             </Button>
@@ -156,37 +156,37 @@ export default function Hero() {
       )}
 
       {/* Content */}
-      <div className="container min-h-screen mx-auto pt-40 pb-20 grid md:grid-cols-2 gap-10 items-center">
+      <div className="container min-h-screen mx-auto pt-20 sm:pt-32 md:pt-40 pb-10 sm:pb-16 md:pb-20 px-4 sm:px-8 lg:px-24 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 items-center">
         {/* Left Images */}
 
         <div className="text-black">
-          <h1 className="text-4xl font-bold leading-relaxed mb-4">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-relaxed mb-3 sm:mb-4">
             نُلهم الباحثين… ونوجّههم نحو التميُّز الأكاديمي
           </h1>
-          <p className="text-lg opacity-90 mb-6 text-[#71717A]">
+          <p className="text-base sm:text-lg opacity-90 mb-4 sm:mb-6 text-[#71717A]">
             انضم إلى بوابة العلوم الإنسانية، حيث الإرشاد الأكاديمي والتدريب
             النوعي بأيدي خبراء معتمدين، لتمكينك من تطوير مهاراتك وتحقيق إنجازات
             أكاديمية تواكب المستقبل.
           </p>
 
           {/* Buttons */}
-          <div className="flex gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
             <Button
               onClick={handleButtonClick}
-              className="rounded-lg px-9 py-4 bg-[#0B72B9] hover:bg-[#0B72B9]/90 text-white"
+              className="rounded-lg px-6 sm:px-9 py-3 sm:py-4 bg-[#0B72B9] hover:bg-[#0B72B9]/90 text-white text-sm sm:text-base"
             >
               اطلب الخدمة الآن
             </Button>
             <Button
               onClick={handleButtonClick}
-              className="px-9 py-4 rounded-lg bg-white text-[#0B72B9] border-2 border-white hover:bg-[#0B72B9] hover:text-white hover:border-[#0B72B9] transition-colors"
+              className="px-6 sm:px-9 py-3 sm:py-4 rounded-lg bg-white text-[#0B72B9] border-2 border-white hover:bg-[#0B72B9] hover:text-white hover:border-[#0B72B9] transition-colors text-sm sm:text-base"
             >
               اطلب استشارة مجانية
             </Button>
           </div>
 
           {/* Search */}
-          <div ref={searchRef} className="relative w-full max-w-sm">
+          <div ref={searchRef} className="relative w-full sm:max-w-sm">
             <div className="flex items-center gap-2 w-full bg-white rounded-lg">
               <input
                 className="flex-1 outline-none text-gray-700 px-4 py-2 rounded-lg"
@@ -197,7 +197,7 @@ export default function Hero() {
                   if (searchResults.length > 0) setShowDropdown(true);
                 }}
               />
-              <Button className="bg-[#0B72B9] hover:bg-[#0B72B9]/90 text-white rounded-lg px-6">
+              <Button className="bg-[#0B72B9] hover:bg-[#0B72B9]/90 text-white rounded-lg px-4 sm:px-6 text-sm sm:text-base">
                 بحث
               </Button>
             </div>
@@ -231,7 +231,7 @@ export default function Hero() {
               )}
           </div>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="hidden lg:flex flex-col gap-4">
           <div className="flex gap-4">
             <Image
               src="/imgs/hero-1.jpg"

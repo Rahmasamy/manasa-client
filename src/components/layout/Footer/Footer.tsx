@@ -4,7 +4,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-6  items-start gap-10 min-h-90  p-14">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 items-start gap-6 sm:gap-8 lg:gap-10 min-h-90 p-6 sm:p-10 lg:p-14">
         {/* Pages & Services */}
         {/* Pages */}
 
@@ -281,7 +281,7 @@ const Footer = () => {
       </div>
 
       {/* Copyright */}
-      <div className="bg-[#134053] text-white text-right text-md py-5 pr-10">
+      <div className="bg-[#134053] text-white text-right text-sm sm:text-md py-4 sm:py-5 pr-4 sm:pr-6 lg:pr-10 px-4 sm:px-0">
         © 2025 جميع الحقوق محفوظة لموقع بوابة العلوم الإنسانية
       </div>
     </footer>

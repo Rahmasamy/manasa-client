@@ -8,7 +8,7 @@ import CommonQuestions from "../components/layout/commonQuestions/CommonQuestion
 
 const Page = () => {
   return (
-    <main className="relative min-h-screen overflow-hidden  ">
+    <main className="relative min-h-screen overflow-x-hidden">
       <Hero />
       <WhatRepresent />
       <EductionServices />

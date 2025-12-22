@@ -94,7 +94,7 @@ export default function CoursesSections() {
 
   if (loading) {
     return (
-      <div className="bg-white px-24 py-10">
+      <div className="bg-white px-4 sm:px-8 lg:px-24 py-8 sm:py-10">
         <WrapperComponent
           order={"ثانيا"}
           title={"الدورات التدريبية"}
@@ -109,7 +109,7 @@ export default function CoursesSections() {
 
   if (error) {
     return (
-      <div className="bg-white px-24 py-10">
+      <div className="bg-white px-4 sm:px-8 lg:px-24 py-8 sm:py-10">
         <WrapperComponent
           order={"ثانيا"}
           title={"الدورات التدريبية"}
@@ -123,34 +123,36 @@ export default function CoursesSections() {
   }
 
   return (
-    <div className="bg-white px-24 py-10">
+    <div className="bg-white px-4 sm:px-8 lg:px-24 py-8 sm:py-10">
       <WrapperComponent
         order={"ثانيا"}
         title={"الدورات التدريبية"}
         knowMore="المزيد"
       />
-      <div className="flex gap-2 mt-4 flex-wrap">
-        <Button
-          onClick={() => handleFilterClick(null)}
-          className={`text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-3 px-4 ${
-            selectedGroupId === null ? "bg-[#4a4f52] text-white" : ""
-          }`}
-        >
-          الكل
-        </Button>
-        {courseGroups.map((group) => (
+      <div className="flex gap-2 mt-4 overflow-x-auto pb-2 scrollbar-hide scroll-smooth snap-x snap-mandatory">
+        <div className="flex gap-2 min-w-max">
           <Button
-            key={group.id}
-            onClick={() => handleFilterClick(group.id)}
-            className={`text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-3 px-4 ${
-              selectedGroupId === group.id
-                ? "bg-[#4a4f52] text-white"
-                : ""
+            onClick={() => handleFilterClick(null)}
+            className={`text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-2 px-3 sm:py-3 sm:px-4 text-sm sm:text-base whitespace-nowrap snap-start ${
+              selectedGroupId === null ? "bg-[#4a4f52] text-white" : ""
             }`}
           >
-            {group.title}
+            الكل
           </Button>
-        ))}
+          {courseGroups.map((group) => (
+            <Button
+              key={group.id}
+              onClick={() => handleFilterClick(group.id)}
+              className={`text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-2 px-3 sm:py-3 sm:px-4 text-sm sm:text-base whitespace-nowrap snap-start ${
+                selectedGroupId === group.id
+                  ? "bg-[#4a4f52] text-white"
+                  : ""
+              }`}
+            >
+              {group.title}
+            </Button>
+          ))}
+        </div>
       </div>
       <section className="container mx-auto px-4 py-9">
         {displayedCourses.length === 0 ? (
@@ -159,7 +161,7 @@ export default function CoursesSections() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
               {(showAll
                 ? displayedCourses
                 : displayedCourses.slice(0, DISPLAY_LIMIT)

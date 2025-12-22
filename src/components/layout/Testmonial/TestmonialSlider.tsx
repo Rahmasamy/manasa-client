@@ -19,11 +19,11 @@ export default function TestimonialSlider() {
 
   return (
     <div className="w-full bg-gradient-to-br from-gray-50 to-gray-100 py-16 px-4" dir="rtl">
-      <div className="max-w-7xl mx-auto mb-12">
-        <h2 className="text-4xl font-bold text-gray-900 text-center mb-3">
+      <div className="max-w-7xl mx-auto mb-8 sm:mb-12 px-4">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 text-center mb-2 sm:mb-3">
           آراء العملاء
         </h2>
-        <p className="text-gray-600 text-center text-lg">
+        <p className="text-gray-600 text-center text-base sm:text-lg">
           ماذا يقول عملاؤنا عن تجربتهم معنا
         </p>
       </div>

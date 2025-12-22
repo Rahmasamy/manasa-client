@@ -101,7 +101,7 @@ export default function EductionServices() {
 
   if (loading) {
     return (
-      <div className="bg-[#D6ECF5] px-24 py-10">
+      <div className="bg-[#D6ECF5] px-4 sm:px-8 lg:px-24 py-8 sm:py-10">
         <WrapperComponent
           order={"اولا"}
           title={"خدمات الأرشاد الأكاديمي"}
@@ -117,7 +117,7 @@ export default function EductionServices() {
 
   if (error) {
     return (
-      <div className="bg-[#D6ECF5] px-24 py-10">
+      <div className="bg-[#D6ECF5] px-4 sm:px-8 lg:px-24 py-8 sm:py-10">
         <WrapperComponent
           order={"اولا"}
           title={"خدمات الأرشاد الأكاديمي"}
@@ -132,35 +132,37 @@ export default function EductionServices() {
   }
 
   return (
-    <div className="bg-[#D6ECF5] px-24 py-10">
+    <div className="bg-[#D6ECF5] px-4 sm:px-8 lg:px-24 py-8 sm:py-10">
       <WrapperComponent
         order={"اولا"}
         title={"خدمات الأرشاد الأكاديمي"}
         knowMore="المزيد"
         knowMoreLink="/acedemic"
       />
-      <div className="flex gap-2 mt-4 flex-wrap">
-        <Button
-          onClick={() => handleFilterClick(null)}
-          className={`text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-3 px-4 ${
-            selectedCategoryId === null ? "bg-[#4a4f52] text-white" : ""
-          }`}
-        >
-          الكل
-        </Button>
-        {categories.map((category) => (
+      <div className="flex gap-2 mt-4 overflow-x-auto pb-2 scrollbar-hide scroll-smooth snap-x snap-mandatory">
+        <div className="flex gap-2 min-w-max">
           <Button
-            key={category.id}
-            onClick={() => handleFilterClick(category.id)}
-            className={`text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-3 px-4 ${
-              selectedCategoryId === category.id
-                ? "bg-[#4a4f52] text-white"
-                : ""
+            onClick={() => handleFilterClick(null)}
+            className={`text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-2 px-3 sm:py-3 sm:px-4 text-sm sm:text-base whitespace-nowrap snap-start ${
+              selectedCategoryId === null ? "bg-[#4a4f52] text-white" : ""
             }`}
           >
-            {category.title}
+            الكل
           </Button>
-        ))}
+          {categories.map((category) => (
+            <Button
+              key={category.id}
+              onClick={() => handleFilterClick(category.id)}
+              className={`text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-2 px-3 sm:py-3 sm:px-4 text-sm sm:text-base whitespace-nowrap snap-start ${
+                selectedCategoryId === category.id
+                  ? "bg-[#4a4f52] text-white"
+                  : ""
+              }`}
+            >
+              {category.title}
+            </Button>
+          ))}
+        </div>
       </div>
       <section className="container mx-auto px-4 py-9">
         {displayedServices.length === 0 ? (
@@ -169,7 +171,7 @@ export default function EductionServices() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
               {(showAll
                 ? displayedServices
                 : displayedServices.slice(0, DISPLAY_LIMIT)
