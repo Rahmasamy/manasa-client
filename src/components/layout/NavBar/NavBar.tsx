@@ -4,11 +4,13 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useAuth } from "@/src/contexts/AuthContext";
 
 
 const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isPassingHero,setPassHero] = useState(false)
+  const [isPassingHero,setPassHero] = useState(false);
+  const { isAuthenticated } = useAuth();
   useEffect(() => {
     const heroSection = document.querySelector("#hero");
 
@@ -49,11 +51,13 @@ const NavBar = () => {
           من نحن 
           </Link></li>
         </ul>
-        <Link href="/auth/login">
+        {!isAuthenticated && (
+          <Link href="/auth/login">
             <Button className="hidden md:block px-11 py-3 text-[#0B72B9] bg-white rounded-md">
-          انضم الآن
-        </Button>
-        </Link>
+              انضم الآن
+            </Button>
+          </Link>
+        )}
     </div>
      </div>
   );

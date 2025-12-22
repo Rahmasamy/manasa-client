@@ -1,13 +1,19 @@
 import { Course } from "@/src/types/courses/courses";
 import { Clock, PlayCircle, Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 interface CourseCardProps {
   course: Course;
 }
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+  const courseDetailUrl = course.apiId 
+    ? `/single-course/${course.apiId}` 
+    : "#";
+
   return (
-    <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-[#2885AC]/20">
+    <Link href={courseDetailUrl} className="block">
+      <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-[#2885AC]/20 cursor-pointer">
       {/* Discount Badge */}
       <div className="absolute top-3 left-3 z-10">
         <span className="bg-[#39A975] text-white px-3 py-1 rounded-full text-sm font-bold">
@@ -99,6 +105,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 

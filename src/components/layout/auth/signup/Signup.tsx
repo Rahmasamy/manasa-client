@@ -6,13 +6,14 @@ import BoxAuth from "@/src/components/domain/BoxAuth/BoxAuth";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { authApi } from "@/src/infrastructure/api/authApi";
 import { useAuth } from "@/src/contexts/AuthContext";
+import Link from "next/link";
 
-export default function Login() {
+export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -21,15 +22,25 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (password !== confirmPassword) {
+      setError("كلمات السر غير متطابقة");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("كلمة السر يجب أن تكون 6 أحرف على الأقل");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const response = await authApi.login({ email, password });
+      const response = await authApi.signup({ email, password });
       
-      console.log("Login response:", response); // Debug log
+      console.log("Signup response:", response); // Debug log
       
       // Handle different response structures
-      // Check if token is in response directly or in response.data
       const token = response.token || (response as any).data?.token || (response as any).accessToken || (response as any).access_token;
       const userData = response.user || (response as any).data?.user || { 
         id: (response as any).data?.id || (response as any).id || "", 
@@ -38,12 +49,10 @@ export default function Login() {
       
       if (token) {
         login(token, userData);
-        // Use setTimeout to ensure state updates before redirect
         setTimeout(() => {
           router.push("/");
-          // Fallback redirect if router doesn't work
           setTimeout(() => {
-            if (window.location.pathname === "/auth/login") {
+            if (window.location.pathname === "/auth/signup") {
               window.location.href = "/";
             }
           }, 500);
@@ -51,25 +60,23 @@ export default function Login() {
       } else {
         // If response is successful but no token, check if it's a session-based auth
         console.warn("No token in response, but request succeeded:", response);
-        // Some APIs use session cookies instead of tokens
-        // Try to proceed anyway if we got a success response
         if (response.message && response.message.toLowerCase().includes("success")) {
           login("session", userData);
           setTimeout(() => {
             router.push("/");
             setTimeout(() => {
-              if (window.location.pathname === "/auth/login") {
+              if (window.location.pathname === "/auth/signup") {
                 window.location.href = "/";
               }
             }, 500);
           }, 100);
         } else {
-          setError("فشل تسجيل الدخول. لم يتم استلام رمز الدخول.");
+          setError("فشل إنشاء الحساب. لم يتم استلام رمز الدخول.");
         }
       }
     } catch (err) {
-      console.error("Login error:", err);
-      setError(err instanceof Error ? err.message : "حدث خطأ أثناء تسجيل الدخول");
+      console.error("Signup error:", err);
+      setError(err instanceof Error ? err.message : "حدث خطأ أثناء إنشاء الحساب");
     } finally {
       setLoading(false);
     }
@@ -87,7 +94,7 @@ export default function Login() {
             className="bg-white rounded-3xl w-33! h-33! object-cover"
           />
           <form onSubmit={handleSubmit} className="flex flex-col gap-3 justify-start w-full">
-            <h1 className="text-xl font-bold ">مرحبا بعودتك</h1>
+            <h1 className="text-xl font-bold ">إنشاء حساب جديد</h1>
             <label htmlFor="email" className="text-md font-bold ">بريدك الالكتروني</label>
             <Input
               placeholder="أدخل بريدك الالكتروني"
@@ -108,6 +115,16 @@ export default function Login() {
               required
               className="bg-gray-200 rounded-sm p-3"
             />
+            <label htmlFor="confirmPass" className="text-md font-bold ">تأكيد كلمة السر</label>
+            <Input
+              placeholder="أعد إدخال كلمة السر"
+              id="confirmPass"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className="bg-gray-200 rounded-sm p-3"
+            />
 
             {error && (
               <div className="text-red-600 text-sm bg-red-50 p-2 rounded">
@@ -120,13 +137,13 @@ export default function Login() {
               disabled={loading}
               className="w-full text-white text-center bg-[#2885AC] py-3 disabled:opacity-50"
             >
-              {loading ? "جاري تسجيل الدخول..." : "تسجيل دخول"}
+              {loading ? "جاري إنشاء الحساب..." : "إنشاء حساب"}
             </Button>
 
             <div className="text-center mt-2">
-              <span className="text-gray-600">ليس لديك حساب؟ </span>
-              <Link href="/auth/signup" className="text-[#2885AC] font-semibold hover:underline">
-                إنشاء حساب جديد
+              <span className="text-gray-600">لديك حساب بالفعل؟ </span>
+              <Link href="/auth/login" className="text-[#2885AC] font-semibold hover:underline">
+                تسجيل الدخول
               </Link>
             </div>
           </form>
@@ -135,3 +152,4 @@ export default function Login() {
     </BackgroundWrapper>
   );
 }
+

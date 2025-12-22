@@ -38,7 +38,7 @@ export const CustomOTPInput: React.FC<CustomOTPInputProps> = ({
       newOtp[index] = "";
       setOtp(newOtp);
     }
-
+    
     // Check if OTP is complete
     if (newOtp.every((digit) => digit !== "")) {
       onComplete?.(newOtp.join(""));

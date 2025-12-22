@@ -27,6 +27,10 @@ export interface Course {
   isEnrolled: boolean;
   rating: number;
   sections: Section[];
+  // API reference fields
+  apiId?: string;
+  groupId?: string;
+  instructorId?: string;
   // e.g., "by Kitani Studio"
 }
 

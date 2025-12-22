@@ -1,12 +1,26 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { ChevronDown, Star, Clock, BookOpen, Video, Users } from "lucide-react";
 import { Course } from "@/src/types/courses/courses";
-import { singleCourse } from "@/src/lib/consts/courses/courses";
 import Image from "next/image";
+import { courseApi } from "@/src/infrastructure/api/courseApi";
+import { mapApiCourseToCourse } from "@/src/lib/utils/mappers";
+import { useAuth } from "@/src/contexts/AuthContext";
 
-const CoursePage: React.FC = () => {
-  const [course, setCourse] = useState<Course>(singleCourse);
+interface CoursePageProps {
+  courseId?: string;
+}
+
+const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
+  const params = useParams();
+  const router = useRouter();
+  const courseId = propCourseId || (params?.id as string);
+  const { isAuthenticated } = useAuth();
+
+  const [course, setCourse] = useState<Course | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"description" | "content">(
     "description"
   );
@@ -14,9 +28,50 @@ const CoursePage: React.FC = () => {
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     new Set()
   );
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  useEffect(() => {
+    const fetchCourse = async () => {
+      if (!courseId) {
+        setError("معرف الدورة غير موجود");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        const apiCourse = await courseApi.getCourseById(courseId);
+        const mappedCourse = mapApiCourseToCourse(apiCourse);
+        // Add default sections if none exist
+        if (!mappedCourse.sections || mappedCourse.sections.length === 0) {
+          mappedCourse.sections = [
+            { id: "s1", title: "المقدمة", duration: "30 دقيقة", lectures: 3 },
+            { id: "s2", title: "الأساسيات", duration: "2 ساعة", lectures: 8 },
+            {
+              id: "s3",
+              title: "المشاريع العملية",
+              duration: "7 ساعة",
+              lectures: 14,
+            },
+          ];
+        }
+        setCourse(mappedCourse);
+      } catch (err) {
+        console.error("Error fetching course:", err);
+        setError("فشل تحميل الدورة. يرجى المحاولة مرة أخرى.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourse();
+  }, [courseId]);
 
   const toggleEnrollment = () => {
-    setCourse({ ...course, isEnrolled: !course.isEnrolled });
+    if (course) {
+      setCourse({ ...course, isEnrolled: !course.isEnrolled });
+    }
   };
 
   const toggleSection = (sectionId: string) => {
@@ -29,8 +84,86 @@ const CoursePage: React.FC = () => {
     setExpandedSections(newExpanded);
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 mt-[30px]">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex justify-center items-center py-20">
+            <p className="text-gray-600">جاري التحميل...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !course) {
+    return (
+      <div className="min-h-screen bg-gray-50 mt-[30px]">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex flex-col justify-center items-center py-20">
+            <p className="text-red-600 mb-4">{error || "الدورة غير موجودة"}</p>
+            <button
+              onClick={() => router.push("/courses")}
+              className="px-4 py-2 bg-[#2885AC] text-white rounded-lg"
+            >
+              العودة إلى الدورات
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 mt-[30px]">
+      {/* Success Popup Modal */}
+      {showSuccessPopup && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowSuccessPopup(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 flex flex-col items-center gap-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Success Icon */}
+            <div className="w-20 h-20 bg-[#39A975]/10 rounded-full flex items-center justify-center">
+              <svg
+                className="w-12 h-12 text-[#39A975]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+
+            {/* Success Message */}
+            <div className="text-center space-y-3">
+              <p className="text-gray-800 font-semibold text-lg leading-relaxed">
+                سيتم التواصل معك بخصوص طلبك في أقرب وقت
+              </p>
+              <p className="text-[#2885AC] font-bold text-xl">
+                شكراً لاختيارك HSP
+              </p>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setShowSuccessPopup(false)}
+              className="bg-[#2885AC] text-white hover:bg-[#2885AC]/90 px-8 py-2 rounded-md transition-colors"
+            >
+              موافق
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-sm text-gray-600 mb-4">تطوير الذات / الدورات</div>
@@ -54,7 +187,7 @@ const CoursePage: React.FC = () => {
               {/* Video Thumbnail */}
               <div className="relative bg-slate-700 rounded-lg overflow-hidden mb-6">
                 <Image
-                  src={singleCourse.imageUrl}
+                  src={course.imageUrl || "/imgs/course-1.png"}
                   width={400}
                   height={350}
                   alt="Course preview"
@@ -230,10 +363,14 @@ const CoursePage: React.FC = () => {
                 ))}
               </div>
               <div className="bg-gray-50 rounded-lg py-8 text-center flex flex-col justify-start items-start">
-                <p className="text-2xl font-bold text-gray-900 mb-4 ">اضف تعليقاتك</p>
-                <textarea name="comment" id="comment" className="min-h-80 w-full bg-gray-200 p-4 rounded-lg">
-
-                </textarea>
+                <p className="text-2xl font-bold text-gray-900 mb-4 ">
+                  اضف تعليقاتك
+                </p>
+                <textarea
+                  name="comment"
+                  id="comment"
+                  className="min-h-80 w-full bg-gray-200 p-4 rounded-lg"
+                ></textarea>
               </div>
             </div>
           </div>
@@ -249,17 +386,36 @@ const CoursePage: React.FC = () => {
               </div>
 
               <button
-                onClick={toggleEnrollment}
+                onClick={() => {
+                  if (!isAuthenticated) {
+                    router.push("/auth/signup");
+                    return;
+                  }
+                  if (!course.isEnrolled) {
+                    setShowSuccessPopup(true);
+                  } else {
+                    toggleEnrollment();
+                  }
+                }}
                 className={`w-full py-3 rounded-lg font-semibold mb-4 transition-colors ${
                   course.isEnrolled
                     ? "bg-gray-600 hover:bg-gray-700 text-white"
-                    : "bg-[#2885AC] hover:bg-emerald-700 text-white"
+                    : "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-[#2885AC] text-white shadow-md hover:bg-[#2885AC]/90 hover:shadow-lg transition-all duration-200"
                 }`}
               >
                 {course.isEnrolled ? "إلغاء الاشتراك" : "اشترك الآن"}
               </button>
 
-              <button className="w-full py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition-colors mb-6">
+              <button
+                onClick={() => {
+                  if (!isAuthenticated) {
+                    router.push("/auth/signup");
+                    return;
+                  }
+                  setShowSuccessPopup(true);
+                }}
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 w-full py-3 border-2 border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors mb-6"
+              >
                 اضافة للسلة
               </button>
 

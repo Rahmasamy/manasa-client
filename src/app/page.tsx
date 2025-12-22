@@ -9,12 +9,12 @@ import CommonQuestions from "../components/layout/commonQuestions/CommonQuestion
 const Page = () => {
   return (
     <main className="relative min-h-screen overflow-hidden  ">
-     <Hero />
-     <WhatRepresent />
-     <EductionServices />
-     <CoursesSections />
-     <TestimonialSlider />
-     <CommonQuestions />
+      <Hero />
+      <WhatRepresent />
+      <EductionServices />
+      <CoursesSections />
+      <TestimonialSlider />
+      <CommonQuestions />
     </main>
   );
 };

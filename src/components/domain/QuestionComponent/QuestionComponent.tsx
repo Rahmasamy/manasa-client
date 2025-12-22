@@ -27,15 +27,15 @@ export default function QuestionComponent({
       >
         {questionType}
       </span>
-      <div className=" mt-3">
+      <div className="mt-3">
         <button
-          onClick={toggle }
-          className="flex justify-between"
+          onClick={toggle}
+          className="flex items-center justify-between w-full gap-4"
         >
-          <h1 className="text-[#1D607C] font-bold text-lg w-[70%]">
+          <h1 className="text-[#1D607C] font-bold text-lg flex-1 text-right">
             {questionText}
           </h1>
-          <span>
+          <span className="flex-shrink-0">
             {openId === id ? (
               <Minus className="w-6 h-6 text-[#004b6d]" />
             ) : (
