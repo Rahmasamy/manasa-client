@@ -5,7 +5,7 @@ import Hero from "@/src/components/layout/Hero/Hero";
 import TestimonialSlider from "@/src/components/layout/Testmonial/TestmonialSlider";
 import WhatRepresent from "@/src/components/layout/WhatRepresent/WhatRepresent";
 
-export default function DashboardHome() {
+export default function page() {
   return (
     <div>
       <Hero />

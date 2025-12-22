@@ -4,6 +4,8 @@ import "./globals.css";
 import { Tajawal } from "next/font/google";
 
 import AuthProvider from "../components/providers/AuthProvider";
+import NavBar from "../components/layout/NavBar/NavBar";
+import Footer from "../components/layout/Footer/Footer";
 
 
 // const geistSans = Geist({
@@ -39,9 +41,8 @@ export default function RootLayout({
       >
 
         <AuthProvider>
-         
+        
           {children}
-         
         </AuthProvider>
       </body>
     </html>
