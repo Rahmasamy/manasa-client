@@ -1,11 +1,12 @@
 "use client";
 
+import AddNewArticle from "@/src/components/dashboard/AddNewArticle";
 import AddSectionModal from "@/src/components/dashboard/AddSectionModal";
 import ServiceTable, {
   ServiceItem,
 } from "@/src/components/dashboard/ServiceTable";
 import TableCard from "@/src/components/dashboard/TableCard";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Articles() {
@@ -25,7 +26,7 @@ export default function Articles() {
     { id: "12", name: "الصياغة الأكاديمية والتحرير العلمي", identity: 50 },
   ]);
   const router = useRouter();
-
+  const { articleId } = useParams();
   const handleAddSection = (name: string, identity: number) => {
     const newService: ServiceItem = {
       id: Date.now().toString(),
@@ -45,34 +46,34 @@ export default function Articles() {
     const service = services.find((s) => s.id === id);
     console.log("View section:", service);
     // Navigate to detail page or show modal
-    router.push(`/dashboard/articles/${id}`);
+    alert(`عرض القسم: ${service?.name}`);
   };
   const handleRowClick = (id: string) => {
     // navigate to dynamic route based on id
     //
-    router.push(`/dashboard/articles/${id}`);
+    router.push(`/dashboard/articles/${articleId}/${id}`);
   };
   return (
     <div className="space-y-6">
       <TableCard
-        title=" أقسام المقالات   "
+        title="  مقالة نباتات مرضية   "
         onAdd={() => setIsModalOpen(true)}
-        addButtonText="إضافة قسم"
+        addButtonText=" اضف مقالة"
       >
         <ServiceTable
           items={services}
           onDelete={handleDeleteSection}
           onView={handleViewSection}
-          serviceHeadline="  المقالات  "
+          serviceHeadline="  الكاتب  "
           onRowClick={handleRowClick}
         />
       </TableCard>
 
-      <AddSectionModal
+      <AddNewArticle
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleAddSection}
-        title="إضافة قسم جديد"
+        title="إضافة مقالة جديد"
       />
     </div>
   );

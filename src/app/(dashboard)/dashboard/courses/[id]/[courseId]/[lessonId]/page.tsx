@@ -1,5 +1,7 @@
 "use client";
 
+import AddCourseModal from "@/src/components/dashboard/AddCourse";
+import AddLessonModal from "@/src/components/dashboard/AddLessonModal";
 import AddSectionModal from "@/src/components/dashboard/AddSectionModal";
 import ServiceTable, {
   ServiceItem,
@@ -8,7 +10,7 @@ import TableCard from "@/src/components/dashboard/TableCard";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Articles() {
+export default function LessonDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [services, setServices] = useState<ServiceItem[]>([
     { id: "1", name: "الصياغة الأكاديمية والتحرير العلمي", identity: 50 },
@@ -45,34 +47,37 @@ export default function Articles() {
     const service = services.find((s) => s.id === id);
     console.log("View section:", service);
     // Navigate to detail page or show modal
-    router.push(`/dashboard/articles/${id}`);
+    alert(`عرض القسم: ${service?.name}`);
   };
+
   const handleRowClick = (id: string) => {
     // navigate to dynamic route based on id
     //
-    router.push(`/dashboard/articles/${id}`);
+    // router.push(`/dashboard/courses/${id}`);
   };
+
   return (
     <div className="space-y-6">
       <TableCard
-        title=" أقسام المقالات   "
+        title=" جزء المقدمة   "
         onAdd={() => setIsModalOpen(true)}
-        addButtonText="إضافة قسم"
+        addButtonText="  اضافة درس "
       >
         <ServiceTable
           items={services}
           onDelete={handleDeleteSection}
           onView={handleViewSection}
-          serviceHeadline="  المقالات  "
           onRowClick={handleRowClick}
+          serviceHeadline="الدروس"
         />
       </TableCard>
 
-      <AddSectionModal
+      <AddLessonModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleAddSection}
-        title="إضافة قسم جديد"
+        title="   
+      درس  "
       />
     </div>
   );

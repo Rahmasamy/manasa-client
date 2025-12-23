@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { X } from "lucide-react";
+import SingleImageUpload from "./SingleImageUpload";
 
 interface AddSectionModalProps {
   isOpen: boolean;
@@ -10,7 +11,7 @@ interface AddSectionModalProps {
   title?: string;
 }
 
-export default function AddSectionModal({
+export default function AddLessonModal({
   isOpen,
   onClose,
   onSubmit,
@@ -42,7 +43,7 @@ export default function AddSectionModal({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-800"> اضافة{title}</h3>
+          <h3 className="text-lg font-bold text-gray-800"> اضافة{title}</h3>
           <button
             onClick={onClose}
             className="p-1 hover:bg-gray-100 rounded-full transition-colors"
@@ -54,33 +55,13 @@ export default function AddSectionModal({
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-             اسم {title}{" "}
-            </label>
-            <input
-              type="text"
-              value={sectionName}
-              onChange={(e) => setSectionName(e.target.value)}
-              placeholder="أدخل أسم القسم"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2885AC] text-right"
-              required
+           
+            <SingleImageUpload
+              label="  صورة الدرس"
+              image={""}
+              onChange={(image) => {}}
             />
           </div>
-
-          {/* <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            عدد الخدمات
-                        </label>
-                        <input
-                            type="number"
-                            value={servicesCount}
-                            onChange={(e) => setServicesCount(Number(e.target.value))}
-                            placeholder="أدخل عدد الخدمات"
-                            min="0"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2885AC] text-right"
-                            required
-                        />
-                    </div> */}
 
           {/* Actions */}
           <div className="flex gap-3 pt-4">

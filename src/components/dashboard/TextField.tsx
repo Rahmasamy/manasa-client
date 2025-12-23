@@ -20,7 +20,7 @@ export default function TextField({
 
     return (
         <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-bold text-gray-700 ">
                 {label}
             </label>
             {isTextarea ? (

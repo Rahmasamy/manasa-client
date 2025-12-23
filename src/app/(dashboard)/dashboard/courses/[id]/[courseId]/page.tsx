@@ -1,15 +1,18 @@
 "use client";
 
+import AddCourseModal from "@/src/components/dashboard/AddCourse";
 import AddSectionModal from "@/src/components/dashboard/AddSectionModal";
 import ServiceTable, {
   ServiceItem,
 } from "@/src/components/dashboard/ServiceTable";
 import TableCard from "@/src/components/dashboard/TableCard";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Articles() {
+export default function CourseSectionsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const params = useParams();
+      const { id, courseId,lessonId } = params;
   const [services, setServices] = useState<ServiceItem[]>([
     { id: "1", name: "الصياغة الأكاديمية والتحرير العلمي", identity: 50 },
     { id: "2", name: "الصياغة الأكاديمية والتحرير العلمي", identity: 50 },
@@ -41,30 +44,32 @@ export default function Articles() {
     }
   };
 
-  const handleViewSection = (id: string) => {
+  const handleViewSection = () => {
     const service = services.find((s) => s.id === id);
     console.log("View section:", service);
     // Navigate to detail page or show modal
-    router.push(`/dashboard/articles/${id}`);
+     router.push(`/dashboard/courses/${id}/${courseId}/${lessonId}`);
   };
-  const handleRowClick = (id: string) => {
+
+  const handleRowClick = () => {
     // navigate to dynamic route based on id
     //
-    router.push(`/dashboard/articles/${id}`);
+     router.push(`/dashboard/courses/${id}/${courseId}/${lessonId}`);
   };
+
   return (
     <div className="space-y-6">
       <TableCard
-        title=" أقسام المقالات   "
+        title=" اسم الدورة  "
         onAdd={() => setIsModalOpen(true)}
-        addButtonText="إضافة قسم"
+        addButtonText="  اضافة جزء"
       >
         <ServiceTable
           items={services}
           onDelete={handleDeleteSection}
           onView={handleViewSection}
-          serviceHeadline="  المقالات  "
           onRowClick={handleRowClick}
+          serviceHeadline="الدروس"
         />
       </TableCard>
 
@@ -72,7 +77,8 @@ export default function Articles() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleAddSection}
-        title="إضافة قسم جديد"
+        title="   
+        جزء"
       />
     </div>
   );

@@ -29,12 +29,12 @@ export default function SingleImageUpload({
 
     return (
         <div className="space-y-3">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-bold text-gray-700">
                 {label}
             </label>
 
             {image ? (
-                <div className="relative w-full h-48 border-2 border-gray-200 rounded-lg overflow-hidden group">
+                <div className="relative w-full h-36 border-2 border-gray-200 rounded-lg overflow-hidden group">
                     <Image 
                         src={image} 
                         alt="Upload" 

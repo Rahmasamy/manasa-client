@@ -3,6 +3,7 @@
 import AddSectionModal from '@/src/components/dashboard/AddSectionModal';
 import ServiceTable, { ServiceItem } from '@/src/components/dashboard/ServiceTable';
 import TableCard from '@/src/components/dashboard/TableCard';
+import { useRouter } from "next/navigation"; 
 import { useState } from 'react'
 
 export default function AcademicGuidancePage() {
@@ -21,6 +22,7 @@ export default function AcademicGuidancePage() {
         { id: '11', name: 'الصياغة الأكاديمية والتحرير العلمي', servicesCount: 50 },
         { id: '12', name: 'الصياغة الأكاديمية والتحرير العلمي', servicesCount: 50 },
     ]);
+const router = useRouter();
 
     const handleAddSection = (name: string, servicesCount: number) => {
         const newService: ServiceItem = {
@@ -44,6 +46,13 @@ export default function AcademicGuidancePage() {
         alert(`عرض القسم: ${service?.name}`);
     };
 
+      const handleRowClick = (id: string) => {
+    // navigate to dynamic route based on id
+    //
+     router.push(`/dashboard/AcademicGuide/${id}`)
+    
+  };
+
     return (
         <div className="space-y-6">
            
@@ -57,6 +66,7 @@ export default function AcademicGuidancePage() {
                     items={services}
                     onDelete={handleDeleteSection}
                     onView={handleViewSection}
+                    onRowClick={handleRowClick}
                 />
             </TableCard>
 
