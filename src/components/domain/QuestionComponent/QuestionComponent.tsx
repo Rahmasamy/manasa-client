@@ -20,7 +20,7 @@ export default function QuestionComponent({
     <div className="p-5 bg-white rounded-lg self-start w-full ">
       <span
         className={
-          questionType === "خدمات التدريب"
+          questionType === "الدورات التدريبية"
             ? "bg-[#EAF5FA] p-2 rounded-full text-[#1D607C] m-2"
             : "bg-[#ECF9F3] p-2 rounded-full text-[#27724F] m-2"
         }

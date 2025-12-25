@@ -1,5 +1,5 @@
 import { Service } from "@/src/types/services/services";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, BookOpen } from "lucide-react";
 import Link from "next/link";
 
 interface ServiceCardProps {
@@ -7,16 +7,16 @@ interface ServiceCardProps {
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
-  const serviceDetailUrl = service.id 
-    ? `/acedemic/single/${service.id}` 
-    : "#";
+  const serviceListUrl = "/acedemic";
 
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100 hover:border-[#2885AC]/30">
       {/* Header */}
-      <div className="p-5 bg-white">
-        <div className="w-14 h-14 bg-[#2885AC]/10 rounded-xl mb-4 flex items-center justify-center">
-          <div className="w-8 h-8 bg-[#2885AC] rounded-lg"></div>
+      <div className="p-5 bg-white relative">
+        <div className="w-14 h-14 bg-[#2885AC]/10 rounded-xl mb-4 flex items-center justify-center relative">
+          <div className="w-8 h-8 bg-[#2885AC] rounded-lg flex items-center justify-center">
+            <BookOpen className="w-4 h-4 text-white" />
+          </div>
         </div>
         <h3 className="text-xl font-bold leading-relaxed text-gray-800">
           {service.title}
@@ -32,7 +32,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
         {/* Link Button */}
         <div className="flex items-center justify-end gap-3 pt-2">
           <Link
-            href={serviceDetailUrl}
+            href={serviceListUrl}
             className="inline-flex items-center gap-2 text-[#2885AC] font-semibold hover:text-[#2885AC]/80 transition-colors group"
           >
             {service.link_text}

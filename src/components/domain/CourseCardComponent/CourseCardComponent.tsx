@@ -7,12 +7,10 @@ interface CourseCardProps {
   course: Course;
 }
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
-  const courseDetailUrl = course.apiId 
-    ? `/single-course/${course.apiId}` 
-    : "#";
+  const courseListUrl = "/courses";
 
   return (
-    <Link href={courseDetailUrl} className="block">
+    <Link href={courseListUrl} className="block">
       <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-[#2885AC]/20 cursor-pointer">
       {/* Discount Badge */}
       <div className="absolute top-3 left-3 z-10">

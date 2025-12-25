@@ -27,6 +27,11 @@ export interface Course {
   isEnrolled: boolean;
   rating: number;
   sections: Section[];
+  // Course detail sections
+  introduction?: string; // التعريف بالدورة
+  benefits?: string; // أوجه الاستفادة من الدورة
+  trainingSystem?: string; // نظام التدريب في الدورة
+  targetAudience?: string; // الفئة المستهدفة
   // API reference fields
   apiId?: string;
   groupId?: string;

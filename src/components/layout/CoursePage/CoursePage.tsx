@@ -1,12 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ChevronDown, Star, Clock, BookOpen, Video, Users } from "lucide-react";
+import { Star, Clock, BookOpen, Video, Users } from "lucide-react";
 import { Course } from "@/src/types/courses/courses";
 import Image from "next/image";
 import { courseApi } from "@/src/infrastructure/api/courseApi";
 import { mapApiCourseToCourse } from "@/src/lib/utils/mappers";
 import { useAuth } from "@/src/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import RequestServiceModal from "../../domain/RequestServiceModal/RequestServiceModal";
+import SuccessPopup from "../../domain/SuccessPopup/SuccessPopup";
 
 interface CoursePageProps {
   courseId?: string;
@@ -21,14 +24,8 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"description" | "content">(
-    "description"
-  );
-
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(
-    new Set()
-  );
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(false);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -74,16 +71,6 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
     }
   };
 
-  const toggleSection = (sectionId: string) => {
-    const newExpanded = new Set(expandedSections);
-    if (newExpanded.has(sectionId)) {
-      newExpanded.delete(sectionId);
-    } else {
-      newExpanded.add(sectionId);
-    }
-    setExpandedSections(newExpanded);
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 mt-[30px]">
@@ -116,53 +103,20 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
 
   return (
     <div className="min-h-screen bg-gray-50 mt-[30px]">
+      {/* Service Request Form Modal */}
+      <RequestServiceModal
+        isOpen={showFormModal}
+        onClose={() => setShowFormModal(false)}
+        onSuccess={() => setShowSuccessPopup(true)}
+      />
+
       {/* Success Popup Modal */}
-      {showSuccessPopup && (
-        <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-          onClick={() => setShowSuccessPopup(false)}
-        >
-          <div
-            className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 flex flex-col items-center gap-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Success Icon */}
-            <div className="w-20 h-20 bg-[#39A975]/10 rounded-full flex items-center justify-center">
-              <svg
-                className="w-12 h-12 text-[#39A975]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </div>
-
-            {/* Success Message */}
-            <div className="text-center space-y-3">
-              <p className="text-gray-800 font-semibold text-lg leading-relaxed">
-                سيتم التواصل معك بخصوص طلبك في أقرب وقت
-              </p>
-              <p className="text-[#2885AC] font-bold text-xl">
-                شكراً لاختيارك HSP
-              </p>
-            </div>
-
-            {/* Close Button */}
-            <button
-              onClick={() => setShowSuccessPopup(false)}
-              className="bg-[#2885AC] text-white hover:bg-[#2885AC]/90 px-8 py-2 rounded-md transition-colors"
-            >
-              موافق
-            </button>
-          </div>
-        </div>
-      )}
+      <SuccessPopup
+        isOpen={showSuccessPopup}
+        onClose={() => setShowSuccessPopup(false)}
+        message="تم تقديم الطلب سيتواصل معكم فريق العمل في أقرب وقت"
+        subMessage="شكراً لاختيارك HSP"
+      />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
@@ -206,150 +160,96 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
               </div>
             </div>
 
-            {/* Course Sections */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <div className="flex border-b border-gray-200 mb-4">
-                <button
-                  onClick={() => setActiveTab("description")}
-                  className={`px-4 py-2 -mb-px font-semibold text-gray-700 transition-colors ${
-                    activeTab === "description"
-                      ? "border-b-2 border-[#2885AC] text-[#2885AC]"
-                      : ""
-                  }`}
-                >
-                  وصف الدورة
-                </button>
-                <button
-                  onClick={() => setActiveTab("content")}
-                  className={`px-4 py-2 -mb-px font-semibold text-gray-700 transition-colors ${
-                    activeTab === "content"
-                      ? "border-b-2 border-[#2885AC] text-[#2885AC]"
-                      : ""
-                  }`}
-                >
-                  محتوى الدورة
-                </button>
+            {/* Course Detail Sections */}
+            <div className="space-y-6">
+              {/* Section 1: التعريف بالدورة */}
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                  <BookOpen className="w-6 h-6 text-[#2885AC]" />
+                  التعريف بالدورة
+                </h2>
+                <div className="prose prose-gray max-w-none">
+                  <p className="text-gray-700 leading-relaxed text-base">
+                    {course.introduction ||
+                      course.desc ||
+                      "هذه الدورة مصممة لتزويدك بالمهارات والمعرفة اللازمة في هذا المجال. ستحصل على فهم شامل للمفاهيم الأساسية والتطبيقات العملية."}
+                  </p>
+                </div>
               </div>
-              {activeTab === "content" ? (
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900">
-                    {course.isEnrolled ? "محتوى الدورة" : "ملاحظة الدورة"}
-                  </h2>
-                  {course.isEnrolled && (
-                    <span className="text-sm text-gray-600">
-                      {course.sections.length} فصول
-                    </span>
-                  )}
-                </div>
-              ) : (
-                <p className="py-3 text-gray-500">
-                  أنت على بُعد خطوات من إتمام المحتوى… كمّلي باقي الفيديوهات
-                  علشان توصلي للمرحلة اللي بعدهاأنت على بُعد خطوات من إتمام
-                  المحتوى… كمّلي باقي الفيديوهات علشان توصلي للمرحلة اللي
-                  بعدهاأنت على بُعد خطوات من إتمام المحتوى… كمّلي باقي
-                  الفيديوهات علشان توصلي للمرحلة اللي بعدهاأنت على بُعد خطوات من
-                  إتمام المحتوى… كمّلي باقي الفيديوهات علشان توصلي للمرحلة اللي
-                  بعدهاأنت على بُعد خطوات من إتمام المحتوى… كمّلي باقي
-                  الفيديوهات علشان توصلي للمرحلة اللي بعدها.أنت على بُعد خطوات
-                  من إتمام المحتوى… كمّلي باقي الفيديوهات علشان توصلي للمرحلة
-                  اللي بعدها.
-                </p>
-              )}
 
-              {!course.isEnrolled ? (
-                // Preview sections before enrollment
-                <div className="space-y-3">
-                  {course.sections.map((section, index) => (
-                    <div
-                      key={section.id}
-                      className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-[#2885AC] transition-colors cursor-pointer"
-                      onClick={() => toggleSection(section.id)}
-                    >
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 mb-1">
-                          {section.title}
-                        </h3>
-                        <div className="flex items-center gap-4 text-sm text-gray-600">
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-4 h-4" />
-                            {section.duration}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Video className="w-4 h-4" />
-                            {section.lectures} محاضرات
-                          </span>
-                        </div>
-                      </div>
-                      <ChevronDown
-                        className={`w-5 h-5 text-gray-400 transition-transform ${
-                          expandedSections.has(section.id) ? "rotate-180" : ""
-                        }`}
-                      />
-                    </div>
-                  ))}
+              {/* Section 2: أوجه الاستفادة من الدورة */}
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                  <Star className="w-6 h-6 text-[#2885AC]" />
+                  أوجه الاستفادة من الدورة
+                </h2>
+                <div className="prose prose-gray max-w-none">
+                  <p className="text-gray-700 leading-relaxed text-base">
+                    {course.benefits ||
+                      "ستتعلم في هذه الدورة كيفية تطبيق المهارات المكتسبة في بيئة العمل الحقيقية، وتحسين قدراتك المهنية، والحصول على شهادة معتمدة تضيف قيمة لسيرتك الذاتية."}
+                  </p>
                 </div>
-              ) : (
-                // Detailed sections after enrollment
-                <div className="space-y-3">
-                  {course.sections.map((section, index) => (
-                    <div
-                      key={section.id}
-                      className="border border-gray-200 rounded-lg overflow-hidden"
-                    >
-                      <div
-                        className="flex items-center justify-between p-4 bg-emerald-50 cursor-pointer hover:bg-emerald-100 transition-colors"
-                        onClick={() => toggleSection(section.id)}
-                      >
-                        <div className="flex items-center gap-3 flex-1">
-                          <span className="w-8 h-8 bg-[#2885AC] text-white rounded-full flex items-center justify-center font-semibold text-sm">
+              </div>
+
+              {/* Section 3: نظام التدريب في الدورة */}
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                  <Video className="w-6 h-6 text-[#2885AC]" />
+                  نظام التدريب في الدورة
+                </h2>
+                <div className="prose prose-gray max-w-none">
+                  <p className="text-gray-700 leading-relaxed text-base mb-4">
+                    {course.trainingSystem ||
+                      "تتضمن الدورة محاضرات فيديو عالية الجودة، وتمارين عملية، ومواد تعليمية إضافية، ومشاريع واقعية لضمان فهمك الكامل للموضوع."}
+                  </p>
+                  {course.sections && course.sections.length > 0 && (
+                    <div className="mt-4 space-y-3">
+                      <h3 className="font-semibold text-gray-900 mb-3">
+                        محتوى الدورة:
+                      </h3>
+                      {course.sections.map((section, index) => (
+                        <div
+                          key={section.id}
+                          className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                        >
+                          <span className="w-8 h-8 bg-[#2885AC] text-white rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0">
                             {index + 1}
                           </span>
-                          <div>
-                            <h3 className="font-semibold text-gray-900">
+                          <div className="flex-1">
+                            <h4 className="font-medium text-gray-900">
                               {section.title}
-                            </h3>
-                            <div className="flex items-center gap-3 text-sm text-gray-600 mt-1">
-                              <span>{section.lectures} محاضرات</span>
-                              <span>•</span>
-                              <span>{section.duration}</span>
+                            </h4>
+                            <div className="flex items-center gap-4 text-sm text-gray-600 mt-1">
+                              <span className="flex items-center gap-1">
+                                <Clock className="w-4 h-4" />
+                                {section.duration}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Video className="w-4 h-4" />
+                                {section.lectures} محاضرات
+                              </span>
                             </div>
                           </div>
                         </div>
-                        <ChevronDown
-                          className={`w-5 h-5 text-gray-600 transition-transform ${
-                            expandedSections.has(section.id) ? "rotate-180" : ""
-                          }`}
-                        />
-                      </div>
-
-                      {expandedSections.has(section.id) && (
-                        <div className="p-4 bg-white space-y-2">
-                          {Array.from({ length: section.lectures }).map(
-                            (_, lectureIndex) => (
-                              <div
-                                key={lectureIndex}
-                                className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
-                              >
-                                <div className="flex items-center gap-3">
-                                  <Video className="w-4 h-4 text-[#2885AC]" />
-                                  <span className="text-gray-700">
-                                    محاضرة {lectureIndex + 1}:{" "}
-                                    {section.title.split(":")[1]?.trim() ||
-                                      "محتوى الدرس"}
-                                  </span>
-                                </div>
-                                <span className="text-sm text-gray-500">
-                                  {Math.floor(Math.random() * 20) + 5} دقيقة
-                                </span>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      )}
+                      ))}
                     </div>
-                  ))}
+                  )}
                 </div>
-              )}
+              </div>
+
+              {/* Section 4: الفئة المستهدفة */}
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                  <Users className="w-6 h-6 text-[#2885AC]" />
+                  الفئة المستهدفة
+                </h2>
+                <div className="prose prose-gray max-w-none">
+                  <p className="text-gray-700 leading-relaxed text-base">
+                    {course.targetAudience ||
+                      "هذه الدورة مناسبة للمبتدئين والمحترفين على حد سواء. سواء كنت تبدأ رحلتك في هذا المجال أو تريد تطوير مهاراتك الحالية، ستجد محتوى مناسب لمستواك."}
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Reviews Section */}
@@ -407,16 +307,27 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
               </button>
 
               <button
-                onClick={() => {
-                  if (!isAuthenticated) {
-                    router.push("/auth/signup");
-                    return;
-                  }
-                  setShowSuccessPopup(true);
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowFormModal(true);
                 }}
-                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 w-full py-3 border-2 border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors mb-6"
+                className="w-full py-3 rounded-lg font-semibold mb-4 bg-[#0B72B9] hover:bg-[#0B72B9]/90 text-white transition-colors"
               >
-                اضافة للسلة
+                اطلب الخدمة الآن
+              </button>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowFormModal(true);
+                }}
+                className="w-full py-3 rounded-lg font-semibold mb-6 border-2 border-[#0B72B9] text-[#0B72B9] hover:bg-[#0B72B9] hover:text-white transition-colors bg-white"
+              >
+                اطلب استشارة مجانية
               </button>
 
               <div className="space-y-4 text-sm">

@@ -9,6 +9,8 @@ import {
 } from "@/src/infrastructure/api/academicServiceApi";
 import { Service } from "@/src/types/services/services";
 import { useAuth } from "@/src/contexts/AuthContext";
+import RequestServiceModal from "../../domain/RequestServiceModal/RequestServiceModal";
+import SuccessPopup from "../../domain/SuccessPopup/SuccessPopup";
 
 export default function SingleGuide() {
   const params = useParams();
@@ -21,6 +23,7 @@ export default function SingleGuide() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(false);
 
   useEffect(() => {
     const fetchService = async () => {
@@ -103,53 +106,20 @@ export default function SingleGuide() {
 
   return (
     <div>
+      {/* Service Request Form Modal */}
+      <RequestServiceModal
+        isOpen={showFormModal}
+        onClose={() => setShowFormModal(false)}
+        onSuccess={() => setShowSuccessPopup(true)}
+        preselectedServiceId={service?.id}
+        preselectedCategoryId={service?.categoryId}
+      />
+
       {/* Success Popup Modal */}
-      {showSuccessPopup && (
-        <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-          onClick={() => setShowSuccessPopup(false)}
-        >
-          <div
-            className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 flex flex-col items-center gap-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Success Icon */}
-            <div className="w-20 h-20 bg-[#39A975]/10 rounded-full flex items-center justify-center">
-              <svg
-                className="w-12 h-12 text-[#39A975]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </div>
-
-            {/* Success Message */}
-            <div className="text-center space-y-3">
-              <p className="text-gray-800 font-semibold text-lg leading-relaxed">
-                سيتم التواصل معك بخصوص طلبك في أقرب وقت
-              </p>
-              <p className="text-[#2885AC] font-bold text-xl">
-                شكراً لاختيارك HSP
-              </p>
-            </div>
-
-            {/* Close Button */}
-            <Button
-              onClick={() => setShowSuccessPopup(false)}
-              className="bg-[#2885AC] text-white hover:bg-[#2885AC]/90 px-8 py-2 rounded-md transition-colors"
-            >
-              موافق
-            </Button>
-          </div>
-        </div>
-      )}
+      <SuccessPopup
+        isOpen={showSuccessPopup}
+        onClose={() => setShowSuccessPopup(false)}
+      />
 
       <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
         <h2 className="text-center text-white font-bold text-5xl p-5">
@@ -166,19 +136,29 @@ export default function SingleGuide() {
             {service.description}
           </p>
         </div>
-        <div className="w-full flex justify-start items-center mt-6">
-          <Button
-            onClick={() => {
-              if (!isAuthenticated) {
-                router.push("/auth/signup");
-                return;
-              }
-              setShowSuccessPopup(true);
+        <div className="w-full flex justify-start items-center gap-4 mt-6">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowFormModal(true);
             }}
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2885AC] disabled:pointer-events-none disabled:opacity-50 bg-[#2885AC] text-white shadow-lg hover:bg-[#2885AC]/90 hover:shadow-xl transition-all duration-200 px-8 py-4"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2885AC] disabled:pointer-events-none disabled:opacity-50 bg-[#0B72B9] text-white shadow-lg hover:bg-[#0B72B9]/90 hover:shadow-xl transition-all duration-200 px-8 py-4"
           >
-            اطلب الخدمة
-          </Button>
+            اطلب الخدمة الآن
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowFormModal(true);
+            }}
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B72B9] disabled:pointer-events-none disabled:opacity-50 border-2 border-[#0B72B9] text-[#0B72B9] hover:bg-[#0B72B9] hover:text-white transition-all duration-200 px-8 py-4 bg-white"
+          >
+            اطلب استشارة مجانية
+          </button>
         </div>
         {relatedServices.length > 0 && (
           <section className="container mx-auto px-4 py-9">

@@ -30,7 +30,8 @@ export default function EductionServices() {
 
         // Fetch categories which include services nested inside
         const categoriesResponse = await academicServiceApi.getAllCategories();
-        setCategories(categoriesResponse.data);
+        // Reverse the order so the last category appears first
+        setCategories([...categoriesResponse.data].reverse());
 
         // Extract all services from categories
         // Categories endpoint returns services with limited fields: id, title, description, createdAt

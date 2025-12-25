@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Tajawal } from "next/font/google";
@@ -6,7 +7,6 @@ import { Tajawal } from "next/font/google";
 import AuthProvider from "../components/providers/AuthProvider";
 import NavBar from "../components/layout/NavBar/NavBar";
 import Footer from "../components/layout/Footer/Footer";
-
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -32,18 +32,12 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body
-        className={` ${tajawal.variable} antialiased`}
-      >
-
-        <AuthProvider>
-        
-          {children}
-        </AuthProvider>
+      <body className={` ${tajawal.variable} antialiased overflow-x-hidden`}>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
