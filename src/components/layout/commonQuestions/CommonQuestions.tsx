@@ -7,8 +7,10 @@ import { Questionsfilters } from "@/src/lib/consts/filters/Filters";
 import QuestionComponent from "../../domain/QuestionComponent/QuestionComponent";
 
 export default function CommonQuestions() {
-  // State to track the active filter (default to first category)
-  const [activeFilter, setActiveFilter] = useState<string>(Questionsfilters[0]);
+  // State to track the active filter (default to "الإستشارات الأكاديمية")
+  const [activeFilter, setActiveFilter] = useState<string>(
+    "الإستشارات الأكاديمية"
+  );
 
   // Filter FAQs based on active category
   const filteredFaqs = faqs.filter((faq) => faq.questionType === activeFilter);

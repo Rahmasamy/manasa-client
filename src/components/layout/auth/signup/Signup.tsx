@@ -85,17 +85,17 @@ export default function Signup() {
   return (
     <BackgroundWrapper>
       <BoxAuth>
-        <div className="flex flex-col gap-4 justify-center items-center">
+        <div className="flex flex-col gap-3 sm:gap-4 justify-center items-center w-full h-full min-h-0 overflow-y-auto">
           <Image
             src="/icons/logo.png"
             alt="Logo"
             width={110}
             height={110}
-            className="bg-white rounded-3xl w-33! h-33! object-cover"
+            className="bg-white rounded-3xl w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-cover flex-shrink-0"
           />
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3 justify-start w-full">
-            <h1 className="text-xl font-bold ">إنشاء حساب جديد</h1>
-            <label htmlFor="email" className="text-md font-bold ">بريدك الالكتروني</label>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2 sm:gap-3 justify-start w-full min-w-0">
+            <h1 className="text-lg sm:text-xl font-bold text-center sm:text-right">إنشاء حساب جديد</h1>
+            <label htmlFor="email" className="text-sm sm:text-md font-bold">بريدك الالكتروني</label>
             <Input
               placeholder="أدخل بريدك الالكتروني"
               id="email"
@@ -103,9 +103,9 @@ export default function Signup() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="bg-gray-200 rounded-sm p-3"
+              className="bg-gray-200 rounded-sm p-2 sm:p-3 w-full min-w-0"
             />
-            <label htmlFor="pass" className="text-md font-bold ">كلمة السر</label>
+            <label htmlFor="pass" className="text-sm sm:text-md font-bold">كلمة السر</label>
             <Input
               placeholder="أدخل كلمة السر"
               id="pass"
@@ -113,9 +113,9 @@ export default function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="bg-gray-200 rounded-sm p-3"
+              className="bg-gray-200 rounded-sm p-2 sm:p-3 w-full min-w-0"
             />
-            <label htmlFor="confirmPass" className="text-md font-bold ">تأكيد كلمة السر</label>
+            <label htmlFor="confirmPass" className="text-sm sm:text-md font-bold">تأكيد كلمة السر</label>
             <Input
               placeholder="أعد إدخال كلمة السر"
               id="confirmPass"
@@ -123,11 +123,11 @@ export default function Signup() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="bg-gray-200 rounded-sm p-3"
+              className="bg-gray-200 rounded-sm p-2 sm:p-3 w-full min-w-0"
             />
 
             {error && (
-              <div className="text-red-600 text-sm bg-red-50 p-2 rounded">
+              <div className="text-red-600 text-xs sm:text-sm bg-red-50 p-2 rounded w-full">
                 {error}
               </div>
             )}
@@ -135,12 +135,12 @@ export default function Signup() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full text-white text-center bg-[#2885AC] py-3 disabled:opacity-50"
+              className="w-full text-white text-center bg-[#2885AC] py-2 sm:py-3 disabled:opacity-50 text-sm sm:text-base"
             >
               {loading ? "جاري إنشاء الحساب..." : "إنشاء حساب"}
             </Button>
 
-            <div className="text-center mt-2">
+            <div className="text-center mt-1 sm:mt-2 text-xs sm:text-sm">
               <span className="text-gray-600">لديك حساب بالفعل؟ </span>
               <Link href="/auth/login" className="text-[#2885AC] font-semibold hover:underline">
                 تسجيل الدخول

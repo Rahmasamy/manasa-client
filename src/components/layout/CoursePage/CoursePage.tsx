@@ -9,6 +9,7 @@ import { mapApiCourseToCourse } from "@/src/lib/utils/mappers";
 import RequestServiceModal from "../../domain/RequestServiceModal/RequestServiceModal";
 import SuccessPopup from "../../domain/SuccessPopup/SuccessPopup";
 import ConsultationPopup from "../../domain/ConsultationPopup/ConsultationPopup";
+import ShareButton from "../../domain/ShareButton/ShareButton";
 
 interface CoursePageProps {
   courseId?: string;
@@ -341,10 +342,18 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
                   e.stopPropagation();
                   handleConsultationClick();
                 }}
-                className="w-full py-3 rounded-lg font-semibold mb-6 border-2 border-[#0B72B9] text-[#0B72B9] hover:bg-[#0B72B9] hover:text-white transition-colors bg-white"
+                className="w-full py-3 rounded-lg font-semibold mb-4 border-2 border-[#0B72B9] text-[#0B72B9] hover:bg-[#0B72B9] hover:text-white transition-colors bg-white"
               >
                 اطلب استشارة مجانية
               </button>
+
+              {/* Share Button */}
+              <div className="mb-6">
+                <ShareButton
+                  title={`دورة: ${course.title}`}
+                  url={window.location.href}
+                />
+              </div>
 
               <div className="space-y-4 text-sm">
                 <div className="flex items-center justify-between pb-3 border-b"></div>

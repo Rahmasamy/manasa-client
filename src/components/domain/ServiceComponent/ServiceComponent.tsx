@@ -7,7 +7,9 @@ interface ServiceCardProps {
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
-  const serviceListUrl = "/acedemic";
+  const serviceDetailUrl = service.id 
+    ? `/acedemic/single/${service.id}` 
+    : "/acedemic";
 
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100 hover:border-[#2885AC]/30">
@@ -32,7 +34,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
         {/* Link Button */}
         <div className="flex items-center justify-end gap-3 pt-2">
           <Link
-            href={serviceListUrl}
+            href={serviceDetailUrl}
             className="inline-flex items-center gap-2 text-[#2885AC] font-semibold hover:text-[#2885AC]/80 transition-colors group"
           >
             {service.link_text}

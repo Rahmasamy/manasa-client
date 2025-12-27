@@ -14,7 +14,12 @@ const Footer = () => {
             وسائل التواصل الأجتماعي
           </h3>
           <div className="flex gap-3 items-center">
-            <a href="#" className="text-gray-700 hover:text-blue-600">
+            <a
+              href="https://www.facebook.com/elacademia100/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-blue-600"
+            >
               <svg
                 width="36"
                 height="36"
@@ -29,7 +34,13 @@ const Footer = () => {
                 />
               </svg>
             </a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">
+
+            <a
+              href="https://www.instagram.com/elacademia1000/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-blue-600"
+            >
               <svg
                 width="36"
                 height="36"
@@ -87,7 +98,12 @@ const Footer = () => {
                 </defs>
               </svg>
             </a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">
+            <a
+              href="https://x.com/elacademia100"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-blue-600"
+            >
               <svg
                 width="36"
                 height="36"

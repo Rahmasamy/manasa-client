@@ -5,8 +5,7 @@ import "./globals.css";
 import { Tajawal } from "next/font/google";
 
 import AuthProvider from "../components/providers/AuthProvider";
-import NavBar from "../components/layout/NavBar/NavBar";
-import Footer from "../components/layout/Footer/Footer";
+import FloatingWhatsAppButton from "../components/domain/FloatingWhatsAppButton/FloatingWhatsAppButton";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -37,7 +36,10 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className={` ${tajawal.variable} antialiased overflow-x-hidden`}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          {children}
+          <FloatingWhatsAppButton />
+        </AuthProvider>
       </body>
     </html>
   );

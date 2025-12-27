@@ -14,12 +14,20 @@ export default function ConsultationPopup({
 }: ConsultationPopupProps) {
   useEffect(() => {
     if (isOpen) {
-      const timer = setTimeout(() => {
-        onClose();
+      // Trigger email redirect at 1 second (while popup is still visible)
+      const redirectTimer = setTimeout(() => {
         onRedirect();
-      }, 3000); // 3 seconds
+      }, 1000); // 1 second
 
-      return () => clearTimeout(timer);
+      // Close popup at 2 seconds
+      const closeTimer = setTimeout(() => {
+        onClose();
+      }, 2000); // 2 seconds
+
+      return () => {
+        clearTimeout(redirectTimer);
+        clearTimeout(closeTimer);
+      };
     }
   }, [isOpen, onClose, onRedirect]);
 

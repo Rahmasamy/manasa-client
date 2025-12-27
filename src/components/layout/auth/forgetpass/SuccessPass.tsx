@@ -6,15 +6,16 @@ import BoxAuth from "@/src/components/domain/BoxAuth/BoxAuth";
 export default function SuccessPass() {
   return (
     <BackgroundWrapper>
-      <BoxAuth className= "h-[340px]">
-        <div className="flex flex-col gap-4 justify-center items-center">
-          <span>
+      <BoxAuth className="min-h-[340px]">
+        <div className="flex flex-col gap-3 sm:gap-4 justify-center items-center w-full h-full min-h-0 overflow-y-auto">
+          <span className="flex-shrink-0">
             <svg
               width="135"
               height="135"
               viewBox="0 0 155 155"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32"
             >
               <path
                 fillRule="evenodd"
@@ -30,13 +31,13 @@ export default function SuccessPass() {
               />
             </svg>
           </span>
-          <h1 className="text-[#2885AC]  text-lg font-bold">
+          <h1 className="text-[#2885AC] text-base sm:text-lg font-bold text-center">
             تم بنجاح
           </h1>
-          <p className="p-2 text-gray-400">
+          <p className="p-2 text-xs sm:text-sm text-gray-400 text-center">
             تم تغير كلمة السر بنجاح
           </p>
-            <Button className="w-full text-white text-center bg-[#2885AC] py-3">
+            <Button className="w-full text-white text-center bg-[#2885AC] py-2 sm:py-3 text-sm sm:text-base">
               استمرار{" "}
             </Button>
         </div>

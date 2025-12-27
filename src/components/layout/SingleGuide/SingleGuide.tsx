@@ -12,6 +12,7 @@ import { useAuth } from "@/src/contexts/AuthContext";
 import RequestServiceModal from "../../domain/RequestServiceModal/RequestServiceModal";
 import SuccessPopup from "../../domain/SuccessPopup/SuccessPopup";
 import ConsultationPopup from "../../domain/ConsultationPopup/ConsultationPopup";
+import ShareButton from "../../domain/ShareButton/ShareButton";
 
 export default function SingleGuide() {
   const params = useParams();
@@ -176,6 +177,14 @@ export default function SingleGuide() {
           >
             اطلب استشارة مجانية
           </button>
+        </div>
+
+        {/* Share Button */}
+        <div className="mt-4">
+          <ShareButton
+            title={`خدمة: ${service.title}`}
+            url={window.location.href}
+          />
         </div>
         {relatedServices.length > 0 && (
           <section className="container mx-auto px-4 py-9">

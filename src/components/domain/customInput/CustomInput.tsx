@@ -81,8 +81,8 @@ export const CustomOTPInput: React.FC<CustomOTPInputProps> = ({
   };
 
   return (
-    <div className="flex items-center gap-2 dir-ltr">
-      <div className="flex gap-2">
+    <div className="flex items-center gap-1 sm:gap-2 dir-ltr w-full justify-center flex-wrap">
+      <div className="flex gap-1 sm:gap-2">
         {otp.slice(0, 3).map((digit, index) => (
           <input
             key={index}
@@ -96,14 +96,14 @@ export const CustomOTPInput: React.FC<CustomOTPInputProps> = ({
             onChange={(e) => handleChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(index, e)}
             onPaste={handlePaste}
-            className="w-12 h-12 text-center text-xl font-semibold text-gray-900 bg-gray-300 border-2 border-gray-400 rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
+            className="w-10 h-10 sm:w-12 sm:h-12 text-center text-lg sm:text-xl font-semibold text-gray-900 bg-gray-300 border-2 border-gray-400 rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
           />
         ))}
       </div>
 
-      <span className="text-2xl text-gray-400">-</span>
+      <span className="text-xl sm:text-2xl text-gray-400 mx-1">-</span>
 
-      <div className="flex gap-2">
+      <div className="flex gap-1 sm:gap-2">
         {otp.slice(3, 6).map((digit, index) => {
           const actualIndex = index + 3;
           return (
@@ -119,7 +119,7 @@ export const CustomOTPInput: React.FC<CustomOTPInputProps> = ({
               onChange={(e) => handleChange(actualIndex, e.target.value)}
               onKeyDown={(e) => handleKeyDown(actualIndex, e)}
               onPaste={handlePaste}
-              className="w-12 h-12 text-center text-xl font-semibold text-gray-900 bg-gray-300 border-2 border-gray-400 rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
+              className="w-10 h-10 sm:w-12 sm:h-12 text-center text-lg sm:text-xl font-semibold text-gray-900 bg-gray-300 border-2 border-gray-400 rounded-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all"
             />
           );
         })}
