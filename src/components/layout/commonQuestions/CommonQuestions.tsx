@@ -23,10 +23,10 @@ export default function CommonQuestions() {
             <Button
               key={filter + index}
               onClick={() => setActiveFilter(filter)}
-              className={`hover:text-[#2885AC] py-2 px-3 sm:py-3 sm:px-4 text-sm sm:text-base whitespace-nowrap snap-start transition-colors ${
+              className={`hover:text-white hover:bg-[#2885AC] py-2 px-3 sm:py-3 sm:px-4 text-sm sm:text-base whitespace-nowrap snap-start transition-colors ${
                 activeFilter === filter
                   ? "text-[#2885AC] bg-white border border-white"
-                  : "text-white bg-[transparent] hover:bg-white border border-white"
+                  : "text-white bg-[transparent] hover:bg-[#2885AC] border border-white"
               }`}
             >
               {filter}

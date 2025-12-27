@@ -44,7 +44,7 @@ export default function ElectronicLibrary() {
           </Button>
 
           <Button variant="outline" className="text-sm sm:text-base text-[#27272A] bg-white border border-[#4a4f52] hover:bg-[#2885AC] hover:text-white hover:border-[#2885AC] py-2 sm:py-3 px-4 sm:px-6 lg:px-9 transition-colors">
-  ملخصات رسائل ماجستير ودكتوراةاجنبي
+  ملخصات رسائل ماجستير ودكتوراة اجنبي
           </Button>
         </div>
           <div className="min-h-screen bg-gradient-to-br p-4 sm:p-6 mt-4 sm:mt-6">
