@@ -186,6 +186,7 @@ const Footer = () => {
                   />
                 </svg>
               </span>
+              +9660571664064
             </li>
             <li className="flex items-center gap-3">
               <span>
