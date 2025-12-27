@@ -28,7 +28,9 @@ export default function RequestServiceModal({
   preselectedServiceId,
   preselectedCategoryId,
 }: RequestServiceModalProps) {
-  const [serviceCategories, setServiceCategories] = useState<CategoryWithServices[]>([]);
+  const [serviceCategories, setServiceCategories] = useState<
+    CategoryWithServices[]
+  >([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>(
     preselectedCategoryId || ""
   );
@@ -154,7 +156,8 @@ export default function RequestServiceModal({
 
   // Get filtered services based on selected category
   const filteredServices =
-    serviceCategories.find((cat) => cat.id === selectedCategoryId)?.services || [];
+    serviceCategories.find((cat) => cat.id === selectedCategoryId)?.services ||
+    [];
 
   if (!isOpen) return null;
 
@@ -220,17 +223,6 @@ export default function RequestServiceModal({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <input
-                name="whatsappCode"
-                type="text"
-                value={formData.whatsappCode}
-                onChange={handleFormChange}
-                placeholder="كود الدولة *"
-                required
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0B72B9] focus:border-transparent"
-              />
-            </div>
             <div className="sm:col-span-2">
               <input
                 name="whatsappNumber"
@@ -269,9 +261,7 @@ export default function RequestServiceModal({
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0B72B9] focus:border-transparent bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
               >
                 <option value="">
-                  {selectedCategoryId
-                    ? "اختر الخدمة *"
-                    : "اختر فئة أولاً *"}
+                  {selectedCategoryId ? "اختر الخدمة *" : "اختر فئة أولاً *"}
                 </option>
                 {filteredServices.map((service) => (
                   <option key={service.id} value={service.id}>
@@ -318,4 +308,3 @@ export default function RequestServiceModal({
     </div>
   );
 }
-

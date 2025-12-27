@@ -82,11 +82,11 @@ export default function AcdemeicGuide() {
   if (loading) {
     return (
       <div>
-        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
-          <h2 className="text-center text-white font-bold text-5xl p-5">
+        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] flex flex-col items-center justify-center px-4">
+          <h2 className="text-center text-white font-bold text-2xl sm:text-3xl lg:text-5xl p-3 sm:p-5">
             الأرشاد الأكاديمي
           </h2>
-          <p className="text-center text-white font-bold text-xl p-5">
+          <p className="text-center text-white font-bold text-base sm:text-lg lg:text-xl p-3 sm:p-5">
             جاري التحميل...
           </p>
         </div>
@@ -97,11 +97,11 @@ export default function AcdemeicGuide() {
   if (error) {
     return (
       <div>
-        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
-          <h2 className="text-center text-white font-bold text-5xl p-5">
+        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] flex flex-col items-center justify-center px-4">
+          <h2 className="text-center text-white font-bold text-2xl sm:text-3xl lg:text-5xl p-3 sm:p-5">
             الأرشاد الأكاديمي
           </h2>
-          <p className="text-center text-white font-bold text-xl p-5">
+          <p className="text-center text-white font-bold text-base sm:text-lg lg:text-xl p-3 sm:p-5">
             {error}
           </p>
         </div>
@@ -111,19 +111,19 @@ export default function AcdemeicGuide() {
 
   return (
     <div>
-      <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
-        <h2 className="text-center text-white font-bold text-5xl p-5">
+      <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] flex flex-col items-center justify-center px-4">
+        <h2 className="text-center text-white font-bold text-2xl sm:text-3xl lg:text-5xl p-3 sm:p-5">
           الأرشاد الأكاديمي
         </h2>
-        <p className="text-center text-white font-bold text-xl p-5">
+        <p className="text-center text-white font-bold text-base sm:text-lg lg:text-xl p-3 sm:p-5">
           {totalServices} خدمة / {totalCategories} أقسام
         </p>
       </div>
-      <div className="w-full px-24 py-10">
-        <div className="flex gap-2 mt-4 flex-wrap">
+      <div className="w-full px-4 sm:px-8 lg:px-24 py-6 sm:py-10">
+        <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4">
           <Button
             onClick={() => handleCategoryClick(null)}
-            className={`text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-3 px-4 ${
+            className={`text-sm sm:text-base text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-2 sm:py-3 px-3 sm:px-4 transition-colors ${
               selectedCategoryId === null ? "bg-[#4a4f52] text-white" : ""
             }`}
           >
@@ -133,7 +133,7 @@ export default function AcdemeicGuide() {
             <Button
               key={category.id}
               onClick={() => handleCategoryClick(category.id)}
-              className={`text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-3 px-4 ${
+              className={`text-sm sm:text-base text-[#4a4f52] border-[#4a4f52] bg-white hover:bg-[#4a4f52] hover:text-white py-2 sm:py-3 px-3 sm:px-4 transition-colors ${
                 selectedCategoryId === category.id
                   ? "bg-[#4a4f52] text-white"
                   : ""
@@ -143,13 +143,13 @@ export default function AcdemeicGuide() {
             </Button>
           ))}
         </div>
-        <section className="container mx-auto px-4 py-9">
+        <section className="container mx-auto px-4 py-6 sm:py-9">
           {displayedServices.length === 0 ? (
-            <div className="flex justify-center items-center py-20">
+            <div className="flex justify-center items-center py-12 sm:py-20">
               <p className="text-gray-600">لا توجد خدمات متاحة</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
               {displayedServices.map((service) => (
                 <ServiceCard key={service.id} service={service} />
               ))}

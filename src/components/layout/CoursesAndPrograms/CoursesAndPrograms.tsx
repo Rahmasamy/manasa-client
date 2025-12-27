@@ -24,7 +24,7 @@ export default function CoursesAndPrograms() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
-  
+
   const DISPLAY_LIMIT = 8;
 
   useEffect(() => {
@@ -109,11 +109,11 @@ export default function CoursesAndPrograms() {
   if (loading) {
     return (
       <>
-        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
-          <h2 className="text-center text-white font-bold text-5xl p-5">
+        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] flex flex-col items-center justify-center px-4">
+          <h2 className="text-center text-white font-bold text-2xl sm:text-3xl lg:text-5xl p-3 sm:p-5">
             الدورات والبرامج
           </h2>
-          <p className="text-center text-white font-bold text-xl p-5">
+          <p className="text-center text-white font-bold text-base sm:text-lg lg:text-xl p-3 sm:p-5">
             جاري التحميل...
           </p>
         </div>
@@ -124,11 +124,11 @@ export default function CoursesAndPrograms() {
   if (error) {
     return (
       <>
-        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
-          <h2 className="text-center text-white font-bold text-5xl p-5">
+        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] flex flex-col items-center justify-center px-4">
+          <h2 className="text-center text-white font-bold text-2xl sm:text-3xl lg:text-5xl p-3 sm:p-5">
             الدورات والبرامج
           </h2>
-          <p className="text-center text-white font-bold text-xl p-5">
+          <p className="text-center text-white font-bold text-base sm:text-lg lg:text-xl p-3 sm:p-5">
             {error}
           </p>
         </div>
@@ -138,21 +138,28 @@ export default function CoursesAndPrograms() {
 
   return (
     <>
-      <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
-        <h2 className="text-center text-white font-bold text-5xl p-5">
+      <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] flex flex-col items-center justify-center px-4">
+        <h2 className="text-center text-white font-bold text-2xl sm:text-3xl lg:text-5xl p-3 sm:p-5">
           الدورات والبرامج
         </h2>
-        <p className="text-center text-white font-bold text-xl p-5">
+        <p className="text-center text-white font-bold text-base sm:text-lg lg:text-xl p-3 sm:p-5">
           {totalCourses} دورة / {totalGroups} أقسام
         </p>
       </div>
-      <div className="w-full px-24 py-3">
-        <section className="container mx-auto px-4 py-9 flex flex-col gap-5">
-          <h1 className="font-bold text-[#2885AC] py-4 text-2xl">اكمل دوراتك</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {(showAll ? allCourses : allCourses.slice(0, DISPLAY_LIMIT)).map((course) => (
-              <CourseCard key={course.apiId || course.id + course.title} course={course} />
-            ))}
+      <div className="w-full px-4 sm:px-8 lg:px-24 py-3 sm:py-6">
+        <section className="container mx-auto px-4 py-6 sm:py-9 flex flex-col gap-4 sm:gap-5">
+          <h1 className="font-bold text-[#2885AC] py-2 sm:py-4 text-xl sm:text-2xl">
+            اكمل دوراتك
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            {(showAll ? allCourses : allCourses.slice(0, DISPLAY_LIMIT)).map(
+              (course) => (
+                <CourseCard
+                  key={course.apiId || course.id + course.title}
+                  course={course}
+                />
+              )
+            )}
           </div>
           {allCourses.length > DISPLAY_LIMIT && (
             <div className="flex justify-center mt-8">
@@ -166,15 +173,15 @@ export default function CoursesAndPrograms() {
           )}
         </section>
       </div>
-      <div className="w-full px-24 py-10">
-        <section className="container mx-auto px-4 py-9">
-          <h1 className="font-bold text-[#2885AC] py-4 text-2xl">
+      <div className="w-full px-4 sm:px-8 lg:px-24 py-6 sm:py-10">
+        <section className="container mx-auto px-4 py-6 sm:py-9">
+          <h1 className="font-bold text-[#2885AC] py-2 sm:py-4 text-xl sm:text-2xl">
             كل الدورات
           </h1>
-          <div className="flex gap-2 my-4 flex-wrap">
+          <div className="flex flex-wrap gap-2 sm:gap-3 my-3 sm:my-4">
             <Button
               onClick={() => handleFilterClick(null)}
-              className={`text-[#4a4f52] bg-white hover:text-white hover:border-white border border-[#4a4f52] py-3 px-4 ${
+              className={`text-sm sm:text-base text-[#4a4f52] bg-white hover:text-white hover:border-white border border-[#4a4f52] py-2 sm:py-3 px-3 sm:px-4 transition-colors ${
                 selectedGroupId === null ? "bg-[#4a4f52] text-white" : ""
               }`}
             >
@@ -184,46 +191,49 @@ export default function CoursesAndPrograms() {
               <Button
                 key={group.id}
                 onClick={() => handleFilterClick(group.id)}
-                className={`text-[#4a4f52] bg-white hover:text-white hover:border-white border border-[#4a4f52] py-3 px-4 ${
-                  selectedGroupId === group.id
-                    ? "bg-[#4a4f52] text-white"
-                    : ""
+                className={`text-sm sm:text-base text-[#4a4f52] bg-white hover:text-white hover:border-white border border-[#4a4f52] py-2 sm:py-3 px-3 sm:px-4 transition-colors ${
+                  selectedGroupId === group.id ? "bg-[#4a4f52] text-white" : ""
                 }`}
               >
                 {group.title}
               </Button>
             ))}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {displayedCourses.length === 0 ? (
               <div className="col-span-full flex justify-center items-center py-20">
                 <p className="text-gray-600">لا توجد دورات متاحة</p>
               </div>
             ) : (
               displayedCourses.map((course) => (
-                <CourseCard key={course.apiId || course.id + course.title} course={course} />
+                <CourseCard
+                  key={course.apiId || course.id + course.title}
+                  course={course}
+                />
               ))
             )}
           </div>
         </section>
       </div>
-      <div className="w-full px-24 py-10 bg-[#D6ECF5]">
-        <h1 className="font-bold text-black py-4 text-xl">
-          تعرف علي المدربين الأخرين
-        </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-4">
-          {instructors.length === 0 ? (
-            <div className="col-span-full flex justify-center items-center py-20">
-              <p className="text-gray-600">لا يوجد مدربين متاحين</p>
-            </div>
-          ) : (
-            instructors.map((instructor) => (
-              <TrainerCard
-                key={instructor.id}
-                {...mapInstructorToTrainer(instructor)}
-              />
-            ))
-          )}
+      <div className="w-full px-4 sm:px-8 lg:px-24 py-6 sm:py-10 bg-[#D6ECF5]">
+        <div className="container mx-auto px-4">
+          <h1 className="font-bold text-black py-2 sm:py-4 text-lg sm:text-xl">
+            تعرف علي المدربين الأخرين
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-6 p-2 sm:p-4">
+            {instructors.length === 0 ? (
+              <div className="col-span-full flex justify-center items-center py-20">
+                <p className="text-gray-600">لا يوجد مدربين متاحين</p>
+              </div>
+            ) : (
+              instructors.map((instructor) => (
+                <TrainerCard
+                  key={instructor.id}
+                  {...mapInstructorToTrainer(instructor)}
+                />
+              ))
+            )}
+          </div>
         </div>
       </div>
     </>

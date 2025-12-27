@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Star, Clock, BookOpen, Video, Users } from "lucide-react";
+import { Star, Clock, BookOpen, Video, Users, ChevronDown } from "lucide-react";
 import { Course } from "@/src/types/courses/courses";
 import Image from "next/image";
 import { courseApi } from "@/src/infrastructure/api/courseApi";
@@ -26,6 +26,9 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
   const [error, setError] = useState<string | null>(null);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(
+    new Set()
+  );
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -38,21 +41,19 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
       try {
         setLoading(true);
         setError(null);
+        console.log(
+          "🔍 [DEBUG] CoursePage - Fetching course with ID:",
+          courseId
+        );
         const apiCourse = await courseApi.getCourseById(courseId);
+        console.log("🔍 [DEBUG] CoursePage - Received API Course:", apiCourse);
         const mappedCourse = mapApiCourseToCourse(apiCourse);
-        // Add default sections if none exist
-        if (!mappedCourse.sections || mappedCourse.sections.length === 0) {
-          mappedCourse.sections = [
-            { id: "s1", title: "المقدمة", duration: "30 دقيقة", lectures: 3 },
-            { id: "s2", title: "الأساسيات", duration: "2 ساعة", lectures: 8 },
-            {
-              id: "s3",
-              title: "المشاريع العملية",
-              duration: "7 ساعة",
-              lectures: 14,
-            },
-          ];
-        }
+        console.log("🔍 [DEBUG] CoursePage - Mapped Course:", mappedCourse);
+        console.log("🔍 [DEBUG] CoursePage - Mapped Course fields:", {
+          benefits: mappedCourse.benefits,
+          trainingSystem: mappedCourse.trainingSystem,
+          targetAudience: mappedCourse.targetAudience,
+        });
         setCourse(mappedCourse);
       } catch (err) {
         console.error("Error fetching course:", err);
@@ -69,6 +70,18 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
     if (course) {
       setCourse({ ...course, isEnrolled: !course.isEnrolled });
     }
+  };
+
+  const toggleSection = (sectionId: string) => {
+    setExpandedSections((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(sectionId)) {
+        newSet.delete(sectionId);
+      } else {
+        newSet.add(sectionId);
+      }
+      return newSet;
+    });
   };
 
   if (loading) {
@@ -177,77 +190,93 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
                 </div>
               </div>
 
-              {/* Section 2: أوجه الاستفادة من الدورة */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                  <Star className="w-6 h-6 text-[#2885AC]" />
-                  أوجه الاستفادة من الدورة
-                </h2>
-                <div className="prose prose-gray max-w-none">
-                  <p className="text-gray-700 leading-relaxed text-base">
-                    {course.benefits ||
-                      "ستتعلم في هذه الدورة كيفية تطبيق المهارات المكتسبة في بيئة العمل الحقيقية، وتحسين قدراتك المهنية، والحصول على شهادة معتمدة تضيف قيمة لسيرتك الذاتية."}
-                  </p>
+              {/* Section 2: المقدمة */}
+              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div
+                  className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-[#2885AC] transition-colors cursor-pointer"
+                  onClick={() => toggleSection("benefits")}
+                >
+                  <h2 className="text-xl font-bold text-gray-900">
+                    أوجة الإستفادة من الدورة
+                  </h2>
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${
+                      expandedSections.has("benefits") ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    expandedSections.has("benefits")
+                      ? "max-h-96 opacity-100"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="p-4 pt-0">
+                    <p className="text-gray-700 leading-relaxed text-base">
+                      {course.benefits || "لا توجد معلومات متاحة"}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Section 3: نظام التدريب في الدورة */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                  <Video className="w-6 h-6 text-[#2885AC]" />
-                  نظام التدريب في الدورة
-                </h2>
-                <div className="prose prose-gray max-w-none">
-                  <p className="text-gray-700 leading-relaxed text-base mb-4">
-                    {course.trainingSystem ||
-                      "تتضمن الدورة محاضرات فيديو عالية الجودة، وتمارين عملية، ومواد تعليمية إضافية، ومشاريع واقعية لضمان فهمك الكامل للموضوع."}
-                  </p>
-                  {course.sections && course.sections.length > 0 && (
-                    <div className="mt-4 space-y-3">
-                      <h3 className="font-semibold text-gray-900 mb-3">
-                        محتوى الدورة:
-                      </h3>
-                      {course.sections.map((section, index) => (
-                        <div
-                          key={section.id}
-                          className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
-                        >
-                          <span className="w-8 h-8 bg-[#2885AC] text-white rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0">
-                            {index + 1}
-                          </span>
-                          <div className="flex-1">
-                            <h4 className="font-medium text-gray-900">
-                              {section.title}
-                            </h4>
-                            <div className="flex items-center gap-4 text-sm text-gray-600 mt-1">
-                              <span className="flex items-center gap-1">
-                                <Clock className="w-4 h-4" />
-                                {section.duration}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <Video className="w-4 h-4" />
-                                {section.lectures} محاضرات
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+              {/* Section 3: الأساسيات */}
+              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div
+                  className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-[#2885AC] transition-colors cursor-pointer"
+                  onClick={() => toggleSection("training")}
+                >
+                  <h2 className="text-xl font-bold text-gray-900">
+                    نظام التدريب في الدورة
+                  </h2>
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${
+                      expandedSections.has("training") ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    expandedSections.has("training")
+                      ? "max-h-96 opacity-100"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="p-4 pt-0">
+                    <p className="text-gray-700 leading-relaxed text-base">
+                      {course.trainingSystem || "لا توجد معلومات متاحة"}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Section 4: الفئة المستهدفة */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                  <Users className="w-6 h-6 text-[#2885AC]" />
-                  الفئة المستهدفة
-                </h2>
-                <div className="prose prose-gray max-w-none">
-                  <p className="text-gray-700 leading-relaxed text-base">
-                    {course.targetAudience ||
-                      "هذه الدورة مناسبة للمبتدئين والمحترفين على حد سواء. سواء كنت تبدأ رحلتك في هذا المجال أو تريد تطوير مهاراتك الحالية، ستجد محتوى مناسب لمستواك."}
-                  </p>
+              {/* Section 4: المشاريع العلمية */}
+              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div
+                  className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-[#2885AC] transition-colors cursor-pointer"
+                  onClick={() => toggleSection("audience")}
+                >
+                  <h2 className="text-xl font-bold text-gray-900">
+                    الفئة المستهدفة
+                  </h2>
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${
+                      expandedSections.has("audience") ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    expandedSections.has("audience")
+                      ? "max-h-96 opacity-100"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="p-4 pt-0">
+                    <p className="text-gray-700 leading-relaxed text-base">
+                      {course.targetAudience || "لا توجد معلومات متاحة"}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -286,27 +315,6 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
               </div>
 
               <button
-                onClick={() => {
-                  if (!isAuthenticated) {
-                    router.push("/auth/signup");
-                    return;
-                  }
-                  if (!course.isEnrolled) {
-                    setShowSuccessPopup(true);
-                  } else {
-                    toggleEnrollment();
-                  }
-                }}
-                className={`w-full py-3 rounded-lg font-semibold mb-4 transition-colors ${
-                  course.isEnrolled
-                    ? "bg-gray-600 hover:bg-gray-700 text-white"
-                    : "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-[#2885AC] text-white shadow-md hover:bg-[#2885AC]/90 hover:shadow-lg transition-all duration-200"
-                }`}
-              >
-                {course.isEnrolled ? "إلغاء الاشتراك" : "اشترك الآن"}
-              </button>
-
-              <button
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
@@ -331,12 +339,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
               </button>
 
               <div className="space-y-4 text-sm">
-                <div className="flex items-center justify-between pb-3 border-b">
-                  <span className="text-gray-600">عدد الاقسام</span>
-                  <span className="font-semibold">
-                    {course.sections.length}
-                  </span>
-                </div>
+                <div className="flex items-center justify-between pb-3 border-b"></div>
                 <div className="flex items-center justify-between pb-3 border-b">
                   <span className="text-gray-600">عدد المحاضرات</span>
                   <span className="font-semibold flex items-center gap-1">
@@ -351,13 +354,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
                     {course.duration}
                   </span>
                 </div>
-                <div className="flex items-center justify-between pb-3 border-b">
-                  <span className="text-gray-600">عدد الطلاب</span>
-                  <span className="font-semibold flex items-center gap-1">
-                    <Users className="w-4 h-4" />
-                    {course.students}
-                  </span>
-                </div>
+
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">اللغة</span>
                   <span className="font-semibold">{course.language}</span>

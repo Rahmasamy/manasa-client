@@ -5,6 +5,9 @@ export interface ApiCourse {
   title: string;
   coursePhotoUrl: string | null;
   description: string | null;
+  courseBenefits: string | null;
+  wayOfTraining: string | null;
+  targetAudience: string | null;
   price: number | null;
   discount: number | null;
   rating: number;
@@ -43,7 +46,7 @@ export interface ApiCourseGroup {
 export interface CoursesResponse {
   courseCategories: ApiCourseGroup[];
   courses: ApiCourse[];
-  instructors: any[];
+  instructors: unknown[];
 }
 
 export interface CoursesByGroupResponse {
@@ -91,13 +94,42 @@ export class CourseApi {
   }
 
   async getCourseById(id: string): Promise<ApiCourse> {
-    const response = await fetch(
-      `${this.baseUrl}${API_ENDPOINTS.COURSES.BY_ID(id)}`
+    const fullUrl = `${this.baseUrl}${API_ENDPOINTS.COURSES.BY_ID(id)}`;
+    console.log("🔍 [DEBUG] getCourseById - Course ID:", id);
+    console.log("🔍 [DEBUG] getCourseById - Full URL:", fullUrl);
+    console.log(
+      "🔍 [DEBUG] getCourseById - Endpoint:",
+      API_ENDPOINTS.COURSES.BY_ID(id)
     );
+
+    const response = await fetch(fullUrl);
     if (!response.ok) {
       throw new Error(`Failed to fetch course: ${response.statusText}`);
     }
-    return response.json();
+    const result = await response.json();
+    console.log("🔍 [DEBUG] getCourseById - Full API Response:", result);
+    console.log("🔍 [DEBUG] getCourseById - Response structure:", {
+      hasMessage: !!result.message,
+      hasData: !!result.data,
+      keys: Object.keys(result),
+    });
+
+    // Backend returns { message: "...", data: course }, so extract data
+    const courseData = result.data || result;
+    console.log(
+      "🔍 [DEBUG] getCourseById - Extracted Course Data:",
+      courseData
+    );
+    console.log("🔍 [DEBUG] getCourseById - Course fields check:", {
+      hasCourseBenefits: !!courseData.courseBenefits,
+      hasWayOfTraining: !!courseData.wayOfTraining,
+      hasTargetAudience: !!courseData.targetAudience,
+      courseBenefits: courseData.courseBenefits,
+      wayOfTraining: courseData.wayOfTraining,
+      targetAudience: courseData.targetAudience,
+    });
+
+    return courseData;
   }
 
   async getCoursesByGroupId(groupId: string): Promise<CoursesByGroupResponse> {

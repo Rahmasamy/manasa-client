@@ -16,6 +16,7 @@ export default function WhatRepresent() {
           icon={item.icon}
           footerTitle={item.footer}
           className={item.className}
+          link={item.link}
         />
       ))}
     </div>

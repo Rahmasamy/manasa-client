@@ -99,6 +99,7 @@ export default function CoursesSections() {
           order={"ثانيا"}
           title={"الدورات التدريبية"}
           knowMore="المزيد"
+          knowMoreLink="/courses"
         />
         <div className="flex justify-center items-center py-20">
           <p className="text-gray-600">جاري التحميل...</p>
@@ -114,6 +115,7 @@ export default function CoursesSections() {
           order={"ثانيا"}
           title={"الدورات التدريبية"}
           knowMore="المزيد"
+          knowMoreLink="/courses"
         />
         <div className="flex justify-center items-center py-20">
           <p className="text-red-600">{error}</p>
@@ -128,6 +130,7 @@ export default function CoursesSections() {
         order={"ثانيا"}
         title={"الدورات التدريبية"}
         knowMore="المزيد"
+        knowMoreLink="/courses"
       />
       <div className="flex gap-2 mt-4 overflow-x-auto pb-2 scrollbar-hide scroll-smooth snap-x snap-mandatory">
         <div className="flex gap-2 min-w-max">

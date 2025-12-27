@@ -6,5 +6,6 @@ export interface BoxComponentProps {
   icon?: ReactNode; // optional, can be a component or element
   className?: string; // optional extra styling
   footerTitle?: string; // optional footer
+  link?: string; // optional link to make the card clickable
   [key: string]: any; // allows passing additional props if needed
 }

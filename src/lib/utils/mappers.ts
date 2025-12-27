@@ -38,6 +38,11 @@ export function mapApiCourseToCourse(apiCourse: ApiCourse): Course {
     isEnrolled: false,
     rating: apiCourse.rating || 0,
     sections: [], // Default empty sections
+    // Course detail sections
+    introduction: apiCourse.description || undefined,
+    benefits: apiCourse.courseBenefits || undefined,
+    trainingSystem: apiCourse.wayOfTraining || undefined,
+    targetAudience: apiCourse.targetAudience || undefined,
     // Store API ID for reference
     apiId: apiCourse.id,
     groupId: apiCourse.groupId,

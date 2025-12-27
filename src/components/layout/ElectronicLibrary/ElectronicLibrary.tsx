@@ -28,32 +28,32 @@ export default function ElectronicLibrary() {
   };
   return (
     <div>
-      <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
-        <h2 className="text-center text-white font-bold text-5xl p-5">
+      <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] flex flex-col items-center justify-center px-4">
+        <h2 className="text-center text-white font-bold text-2xl sm:text-3xl lg:text-5xl p-3 sm:p-5">
           المكتبة الألكترونية{" "}
         </h2>
-        <p className="text-center text-white font-bold text-xl p-5">
+        <p className="text-center text-white font-bold text-base sm:text-lg lg:text-xl p-3 sm:p-5">
           25 دورة/ 7 اقسام
         </p>
       </div>
-      <div className="w-full px-24 py-10">
+      <div className="w-full px-4 sm:px-8 lg:px-24 py-6 sm:py-10">
       
-        <div className="w-full flex justify-start pr-11 items-center">
-          <Button variant="outline" className="m-3 px-9 py-4 hover:bg-[#2885AC]">
+        <div className="w-full flex flex-wrap justify-start gap-2 sm:gap-3 items-center">
+          <Button variant="outline" className="text-sm sm:text-base text-[#27272A] bg-white border border-[#4a4f52] hover:bg-[#2885AC] hover:text-white hover:border-[#2885AC] py-2 sm:py-3 px-4 sm:px-6 lg:px-9 transition-colors">
   ملخصات رسائل ماجستير ودكتوراة عربي
           </Button>
 
-          <Button variant="outline" className="m-3 px-9 py-4 hover:bg-[#2885AC]">
+          <Button variant="outline" className="text-sm sm:text-base text-[#27272A] bg-white border border-[#4a4f52] hover:bg-[#2885AC] hover:text-white hover:border-[#2885AC] py-2 sm:py-3 px-4 sm:px-6 lg:px-9 transition-colors">
   ملخصات رسائل ماجستير ودكتوراةاجنبي
           </Button>
         </div>
-          <div className="min-h-screen bg-gradient-to-br p-6">
+          <div className="min-h-screen bg-gradient-to-br p-4 sm:p-6 mt-4 sm:mt-6">
       <div className="max-w-7xl mx-auto">
       
       
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {allAcademicCards.map((card) => (
             <AcademicCard
               key={card.id}

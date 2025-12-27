@@ -1,166 +1,161 @@
-'use client'
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/src/contexts/AuthContext";
-
+import { navItems } from "@/src/lib/config/navigation";
+import TopContactBar from "./TopContactBar";
+import MobileMenu from "./MobileMenu";
 
 const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isPassingHero,setPassHero] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isAuthenticated } = useAuth();
+  const pathname = usePathname();
+
+  // Handle scroll effect
   useEffect(() => {
-    const heroSection = document.querySelector("#hero");
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
 
-    if (!heroSection) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // setIsScrolled(entry.isIntersecting);
-        setPassHero(!entry.isIntersecting)
-      },
-      {
-        threshold: 0.1,
-      }
-    );
-
-    observer.observe(heroSection);
-
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+    }
+  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <>
-      <div className={`w-full shadow-md h-[95px] fixed top-0 z-50
-        ${isScrolled || isPassingHero ? "bg-white text-black shadow-md" : "bg-transparent text-white"}
-      `}
-      id="nav"
+      {/* Top Contact Bar */}
+      <TopContactBar />
+
+      {/* Main Navbar */}
+      <nav
+        className={`w-full fixed top-[38px] z-50 transition-all duration-300 ${
+          isScrolled
+            ? "h-[70px] bg-white/95 backdrop-blur-md shadow-lg"
+            : "h-[70px] bg-white shadow-md"
+        }`}
+        id="nav"
       >
-        <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Image src="/icons/logo.png" alt="Logo" width={120} height={100}
-          className="bg-white rounded-3xl w-20 h-16 sm:w-24 sm:h-20 lg:w-28 lg:h-24 object-cover"
-          />
-       
-         <ul className="hidden md:flex items-center gap-8 font-medium">
-            <li><Link href="/">الرئيسية</Link></li>
-            <li><Link href="/acedemic">الإرشاد الأكاديمي</Link></li>
-            <li><Link href="/courses">الدورات التدريبية</Link></li>
-            <li><Link href="/articles">المقالات</Link></li>
-            <li><Link href="/electronic-library">المكتبة الإلكترونية</Link></li>
-            <li><Link href="/about">
-            من نحن 
-            </Link></li>
+        <div className="container mx-auto h-full flex items-center justify-between px-4 sm:px-6 lg:px-8">
+          {/* Logo */}
+          <Link href="/" className="flex-shrink-0">
+            <Image
+              src="/icons/logo.png"
+              alt="بوابة العلوم الإنسانية"
+              width={100}
+              height={80}
+              className="bg-white rounded-2xl w-16 h-14 sm:w-20 sm:h-16 object-cover transition-all duration-300"
+              priority
+            />
+          </Link>
+
+          {/* Desktop Navigation */}
+          <ul className="hidden md:flex items-center gap-6 lg:gap-8">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`relative font-medium text-sm lg:text-base transition-colors duration-200 py-2 group ${
+                      isActive
+                        ? "text-[#0B72B9]"
+                        : "text-[#27272A] hover:text-[#0B72B9]"
+                    }`}
+                  >
+                    {item.label}
+                    {/* Active/Hover underline */}
+                    <span
+                      className={`absolute bottom-0 right-0 h-0.5 bg-[#0B72B9] transition-all duration-300 ${
+                        isActive ? "w-full" : "w-0 group-hover:w-full"
+                      }`}
+                    />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
-          <div className="flex items-center gap-4">
+
+          {/* Right Side Actions */}
+          <div className="flex items-center gap-3">
+            {/* Auth Button - Desktop */}
             {!isAuthenticated && (
-              <Link href="/auth/login">
-                <Button className="hidden md:block px-8 lg:px-11 py-2 lg:py-3 text-[#0B72B9] bg-white rounded-md text-sm lg:text-base">
+              <Link href="/auth/login" className="hidden md:block">
+                <Button
+                  className={`px-6 lg:px-8 py-2 rounded-lg font-medium transition-all duration-300 ${
+                    isScrolled
+                      ? "bg-[#0B72B9] text-white hover:bg-[#0B72B9]/90"
+                      : "bg-[#0B72B9] text-white hover:bg-[#0B72B9]/90"
+                  }`}
+                >
                   انضم الآن
                 </Button>
               </Link>
             )}
-            {/* Mobile Menu Button */}
+
+            {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0B72B9]"
+              className="md:hidden p-2 rounded-lg text-[#27272A] hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0B72B9]/50"
               aria-label="Toggle mobile menu"
+              aria-expanded={isMobileMenuOpen}
             >
-              {isMobileMenuOpen ? (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              )}
+              <div className="w-6 h-5 relative flex flex-col justify-between">
+                <span
+                  className={`block h-0.5 w-full bg-current transform transition-all duration-300 ${
+                    isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 w-full bg-current transition-all duration-300 ${
+                    isMobileMenuOpen ? "opacity-0" : ""
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 w-full bg-current transform transition-all duration-300 ${
+                    isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                  }`}
+                />
+              </div>
             </button>
           </div>
         </div>
-      </div>
-      
-      {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden top-[95px]"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          <div 
-            className="bg-white shadow-lg w-full max-h-[calc(100vh-95px)] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-            dir="rtl"
-          >
-            <ul className="flex flex-col py-4">
-              <li>
-                <Link 
-                  href="/" 
-                  className="block px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  الرئيسية
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/acedemic" 
-                  className="block px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  الإرشاد الأكاديمي
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/courses" 
-                  className="block px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  الدورات التدريبية
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/articles" 
-                  className="block px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  المقالات
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/electronic-library" 
-                  className="block px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  المكتبة الإلكترونية
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/about" 
-                  className="block px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  من نحن
-                </Link>
-              </li>
-              {!isAuthenticated && (
-                <li className="px-6 py-3 mt-2">
-                  <Link href="/auth/login" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Button className="w-full px-11 py-3 text-[#0B72B9] bg-white border-2 border-[#0B72B9] rounded-md hover:bg-[#0B72B9] hover:text-white transition-colors">
-                      انضم الآن
-                    </Button>
-                  </Link>
-                </li>
-              )}
-            </ul>
-          </div>
-        </div>
-      )}
+      </nav>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        isAuthenticated={isAuthenticated}
+      />
+
+      {/* Spacer to prevent content from going under fixed navbar */}
+      <div className="h-[108px]" />
     </>
   );
 };
+
 export default NavBar;

@@ -38,6 +38,7 @@ export const Represntations: BoxComponentProps[] = [
     ),
 
     footer: "اعرف المزيد",
+    link: "/acedemic",
   },
 
   {
@@ -52,29 +53,110 @@ export const Represntations: BoxComponentProps[] = [
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <defs>
+          <linearGradient
+            id="trainingGradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
+            <stop offset="0%" stopColor="#18181B" />
+            <stop offset="100%" stopColor="#71717A" />
+          </linearGradient>
+        </defs>
+        {/* Presentation Board */}
         <path
-          d="M28 49.0002V16.3335"
-          stroke="#18181B"
+          d="M42 14H14C12.8954 14 12 14.8954 12 16V32C12 33.1046 12.8954 34 14 34H42C43.1046 34 44 33.1046 44 32V16C44 14.8954 43.1046 14 42 14Z"
+          stroke="url(#trainingGradient)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* Board Content Lines */}
+        <path
+          d="M18 22H38"
+          stroke="url(#trainingGradient)"
           strokeWidth="2"
           strokeLinecap="round"
-          strokeLinejoin="round"
+          strokeOpacity="0.6"
         />
         <path
-          d="M37.3333 28.0002L42 32.6668L51.3333 23.3335"
-          stroke="#39A975"
-          strokeWidth="3"
+          d="M18 26H34"
+          stroke="url(#trainingGradient)"
+          strokeWidth="2"
           strokeLinecap="round"
-          strokeLinejoin="round"
+          strokeOpacity="0.4"
+        />
+        {/* Trainer/Presenter */}
+        <circle
+          cx="28"
+          cy="40"
+          r="4"
+          stroke="url(#trainingGradient)"
+          strokeWidth="2.5"
+          fill="none"
         />
         <path
-          d="M51.3334 14V9.33333C51.3334 8.71449 51.0875 8.121 50.6499 7.68342C50.2124 7.24583 49.6189 7 49 7H37.3334C34.858 7 32.484 7.98333 30.7337 9.73367C28.9834 11.484 28 13.858 28 16.3333C28 13.858 27.0167 11.484 25.2664 9.73367C23.516 7.98333 21.142 7 18.6667 7H7.00002C6.38118 7 5.78769 7.24583 5.3501 7.68342C4.91252 8.121 4.66669 8.71449 4.66669 9.33333V39.6667C4.66669 40.2855 4.91252 40.879 5.3501 41.3166C5.78769 41.7542 6.38118 42 7.00002 42H21C22.8565 42 24.637 42.7375 25.9498 44.0503C27.2625 45.363 28 47.1435 28 49C28 47.1435 28.7375 45.363 30.0503 44.0503C31.363 42.7375 33.1435 42 35 42H49C49.6189 42 50.2124 41.7542 50.6499 41.3166C51.0875 40.879 51.3334 40.2855 51.3334 39.6667V36.6333"
-          stroke="#18181B"
-          strokeWidth="3"
+          d="M28 44V48"
+          stroke="url(#trainingGradient)"
+          strokeWidth="2.5"
           strokeLinecap="round"
-          strokeLinejoin="round"
+        />
+        <path
+          d="M24 46L22 48"
+          stroke="url(#trainingGradient)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeOpacity="0.7"
+        />
+        <path
+          d="M32 46L34 48"
+          stroke="url(#trainingGradient)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeOpacity="0.7"
+        />
+        {/* Group/Audience Members */}
+        <circle
+          cx="12"
+          cy="42"
+          r="3"
+          stroke="url(#trainingGradient)"
+          strokeWidth="2"
+          fill="none"
+          strokeOpacity="0.5"
+        />
+        <circle
+          cx="44"
+          cy="42"
+          r="3"
+          stroke="url(#trainingGradient)"
+          strokeWidth="2"
+          fill="none"
+          strokeOpacity="0.5"
+        />
+        <circle
+          cx="8"
+          cy="46"
+          r="2.5"
+          stroke="url(#trainingGradient)"
+          strokeWidth="2"
+          fill="none"
+          strokeOpacity="0.3"
+        />
+        <circle
+          cx="48"
+          cy="46"
+          r="2.5"
+          stroke="url(#trainingGradient)"
+          strokeWidth="2"
+          fill="none"
+          strokeOpacity="0.3"
         />
       </svg>
     ),
     footer: "اعرف المزيد",
+    link: "/courses",
   },
 ];
