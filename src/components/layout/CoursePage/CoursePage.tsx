@@ -1,15 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Star, Clock, BookOpen, Video, Users, ChevronDown } from "lucide-react";
+import { Star, Clock, BookOpen, ChevronDown } from "lucide-react";
 import { Course } from "@/src/types/courses/courses";
 import Image from "next/image";
 import { courseApi } from "@/src/infrastructure/api/courseApi";
 import { mapApiCourseToCourse } from "@/src/lib/utils/mappers";
-import { useAuth } from "@/src/contexts/AuthContext";
-import { Button } from "@/components/ui/button";
 import RequestServiceModal from "../../domain/RequestServiceModal/RequestServiceModal";
 import SuccessPopup from "../../domain/SuccessPopup/SuccessPopup";
+import ConsultationPopup from "../../domain/ConsultationPopup/ConsultationPopup";
 
 interface CoursePageProps {
   courseId?: string;
@@ -19,13 +18,13 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
   const params = useParams();
   const router = useRouter();
   const courseId = propCourseId || (params?.id as string);
-  const { isAuthenticated } = useAuth();
 
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
+  const [showConsultationPopup, setShowConsultationPopup] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     new Set()
   );
@@ -66,12 +65,6 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
     fetchCourse();
   }, [courseId]);
 
-  const toggleEnrollment = () => {
-    if (course) {
-      setCourse({ ...course, isEnrolled: !course.isEnrolled });
-    }
-  };
-
   const toggleSection = (sectionId: string) => {
     setExpandedSections((prev) => {
       const newSet = new Set(prev);
@@ -82,6 +75,14 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
       }
       return newSet;
     });
+  };
+
+  const handleConsultationClick = () => {
+    setShowConsultationPopup(true);
+  };
+
+  const handleEmailRedirect = () => {
+    window.location.href = "mailto:order@hspportal.com";
   };
 
   if (loading) {
@@ -129,6 +130,13 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
         onClose={() => setShowSuccessPopup(false)}
         message="تم تقديم الطلب سيتواصل معكم فريق العمل في أقرب وقت"
         subMessage="شكراً لاختيارك HSP"
+      />
+
+      {/* Consultation Popup Modal */}
+      <ConsultationPopup
+        isOpen={showConsultationPopup}
+        onClose={() => setShowConsultationPopup(false)}
+        onRedirect={handleEmailRedirect}
       />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -331,7 +339,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  setShowFormModal(true);
+                  handleConsultationClick();
                 }}
                 className="w-full py-3 rounded-lg font-semibold mb-6 border-2 border-[#0B72B9] text-[#0B72B9] hover:bg-[#0B72B9] hover:text-white transition-colors bg-white"
               >

@@ -11,6 +11,7 @@ import { Service } from "@/src/types/services/services";
 import { useAuth } from "@/src/contexts/AuthContext";
 import RequestServiceModal from "../../domain/RequestServiceModal/RequestServiceModal";
 import SuccessPopup from "../../domain/SuccessPopup/SuccessPopup";
+import ConsultationPopup from "../../domain/ConsultationPopup/ConsultationPopup";
 
 export default function SingleGuide() {
   const params = useParams();
@@ -24,6 +25,7 @@ export default function SingleGuide() {
   const [error, setError] = useState<string | null>(null);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
+  const [showConsultationPopup, setShowConsultationPopup] = useState(false);
 
   useEffect(() => {
     const fetchService = async () => {
@@ -74,6 +76,14 @@ export default function SingleGuide() {
     fetchService();
   }, [serviceId]);
 
+  const handleConsultationClick = () => {
+    setShowConsultationPopup(true);
+  };
+
+  const handleEmailRedirect = () => {
+    window.location.href = "mailto:order@hspportal.com";
+  };
+
   if (loading) {
     return (
       <div>
@@ -121,6 +131,13 @@ export default function SingleGuide() {
         onClose={() => setShowSuccessPopup(false)}
       />
 
+      {/* Consultation Popup Modal */}
+      <ConsultationPopup
+        isOpen={showConsultationPopup}
+        onClose={() => setShowConsultationPopup(false)}
+        onRedirect={handleEmailRedirect}
+      />
+
       <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
         <h2 className="text-center text-white font-bold text-5xl p-5">
           الأرشاد الأكاديمي
@@ -153,7 +170,7 @@ export default function SingleGuide() {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              setShowFormModal(true);
+              handleConsultationClick();
             }}
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B72B9] disabled:pointer-events-none disabled:opacity-50 border-2 border-[#0B72B9] text-[#0B72B9] hover:bg-[#0B72B9] hover:text-white transition-all duration-200 px-8 py-4 bg-white"
           >

@@ -1,39 +1,34 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { academicServiceApi } from "@/src/infrastructure/api/academicServiceApi";
 import { Service } from "@/src/types/services/services";
-import { useAuth } from "@/src/contexts/AuthContext";
-import Link from "next/link";
 import RequestServiceModal from "../../domain/RequestServiceModal/RequestServiceModal";
 import SuccessPopup from "../../domain/SuccessPopup/SuccessPopup";
+import ConsultationPopup from "../../domain/ConsultationPopup/ConsultationPopup";
 
 export default function Hero() {
   const [searchQuery, setSearchQuery] = useState("");
   const [allServices, setAllServices] = useState<Service[]>([]);
-  const [searchResults, setSearchResults] = useState<Service[]>([]);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [showConsultationPopup, setShowConsultationPopup] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
 
   // Fetch all services on mount
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        setLoading(true);
         const categoriesResponse = await academicServiceApi.getAllCategories();
 
         // Store flattened services for search
         const services: Service[] = [];
         categoriesResponse.data.forEach((category) => {
           if (category.services && category.services.length > 0) {
-            category.services.forEach((service: any) => {
+            category.services.forEach((service) => {
               services.push({
                 id: service.id,
                 title: service.title,
@@ -48,8 +43,6 @@ export default function Hero() {
         setAllServices(services);
       } catch (err) {
         console.error("Error fetching services:", err);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -57,20 +50,19 @@ export default function Hero() {
   }, []);
 
   // Filter services based on search query
-  useEffect(() => {
+  const searchResults = useMemo(() => {
     if (searchQuery.trim().length > 0) {
-      const filtered = allServices.filter(
+      return allServices.filter(
         (service) =>
           service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           service.description.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setSearchResults(filtered);
-      setShowDropdown(filtered.length > 0);
-    } else {
-      setSearchResults([]);
-      setShowDropdown(false);
     }
+    return [];
   }, [searchQuery, allServices]);
+
+  const showDropdown =
+    searchResults.length > 0 && searchQuery.trim().length > 0;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -79,7 +71,7 @@ export default function Hero() {
         searchRef.current &&
         !searchRef.current.contains(event.target as Node)
       ) {
-        setShowDropdown(false);
+        setSearchQuery("");
       }
     };
 
@@ -89,12 +81,19 @@ export default function Hero() {
 
   const handleServiceClick = (serviceId: string) => {
     router.push(`/acedemic/single/${serviceId}`);
-    setShowDropdown(false);
     setSearchQuery("");
   };
 
   const handleButtonClick = () => {
     setShowFormModal(true);
+  };
+
+  const handleConsultationClick = () => {
+    setShowConsultationPopup(true);
+  };
+
+  const handleEmailRedirect = () => {
+    window.location.href = "mailto:order@hspportal.com";
   };
 
   return (
@@ -118,6 +117,13 @@ export default function Hero() {
       <SuccessPopup
         isOpen={showSuccessPopup}
         onClose={() => setShowSuccessPopup(false)}
+      />
+
+      {/* Consultation Popup Modal */}
+      <ConsultationPopup
+        isOpen={showConsultationPopup}
+        onClose={() => setShowConsultationPopup(false)}
+        onRedirect={handleEmailRedirect}
       />
 
       {/* Content */}
@@ -152,7 +158,7 @@ export default function Hero() {
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                handleButtonClick();
+                handleConsultationClick();
               }}
               className="px-6 sm:px-9 py-3 sm:py-4 rounded-lg bg-white text-[#0B72B9] border-2 border-white hover:bg-[#0B72B9] hover:text-white hover:border-[#0B72B9] transition-colors text-sm sm:text-base font-medium"
             >
@@ -169,7 +175,7 @@ export default function Hero() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => {
-                  if (searchResults.length > 0) setShowDropdown(true);
+                  // Dropdown shows automatically when searchResults has items
                 }}
               />
               <Button className="bg-[#0B72B9] hover:bg-[#0B72B9]/90 text-white rounded-lg px-4 sm:px-6 text-sm sm:text-base">
