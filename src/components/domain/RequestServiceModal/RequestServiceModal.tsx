@@ -107,12 +107,7 @@ export default function RequestServiceModal({
 
     // Validation
     if (
-      !name.trim() ||
-      !email.trim() ||
-      !whatsappCode.trim() ||
-      !whatsappNumber.trim() ||
-      !serviceId.trim() ||
-      !request.trim()
+      !whatsappNumber.trim() 
     ) {
       setFormError("يرجى تعبئة جميع الحقول المطلوبة");
       return;

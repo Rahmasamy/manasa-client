@@ -4,28 +4,27 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 items-start gap-6 sm:gap-8 lg:gap-10 min-h-90 p-6 sm:p-10 lg:p-14">
-        {/* Pages & Services */}
-        {/* Pages */}
-
-        {/* Social Icons */}
-        <div className="flex items-start gap-9 mt-4 md:mt-0 flex-col col-span-2">
-          <h3 className="text-gray-900 font-bold mb-2">
+      <div className="max-w-8xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 items-start gap-6 sm:gap-8 lg:gap-10 p-6 sm:p-8 md:p-10 lg:p-14">
+        {/* Social Icons - Full width on mobile, spans 2 cols on larger screens */}
+        <div className="flex flex-col items-start gap-4 sm:gap-6 md:gap-9 col-span-1 sm:col-span-2 order-1 lg:order-none">
+          <h3 className="text-gray-900 font-bold text-base sm:text-lg mb-1 sm:mb-2">
             وسائل التواصل الأجتماعي
           </h3>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 sm:gap-4 items-center flex-wrap">
             <a
               href="https://www.facebook.com/elacademia100/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-blue-600"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+              aria-label="Facebook"
             >
               <svg
-                width="36"
-                height="36"
+                width="32"
+                height="32"
                 viewBox="0 0 36 36"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10"
               >
                 <circle cx="18" cy="18" r="18" fill="#18181B" />
                 <path
@@ -39,14 +38,16 @@ const Footer = () => {
               href="https://www.instagram.com/elacademia1000/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-blue-600"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+              aria-label="Instagram"
             >
               <svg
-                width="36"
-                height="36"
+                width="32"
+                height="32"
                 viewBox="0 0 36 36"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10"
               >
                 <circle cx="18" cy="18" r="18" fill="#18181B" />
                 <path
@@ -67,13 +68,19 @@ const Footer = () => {
                 />
               </svg>
             </a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">
+
+            <a
+              href="#"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+              aria-label="WhatsApp"
+            >
               <svg
-                width="36"
-                height="36"
+                width="32"
+                height="32"
                 viewBox="0 0 36 36"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10"
               >
                 <circle cx="18" cy="18" r="18" fill="#18181B" />
                 <g clipPath="url(#clip0_184_7590)">
@@ -98,18 +105,21 @@ const Footer = () => {
                 </defs>
               </svg>
             </a>
+
             <a
               href="https://x.com/elacademia100"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-blue-600"
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+              aria-label="Twitter/X"
             >
               <svg
-                width="36"
-                height="36"
+                width="32"
+                height="32"
                 viewBox="0 0 36 36"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10"
               >
                 <circle cx="18" cy="18" r="18" fill="#18181B" />
                 <g clipPath="url(#clip0_184_7591)">
@@ -145,37 +155,58 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div>
-          <h3 className="text-gray-900 font-bold mb-2">الصفحات</h3>
-          <ul className="space-y-1 text-[#27272A] text-sm">
-            <li>خدمات الإرشاد الأكاديمي</li>
-            <li>الدورات والبرامج</li>
-            <li>المقالات العلمية</li>
-            <li>المكتبة الإلكترونية</li>
+
+        {/* Pages */}
+        <div className="order-2 lg:order-none">
+          <h3 className="text-gray-900 font-bold text-base sm:text-lg mb-2 sm:mb-3">
+            الصفحات
+          </h3>
+          <ul className="space-y-1.5 sm:space-y-2 text-[#27272A] text-sm sm:text-base">
+            <li className="hover:text-gray-600 cursor-pointer transition-colors">
+              خدمات الإرشاد الأكاديمي
+            </li>
+            <li className="hover:text-gray-600 cursor-pointer transition-colors">
+              الدورات والبرامج
+            </li>
+            <li className="hover:text-gray-600 cursor-pointer transition-colors">
+              المقالات العلمية
+            </li>
+            <li className="hover:text-gray-600 cursor-pointer transition-colors">
+              المكتبة الإلكترونية
+            </li>
           </ul>
         </div>
 
         {/* Services */}
-        <div>
-          <h3 className="text-gray-900 font-bold mb-2">الخدمات</h3>
-          <ul className="space-y-1 text-[#27272A] text-sm">
-            <li>خدمات الإرشاد الأكاديمي</li>
-            <li>الدورات والبرامج</li>
+        <div className="order-3 lg:order-none">
+          <h3 className="text-gray-900 font-bold text-base sm:text-lg mb-2 sm:mb-3">
+            الخدمات
+          </h3>
+          <ul className="space-y-1.5 sm:space-y-2 text-[#27272A] text-sm sm:text-base">
+            <li className="hover:text-gray-600 cursor-pointer transition-colors">
+              خدمات الإرشاد الأكاديمي
+            </li>
+            <li className="hover:text-gray-600 cursor-pointer transition-colors">
+              الدورات والبرامج
+            </li>
           </ul>
         </div>
 
         {/* Contact */}
-        <div>
-          <h3 className="text-gray-900 font-bold mb-2">تواصل معنا</h3>
-          <ul className="space-y-1 text-[#27272A] text-sm">
-            <li className="flex items-center gap-3">
-              <span>
+        <div className="order-4 lg:order-none">
+          <h3 className="text-gray-900 font-bold text-base sm:text-lg mb-2 sm:mb-3">
+            تواصل معنا
+          </h3>
+          <ul className="space-y-2 sm:space-y-3 text-[#27272A] text-sm sm:text-base">
+            <li className="flex items-center gap-2 sm:gap-3">
+              <span className="flex-shrink-0">
                 <svg
-                  width="24"
-                  height="24"
+                  width="20"
+                  height="20"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 sm:w-6 sm:h-6"
                 >
                   <path
                     d="M13.832 16.568C14.0385 16.6628 14.2712 16.6845 14.4917 16.6294C14.7122 16.5744 14.9073 16.4458 15.045 16.265L15.4 15.8C15.5863 15.5516 15.8279 15.35 16.1056 15.2111C16.3833 15.0723 16.6895 15 17 15H20C20.5304 15 21.0391 15.2107 21.4142 15.5858C21.7893 15.9609 22 16.4696 22 17V20C22 20.5304 21.7893 21.0391 21.4142 21.4142C21.0391 21.7893 20.5304 22 20 22C15.2261 22 10.6477 20.1036 7.27208 16.7279C3.89642 13.3523 2 8.7739 2 4C2 3.46957 2.21071 2.96086 2.58579 2.58579C2.96086 2.21071 3.46957 2 4 2H7C7.53043 2 8.03914 2.21071 8.41421 2.58579C8.78929 2.96086 9 3.46957 9 4V7C9 7.31049 8.92771 7.61672 8.78885 7.89443C8.65 8.17214 8.44839 8.41371 8.2 8.6L7.732 8.951C7.54842 9.09118 7.41902 9.29059 7.36579 9.51535C7.31256 9.74012 7.33878 9.97638 7.44 10.184C8.80668 12.9599 11.0544 15.2048 13.832 16.568Z"
@@ -186,16 +217,17 @@ const Footer = () => {
                   />
                 </svg>
               </span>
-              +9660571664064
+              +966557818234
             </li>
-            <li className="flex items-center gap-3">
-              <span>
+            <li className="flex items-center gap-2 sm:gap-3 break-all">
+              <span className="flex-shrink-0">
                 <svg
-                  width="24"
-                  height="24"
+                  width="20"
+                  height="20"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 sm:w-6 sm:h-6"
                 >
                   <path
                     d="M22 7L13.009 12.727C12.7039 12.9042 12.3573 12.9976 12.0045 12.9976C11.6517 12.9976 11.3051 12.9042 11 12.727L2 7"
@@ -213,16 +245,19 @@ const Footer = () => {
                   />
                 </svg>
               </span>
-              order@hspportal.com
+              <span className="hover:text-gray-600 transition-colors">
+                order@hspportal.com
+              </span>
             </li>
-            <li className="flex items-center gap-3">
-              <span>
+            <li className="flex items-center gap-2 sm:gap-3">
+              <span className="flex-shrink-0">
                 <svg
-                  width="18"
-                  height="22"
+                  width="16"
+                  height="20"
                   viewBox="0 0 18 22"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  className="w-4 h-5 sm:w-5 sm:h-6"
                 >
                   <path
                     d="M17 9C17 13.993 11.461 19.193 9.601 20.799C9.42772 20.9293 9.2168 20.9998 9 20.9998C8.7832 20.9998 8.57228 20.9293 8.399 20.799C6.539 19.193 1 13.993 1 9C1 6.87827 1.84285 4.84344 3.34315 3.34315C4.84344 1.84285 6.87827 1 9 1C11.1217 1 13.1566 1.84285 14.6569 3.34315C16.1571 4.84344 17 6.87827 17 9Z"
@@ -233,26 +268,33 @@ const Footer = () => {
                   />
                 </svg>
               </span>
+              الرياض حي العليا
             </li>
           </ul>
         </div>
 
-        <div className="flex flex-col items-start md:items-start gap-2">
-          <Image
-            src="/icons/logo.png"
-            alt="Logo"
-            width={170}
-            height={150}
-            className="bg-white rounded-3xl w-64 h-64 object-cover"
-          />
+        {/* Logo - Last on mobile, positioned normally on desktop */}
+        <div className="flex flex-col items-center sm:items-start md:items-center gap-2 order-5 lg:order-none col-span-1 sm:col-span-2 lg:col-span-1 mx-auto sm:mx-0 lg:mx-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 flex items-center justify-center overflow-hidden shadow-sm">
+            <Image
+              src="/icons/logo.png"
+              alt="Logo"
+              width={70}
+              height={70}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       </div>
 
       {/* Copyright */}
-      <div className="bg-[#134053] text-white text-right text-sm sm:text-md py-4 sm:py-5 pr-4 sm:pr-6 lg:pr-10 px-4 sm:px-0">
-        © 2025 جميع الحقوق محفوظة لموقع بوابة العلوم الإنسانية
+      <div className="bg-[#134053] text-white text-right text-xs sm:text-sm md:text-base py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 lg:px-10">
+        <p className="max-w-7xl mx-auto">
+          © 2025 جميع الحقوق محفوظة لموقع بوابة العلوم الإنسانية
+        </p>
       </div>
     </footer>
   );
 };
+
 export default Footer;

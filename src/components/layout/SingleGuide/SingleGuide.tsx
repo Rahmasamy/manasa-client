@@ -88,11 +88,11 @@ export default function SingleGuide() {
   if (loading) {
     return (
       <div>
-        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
-          <h2 className="text-center text-white font-bold text-5xl p-5">
+        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] md:min-h-[500px] flex flex-col items-center justify-center px-4">
+          <h2 className="text-center text-white font-bold text-3xl sm:text-4xl md:text-5xl p-3 sm:p-4 md:p-5">
             الأرشاد الأكاديمي
           </h2>
-          <p className="text-center text-white font-bold text-xl p-5">
+          <p className="text-center text-white font-bold text-base sm:text-lg md:text-xl p-3 sm:p-4 md:p-5">
             جاري التحميل...
           </p>
         </div>
@@ -103,11 +103,11 @@ export default function SingleGuide() {
   if (error || !service) {
     return (
       <div>
-        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
-          <h2 className="text-center text-white font-bold text-5xl p-5">
+        <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] md:min-h-[500px] flex flex-col items-center justify-center px-4">
+          <h2 className="text-center text-white font-bold text-3xl sm:text-4xl md:text-5xl p-3 sm:p-4 md:p-5">
             الأرشاد الأكاديمي
           </h2>
-          <p className="text-center text-white font-bold text-xl p-5">
+          <p className="text-center text-white font-bold text-base sm:text-lg md:text-xl p-3 sm:p-4 md:p-5">
             {error || "الخدمة غير موجودة"}
           </p>
         </div>
@@ -139,22 +139,30 @@ export default function SingleGuide() {
         onRedirect={handleEmailRedirect}
       />
 
-      <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[500px] flex flex-col items-center justify-center">
-        <h2 className="text-center text-white font-bold text-5xl p-5">
+      {/* Hero Section */}
+      <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] md:min-h-[500px] flex flex-col items-center justify-center px-4">
+        <h2 className="text-center text-white font-bold text-3xl sm:text-4xl md:text-5xl p-3 sm:p-4 md:p-5">
           الأرشاد الأكاديمي
         </h2>
-        <p className="text-center text-white font-bold text-xl p-5">
+        <p className="text-center text-white font-bold text-base sm:text-lg md:text-xl p-3 sm:p-4 md:p-5">
           {service.category?.title || "خدمة أكاديمية"}
         </p>
       </div>
-      <div className="w-full px-24 py-10">
-        <div className="flex flex-col gap-6 mt-4">
-          <h1 className="font-bold text-2xl text-gray-900">{service.title}</h1>
-          <p className="text-gray-600 font-medium p-2 text-lg leading-relaxed">
+
+      {/* Content Section */}
+      <div className="w-full px-4 sm:px-6 md:px-12 lg:px-24 py-6 sm:py-8 md:py-10">
+        {/* Service Details */}
+        <div className="flex flex-col gap-4 sm:gap-5 md:gap-6 mt-2 sm:mt-3 md:mt-4">
+          <h1 className="font-bold text-xl sm:text-2xl md:text-3xl text-gray-900">
+            {service.title}
+          </h1>
+          <p className="text-gray-600 font-medium p-2 text-sm sm:text-base md:text-lg leading-relaxed">
             {service.description}
           </p>
         </div>
-        <div className="w-full flex justify-start items-center gap-4 mt-6">
+
+        {/* Action Buttons */}
+        <div className="w-full flex flex-col sm:flex-row justify-start items-stretch sm:items-center gap-3 sm:gap-4 mt-4 sm:mt-5 md:mt-6">
           <button
             type="button"
             onClick={(e) => {
@@ -162,7 +170,7 @@ export default function SingleGuide() {
               e.stopPropagation();
               setShowFormModal(true);
             }}
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2885AC] disabled:pointer-events-none disabled:opacity-50 bg-[#0B72B9] text-white shadow-lg hover:bg-[#0B72B9]/90 hover:shadow-xl transition-all duration-200 px-8 py-4"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-base sm:text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2885AC] disabled:pointer-events-none disabled:opacity-50 bg-[#0B72B9] text-white shadow-lg hover:bg-[#0B72B9]/90 hover:shadow-xl transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4"
           >
             اطلب الخدمة الآن
           </button>
@@ -173,25 +181,27 @@ export default function SingleGuide() {
               e.stopPropagation();
               handleConsultationClick();
             }}
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B72B9] disabled:pointer-events-none disabled:opacity-50 border-2 border-[#0B72B9] text-[#0B72B9] hover:bg-[#0B72B9] hover:text-white transition-all duration-200 px-8 py-4 bg-white"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-base sm:text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B72B9] disabled:pointer-events-none disabled:opacity-50 border-2 border-[#0B72B9] text-[#0B72B9] hover:bg-[#0B72B9] hover:text-white transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4 bg-white"
           >
             اطلب استشارة مجانية
           </button>
         </div>
 
         {/* Share Button */}
-        <div className="mt-4">
+        <div className="mt-4 sm:mt-5 md:mt-6">
           <ShareButton
             title={`خدمة: ${service.title}`}
             url={window.location.href}
           />
         </div>
+
+        {/* Related Services Section */}
         {relatedServices.length > 0 && (
-          <section className="container mx-auto px-4 py-9">
-            <h1 className="font-bold text-xl">
+          <section className="mx-auto px-0 py-6 sm:py-8 md:py-9 mt-4 sm:mt-6">
+            <h1 className="font-bold text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6">
               خدمات أخرى في {service.category?.title || "نفس القسم"}
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
               {relatedServices.map((relatedService) => (
                 <ServiceCard key={relatedService.id} service={relatedService} />
               ))}
