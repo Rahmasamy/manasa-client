@@ -178,9 +178,9 @@ export default function Hero() {
                   // Dropdown shows automatically when searchResults has items
                 }}
               />
-              <Button className="bg-[#0B72B9] hover:bg-[#0B72B9]/90 text-white rounded-lg px-4 sm:px-6 text-sm sm:text-base">
+              {/* <Button className="bg-[#0B72B9] hover:bg-[#0B72B9]/90 text-white rounded-lg px-4 sm:px-6 text-sm sm:text-base">
                 بحث
-              </Button>
+              </Button> */}
             </div>
 
             {/* Search Dropdown */}

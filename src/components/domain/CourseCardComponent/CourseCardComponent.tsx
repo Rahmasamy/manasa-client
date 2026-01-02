@@ -64,7 +64,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
           </h3>
 
           {/* Instructor */}
-          <p className="text-sm text-gray-600 flex items-center gap-2">
+          {/* <p className="text-sm text-gray-600 flex items-center gap-2">
             <span className="flex items-center gap-3">
               <svg
                 width="18"
@@ -81,7 +81,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
 
               {course.instructor}
             </span>
-          </p>
+          </p> */}
           <p className="text-sm text-gray-400 p-2">{course.desc}</p>
           <div className="flex items-center gap-1">
             {[...Array(5)].map((_, i) => (
@@ -106,10 +106,10 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
           <div className="flex items-center justify-between pt-3">
             <div className="flex items-center gap-3">
               <span className="text-2xl font-bold text-emerald-600">
-                ${course.discountedPrice.toFixed(2)}
+                ${course.discountedPrice.toFixed(2)} SAR
               </span>
               <span className="text-sm text-gray-500 line-through">
-                ${course.originalPrice.toFixed(2)}
+                ${course.originalPrice.toFixed(2)} SAR
               </span>
             </div>
 

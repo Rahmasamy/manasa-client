@@ -14,6 +14,6 @@ export const navItems: NavItem[] = [
 
 export const contactInfo = {
   email: "order@hspportal.com",
-  whatsapp: "#", // Replace with actual WhatsApp link
+  whatsapp: "#+966557818234", // Replace with actual WhatsApp link
 };
 
