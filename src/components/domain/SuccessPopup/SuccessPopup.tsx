@@ -12,7 +12,7 @@ export default function SuccessPopup({
   isOpen,
   onClose,
   message = "تم تقديم الطلب سيتواصل معكم فريق العمل في أقرب وقت",
-  subMessage = "شكراً لاختيارك HSP",
+  subMessage = "شكراً لاختيارك العلوم الإنسانية",
 }: SuccessPopupProps) {
   if (!isOpen) return null;
 

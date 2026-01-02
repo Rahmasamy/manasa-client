@@ -106,10 +106,10 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
           <div className="flex items-center justify-between pt-3">
             <div className="flex items-center gap-3">
               <span className="text-2xl font-bold text-emerald-600">
-                ${course.discountedPrice.toFixed(2)} SAR
+                {course.discountedPrice.toFixed(2)} SAR
               </span>
               <span className="text-sm text-gray-500 line-through">
-                ${course.originalPrice.toFixed(2)} SAR
+                {course.originalPrice.toFixed(2)} SAR
               </span>
             </div>
 
