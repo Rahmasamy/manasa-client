@@ -95,7 +95,7 @@ const AboutUs: React.FC = () => {
       {/* About Us Text Section */}
       <div className="py-7 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-right">ختاما</h2>
+          {/* <h2 className="text-3xl font-bold text-gray-800 mb-6 text-right">ختاما</h2> */}
           {/* <div className="text-md text-gray-500 text-right leading-relaxed space-y-4">
             <p>
               تفخر هذه المؤسسات أن تصدمن لخدمتها المجتمع والمجتمعات الأكاديمية والمعلمية
