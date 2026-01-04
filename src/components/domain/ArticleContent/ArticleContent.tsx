@@ -21,9 +21,9 @@ export default function ArticleContent({
   return (
     <article className="w-full px-6 lg:px-24 py-10" dir={direction}>
       {/* Category Title */}
-      <h2 className="font-bold text-2xl mb-6 text-gray-800">
+      {/* <h2 className="font-bold text-2xl mb-6 text-gray-800">
         {categoryTitle}
-      </h2>
+      </h2> */}
 
       {/* Metadata */}
       <div className={`flex flex-wrap items-center gap-6 mb-6 text-gray-600 ${
