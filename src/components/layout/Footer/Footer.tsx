@@ -163,16 +163,16 @@ const Footer = () => {
           </h3>
           <ul className="space-y-1.5 sm:space-y-2 text-[#27272A] text-sm sm:text-base">
             <li className="hover:text-gray-600 cursor-pointer transition-colors">
-              خدمات الإرشاد الأكاديمي
+              <a href="/acedemic">خدمات الإرشاد الأكاديمي</a>
             </li>
             <li className="hover:text-gray-600 cursor-pointer transition-colors">
-              الدورات والبرامج
+              <a href="/courses">الدورات والبرامج</a>
             </li>
             <li className="hover:text-gray-600 cursor-pointer transition-colors">
-              المقالات العلمية
+              <a href="/articles">المقالات العلمية</a>
             </li>
             <li className="hover:text-gray-600 cursor-pointer transition-colors">
-              المكتبة الإلكترونية
+              <a href="/electronic-library">المكتبة الإلكترونية</a>
             </li>
           </ul>
         </div>
@@ -184,10 +184,10 @@ const Footer = () => {
           </h3>
           <ul className="space-y-1.5 sm:space-y-2 text-[#27272A] text-sm sm:text-base">
             <li className="hover:text-gray-600 cursor-pointer transition-colors">
-              خدمات الإرشاد الأكاديمي
+              <a href="/acedemic">خدمات الإرشاد الأكاديمي</a>
             </li>
             <li className="hover:text-gray-600 cursor-pointer transition-colors">
-              الدورات والبرامج
+              <a href="/courses">الدورات والبرامج</a>
             </li>
           </ul>
         </div>
