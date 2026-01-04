@@ -71,7 +71,7 @@ export default function AcademicCard({
             </span>
             {date}
           </div>
-          <div className="flex gap-2 items-center p-2">
+          {/* <div className="flex gap-2 items-center p-2">
             <span>
               <svg
                 width="16"
@@ -95,7 +95,7 @@ export default function AcademicCard({
               </svg>
             </span>
             {writenBy}
-          </div>
+          </div> */}
         </div>
         <p className="text-sm  text-gray-500 mb-4 text-right flex-1 leading-relaxed">
           {description}
