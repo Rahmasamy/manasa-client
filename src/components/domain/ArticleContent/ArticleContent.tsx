@@ -7,6 +7,7 @@ interface ArticleContentProps {
   author?: string;
   articleTitle: string;
   articleText: string;
+  direction?: "rtl" | "ltr";
 }
 
 export default function ArticleContent({
@@ -15,24 +16,27 @@ export default function ArticleContent({
   author = "طارق عفيفي",
   articleTitle,
   articleText,
+  direction = "rtl",
 }: ArticleContentProps) {
   return (
-    <article className="w-full px-6 lg:px-24 py-10" dir="rtl">
+    <article className="w-full px-6 lg:px-24 py-10" dir={direction}>
       {/* Category Title */}
-      <h2 className="font-bold text-2xl mb-6 text-gray-800">
+      {/* <h2 className="font-bold text-2xl mb-6 text-gray-800">
         {categoryTitle}
-      </h2>
+      </h2> */}
 
       {/* Metadata */}
-      <div className="flex flex-wrap items-center gap-6 mb-6 text-gray-600">
+      <div className={`flex flex-wrap items-center gap-6 mb-6 text-gray-600 ${
+        direction === "ltr" ? "justify-start" : "justify-end"
+      }`}>
         <div className="flex items-center gap-2">
           <Calendar className="w-4 h-4" />
           <span className="text-sm">{date}</span>
         </div>
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <User className="w-4 h-4" />
           <span className="text-sm">{author}</span>
-        </div>
+        </div> */}
       </div>
 
       {/* Article Title */}
@@ -42,7 +46,9 @@ export default function ArticleContent({
 
       {/* Article Text */}
       <div className="prose prose-lg max-w-none">
-        <p className="text-gray-700 leading-relaxed text-base lg:text-lg whitespace-pre-line text-justify">
+        <p className={`text-gray-700 leading-relaxed text-base lg:text-lg whitespace-pre-line ${
+          direction === "ltr" ? "text-left" : "text-justify"
+        }`}>
           {articleText}
         </p>
       </div>

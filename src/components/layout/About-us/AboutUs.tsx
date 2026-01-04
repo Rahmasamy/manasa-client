@@ -96,6 +96,20 @@ const AboutUs: React.FC = () => {
               />
             ))}
           </div>
+          <a
+            href="//www.dmca.com/Protection/Status.aspx?ID=ba92f787-d15d-405e-8fac-f33d53c9e73f"
+            title="DMCA.com Protection Status"
+            class="dmca-badge"
+          >
+            {" "}
+            <img
+              src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=ba92f787-d15d-405e-8fac-f33d53c9e73f"
+              alt="DMCA.com Protection Status"
+            />
+          </a>{" "}
+          <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js">
+            {" "}
+          </script>
         </div>
       </div>
 
@@ -128,6 +142,22 @@ const AboutUs: React.FC = () => {
               />
             </div>
           </div>
+
+          {/* <h2 className="text-3xl font-bold text-gray-800 mb-6 text-right">ختاما</h2> */}
+          {/* <div className="text-md text-gray-500 text-right leading-relaxed space-y-4">
+            <p>
+              تفخر هذه المؤسسات أن تصدمن لخدمتها المجتمع والمجتمعات الأكاديمية والمعلمية
+            </p>
+            <p>
+              ومجتمعنا هذه المؤسسة الرسمية يعطى المعيار من المؤسسات المتخصصة في الرؤية الحالية وتقنية التقييم المخصص للتعريف بالمشاركات التطويرية
+            </p>
+            <p>
+              ونحن مستمرون باشتراك مجتمعنا على المعلومات مع جهات القبادة المتخصصة للعمليات الممارسة والقيادية
+            </p>
+            <p>
+              ونحن نستخدم استخدام الحماية أو في أي المشاركة والمستخدمة في المشروع، وبالتالي على المشروع، أو معلوماتهم المؤسسة
+            </p>
+          </div> */}
         </div>
       </div>
     </div>
