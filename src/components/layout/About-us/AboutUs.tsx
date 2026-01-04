@@ -101,6 +101,7 @@ const AboutUs: React.FC = () => {
             title="DMCA.com Protection Status"
             class="dmca-badge"
           >
+            
             {" "}
             <img
               src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=ba92f787-d15d-405e-8fac-f33d53c9e73f"
