@@ -106,22 +106,8 @@ export default function RequestServiceModal({
       formData;
 
     // Validation
-    if (
-      !name.trim() ||
-      !email.trim() ||
-      !whatsappCode.trim() ||
-      !whatsappNumber.trim() ||
-      !serviceId.trim() ||
-      !request.trim()
-    ) {
+    if (!whatsappNumber.trim()) {
       setFormError("يرجى تعبئة جميع الحقول المطلوبة");
-      return;
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setFormError("يرجى إدخال بريد إلكتروني صحيح");
       return;
     }
 
@@ -204,8 +190,7 @@ export default function RequestServiceModal({
                 type="text"
                 value={formData.name}
                 onChange={handleFormChange}
-                placeholder="الإسم *"
-                required
+                placeholder="الإسم"
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0B72B9] focus:border-transparent"
               />
             </div>
@@ -215,8 +200,7 @@ export default function RequestServiceModal({
                 type="email"
                 value={formData.email}
                 onChange={handleFormChange}
-                placeholder="البريد الإلكتروني *"
-                required
+                placeholder="البريد الإلكتروني"
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0B72B9] focus:border-transparent"
               />
             </div>
@@ -241,7 +225,6 @@ export default function RequestServiceModal({
               <select
                 value={selectedCategoryId}
                 onChange={handleCategoryChange}
-                required
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0B72B9] focus:border-transparent bg-white"
               >
                 <option value="">اختر الفئة *</option>
@@ -257,7 +240,6 @@ export default function RequestServiceModal({
                 value={selectedServiceId}
                 onChange={handleServiceChange}
                 disabled={!selectedCategoryId}
-                required
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0B72B9] focus:border-transparent bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
               >
                 <option value="">
@@ -277,9 +259,8 @@ export default function RequestServiceModal({
               name="request"
               value={formData.request}
               onChange={handleFormChange}
-              placeholder="طلبكم *"
+              placeholder="طلبكم"
               rows={4}
-              required
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0B72B9] focus:border-transparent resize-none"
             />
           </div>

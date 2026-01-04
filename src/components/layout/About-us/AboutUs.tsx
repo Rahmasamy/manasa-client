@@ -96,7 +96,7 @@ const AboutUs: React.FC = () => {
       <div className="py-7 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-gray-800 mb-6 text-right">ختاما</h2>
-          <div className="text-md text-gray-500 text-right leading-relaxed space-y-4">
+          {/* <div className="text-md text-gray-500 text-right leading-relaxed space-y-4">
             <p>
               تفخر هذه المؤسسات أن تصدمن لخدمتها المجتمع والمجتمعات الأكاديمية والمعلمية
             </p>
@@ -109,7 +109,7 @@ const AboutUs: React.FC = () => {
             <p>
               ونحن نستخدم استخدام الحماية أو في أي المشاركة والمستخدمة في المشروع، وبالتالي على المشروع، أو معلوماتهم المؤسسة
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

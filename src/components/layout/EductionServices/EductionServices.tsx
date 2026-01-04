@@ -135,8 +135,8 @@ export default function EductionServices() {
   return (
     <div className="bg-[#D6ECF5] px-4 sm:px-8 lg:px-24 py-8 sm:py-10">
       <WrapperComponent
-        order={"اولا"}
-        title={"خدمات الأرشاد الأكاديمي"}
+        order={"أولا"}
+        title={"خدمات الإرشاد الأكاديمي"}
         knowMore="المزيد"
         knowMoreLink="/acedemic"
       />
