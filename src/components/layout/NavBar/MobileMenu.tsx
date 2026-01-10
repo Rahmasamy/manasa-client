@@ -4,19 +4,29 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { navItems } from "@/src/lib/config/navigation";
+import { User, LogOut } from "lucide-react";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
   isAuthenticated: boolean;
+  user?: { id: string; email: string; name?: string } | null;
+  onLogout: () => void;
 }
 
 export default function MobileMenu({
   isOpen,
   onClose,
   isAuthenticated,
+  user,
+  onLogout,
 }: MobileMenuProps) {
   const pathname = usePathname();
+
+  const handleLogout = () => {
+    onLogout();
+    onClose();
+  };
 
   return (
     <>
@@ -56,6 +66,29 @@ export default function MobileMenu({
                 </li>
               );
             })}
+
+            {/* User Info & Logout */}
+            {isAuthenticated && user && (
+              <>
+                <li className="px-6 py-4 mt-4 border-t border-gray-100">
+                  <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-50">
+                    <User className="w-5 h-5 text-[#0B72B9]" />
+                    <span className="text-sm font-medium text-[#27272A]">
+                      {user.name || user.email.split("@")[0]}
+                    </span>
+                  </div>
+                </li>
+                <li className="px-6 py-2">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors font-medium"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    <span>تسجيل الخروج</span>
+                  </button>
+                </li>
+              </>
+            )}
 
             {/* Auth Button */}
             {!isAuthenticated && (

@@ -9,12 +9,23 @@ import { useAuth } from "@/src/contexts/AuthContext";
 import { navItems } from "@/src/lib/config/navigation";
 import TopContactBar from "./TopContactBar";
 import MobileMenu from "./MobileMenu";
+import { LogOut, User } from "lucide-react";
 
 const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
   const pathname = usePathname();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // Redirect to home page after logout
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   // Handle scroll effect
   useEffect(() => {
@@ -101,6 +112,31 @@ const NavBar = () => {
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-3">
+            {/* User Info & Logout - Desktop */}
+            {isAuthenticated && user && (
+              <div className="hidden md:flex items-center gap-3">
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50">
+                  <User className="w-5 h-5 text-[#0B72B9]" />
+                  <span className="text-sm font-medium text-[#27272A]">
+                    {user.name || user.email.split("@")[0]}
+                  </span>
+                </div>
+                <p className="font-bold">
+
+                |
+                </p>
+                <button
+                  onClick={handleLogout}
+                  className="text-[#0B72B9] flex items-center gap-4 p-2 rounded-lg  hover:bg-gray-100 transition-colors"
+                  title="تسجيل الخروج"
+                  aria-label="تسجيل الخروج"
+                >
+                  تسجيل الخروج
+                  <LogOut className="w-7 h-7 text-[#0B72B9]" />
+                </button>
+              </div>
+            )}
+
             {/* Auth Button - Desktop */}
             {!isAuthenticated && (
               <Link href="/auth/login" className="hidden md:block">
@@ -150,6 +186,8 @@ const NavBar = () => {
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
         isAuthenticated={isAuthenticated}
+        user={user}
+        onLogout={handleLogout}
       />
 
       {/* Spacer to prevent content from going under fixed navbar */}

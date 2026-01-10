@@ -4,9 +4,9 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 interface AuthContextType {
   isAuthenticated: boolean;
   token: string | null;
-  user: { id: string; email: string } | null;
-  login: (token: string, user: { id: string; email: string }) => void;
-  logout: () => void;
+  user: { id: string; email: string; name?: string } | null;
+  login: (token: string, user: { id: string; email: string; name?: string }) => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -14,7 +14,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<{ id: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ id: string; email: string; name?: string } | null>(null);
 
   useEffect(() => {
     // Check for stored auth data on mount
@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const login = (newToken: string, userData: { id: string; email: string }) => {
+  const login = (newToken: string, userData: { id: string; email: string; name?: string }) => {
     setToken(newToken);
     setUser(userData);
     setIsAuthenticated(true);
@@ -41,14 +41,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const logout = () => {
-    setToken(null);
-    setUser(null);
-    setIsAuthenticated(false);
-    
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("auth_token");
-      localStorage.removeItem("auth_user");
+  const logout = async () => {
+    const currentToken = token;
+    try {
+      // Call logout API with current token
+      const { authApi } = await import("@/src/infrastructure/api/authApi");
+      await authApi.logout(currentToken || undefined);
+    } catch (error) {
+      console.error("Logout API error:", error);
+      // Continue with local logout even if API call fails
+    } finally {
+      // Always clear local state and storage
+      setToken(null);
+      setUser(null);
+      setIsAuthenticated(false);
+      
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("auth_user");
+      }
     }
   };
 

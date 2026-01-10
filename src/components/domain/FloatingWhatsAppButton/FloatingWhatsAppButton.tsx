@@ -7,7 +7,7 @@ interface FloatingWhatsAppButtonProps {
 }
 
 export default function FloatingWhatsAppButton({
-  phoneNumber = "+966557818234",
+  phoneNumber = "0557818234",
   message = "مرحباً، أود الاستفسار عن خدماتكم",
 }: FloatingWhatsAppButtonProps) {
   const handleWhatsAppClick = () => {
