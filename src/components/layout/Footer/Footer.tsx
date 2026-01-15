@@ -217,7 +217,8 @@ const Footer = () => {
                   />
                 </svg>
               </span>
-              +966557818234
+
+ 0557818234
             </li>
             <li className="flex items-center gap-2 sm:gap-3 break-all">
               <span className="flex-shrink-0">

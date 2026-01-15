@@ -17,7 +17,12 @@ export interface AuthResponse {
     id: string;
     email: string;
     isAdmin: boolean;
+    name?: string;
   };
+}
+
+export interface LogoutResponse {
+  message?: string;
 }
 
 export class AuthApi {
@@ -81,6 +86,45 @@ export class AuthApi {
         throw error;
       }
       throw new Error("حدث خطأ أثناء إنشاء الحساب");
+    }
+  }
+
+  async logout(token?: string): Promise<LogoutResponse> {
+    try {
+      const headers: HeadersInit = {
+        "Content-Type": "application/json",
+      };
+
+      // Include token in headers if provided
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      } else if (typeof window !== "undefined") {
+        // Try to get token from localStorage if not provided
+        const storedToken = localStorage.getItem("auth_token");
+        if (storedToken) {
+          headers["Authorization"] = `Bearer ${storedToken}`;
+        }
+      }
+
+      const response = await fetch(`${this.baseUrl}${API_ENDPOINTS.AUTH.LOGOUT}`, {
+        method: "POST",
+        headers,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: "فشل تسجيل الخروج" }));
+        throw new Error(errorData.message || "فشل تسجيل الخروج");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Logout API Error:", error);
+      // Even if API call fails, we should still logout locally
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("حدث خطأ أثناء تسجيل الخروج");
     }
   }
 }
