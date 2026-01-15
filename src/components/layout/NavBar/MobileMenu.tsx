@@ -9,12 +9,14 @@ interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
   isAuthenticated: boolean;
+  isAdmin: boolean;
 }
 
 export default function MobileMenu({
   isOpen,
   onClose,
   isAuthenticated,
+  isAdmin,
 }: MobileMenuProps) {
   const pathname = usePathname();
 
@@ -56,6 +58,17 @@ export default function MobileMenu({
                 </li>
               );
             })}
+
+            {/* Admin Dashboard Button */}
+            {isAuthenticated && isAdmin && (
+              <li className="px-6 py-4 mt-4 border-t border-gray-100">
+                <Link href="/dashboard/analytics" onClick={onClose}>
+                  <Button className="w-full py-3 bg-[#0B72B9] text-white rounded-lg hover:bg-[#0B72B9]/90 transition-colors font-medium">
+                    لوحة الإدارة
+                  </Button>
+                </Link>
+              </li>
+            )}
 
             {/* Auth Button */}
             {!isAuthenticated && (

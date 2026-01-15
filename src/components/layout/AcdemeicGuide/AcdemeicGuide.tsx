@@ -26,7 +26,7 @@ export default function AcdemeicGuide() {
 
         // Fetch categories which include services
         const categoriesResponse = await academicServiceApi.getAllCategories();
-        setCategories(categoriesResponse.data);
+        setCategories([...categoriesResponse.data].reverse());
 
         // Extract all services from categories
         // Categories endpoint returns services with limited fields: id, title, description, createdAt

@@ -288,10 +288,25 @@ const Footer = () => {
       </div>
 
       {/* Copyright */}
-      <div className="bg-[#134053] text-white text-right text-xs sm:text-sm md:text-base py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 lg:px-10">
-        <p className="max-w-7xl mx-auto">
-          © 2025 جميع الحقوق محفوظة لموقع بوابة العلوم الإنسانية
-        </p>
+      <div className="bg-[#134053] text-white py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 lg:px-10">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs sm:text-sm md:text-base text-center sm:text-right">
+            © 2025 جميع الحقوق محفوظة لبوابة العلوم الإنسانية
+          </p>
+          <a
+            href="https://www.dmca.com"
+            title="DMCA.com Protection Status"
+            className="dmca-badge"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=ba92f787-d15d-405e-8fac-f33d53c9e73f"
+              alt="DMCA.com Protection Status"
+              className="h-8 sm:h-10 w-auto"
+            />
+          </a>
+        </div>
       </div>
     </footer>
   );

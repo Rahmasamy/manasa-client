@@ -13,7 +13,7 @@ import MobileMenu from "./MobileMenu";
 const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
   const pathname = usePathname();
 
   // Handle scroll effect
@@ -101,6 +101,21 @@ const NavBar = () => {
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-3">
+            {/* Admin Dashboard Button - Desktop */}
+            {isAuthenticated && isAdmin && (
+              <Link href="/dashboard/analytics" className="hidden md:block">
+                <Button
+                  className={`px-6 lg:px-8 py-2 rounded-lg font-medium transition-all duration-300 ${
+                    isScrolled
+                      ? "bg-[#0B72B9] text-white hover:bg-[#0B72B9]/90"
+                      : "bg-[#0B72B9] text-white hover:bg-[#0B72B9]/90"
+                  }`}
+                >
+                  لوحة الإدارة
+                </Button>
+              </Link>
+            )}
+            
             {/* Auth Button - Desktop */}
             {!isAuthenticated && (
               <Link href="/auth/login" className="hidden md:block">
@@ -150,6 +165,7 @@ const NavBar = () => {
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
         isAuthenticated={isAuthenticated}
+        isAdmin={isAdmin}
       />
 
       {/* Spacer to prevent content from going under fixed navbar */}

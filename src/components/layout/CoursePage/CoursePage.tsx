@@ -79,7 +79,13 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
   };
 
   const handleConsultationClick = () => {
-    setShowConsultationPopup(true);
+    const phoneNumber = "+966557818234";
+    const message = "مرحباً، أود الاستفسار عن خدماتكم";
+    const cleanPhoneNumber = phoneNumber.replace(/\D/g, "");
+    const whatsappUrl = `https://wa.me/${cleanPhoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   const handleEmailRedirect = () => {
@@ -344,7 +350,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ courseId: propCourseId }) => {
                 }}
                 className="w-full py-3 rounded-lg font-semibold mb-4 border-2 border-[#0B72B9] text-[#0B72B9] hover:bg-[#0B72B9] hover:text-white transition-colors bg-white"
               >
-                اطلب استشارة مجانية
+                إستشارة مجانية عبر الواتساب
               </button>
 
               {/* Share Button */}

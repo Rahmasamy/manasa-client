@@ -78,7 +78,13 @@ export default function SingleGuide() {
   }, [serviceId]);
 
   const handleConsultationClick = () => {
-    setShowConsultationPopup(true);
+    const phoneNumber = "+966557818234";
+    const message = "مرحباً، أود الاستفسار عن خدماتكم";
+    const cleanPhoneNumber = phoneNumber.replace(/\D/g, "");
+    const whatsappUrl = `https://wa.me/${cleanPhoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   const handleEmailRedirect = () => {
@@ -183,7 +189,7 @@ export default function SingleGuide() {
             }}
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-base sm:text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B72B9] disabled:pointer-events-none disabled:opacity-50 border-2 border-[#0B72B9] text-[#0B72B9] hover:bg-[#0B72B9] hover:text-white transition-all duration-200 px-6 sm:px-8 py-3 sm:py-4 bg-white"
           >
-            اطلب استشارة مجانية
+            إستشارة مجانية عبر الواتساب
           </button>
         </div>
 

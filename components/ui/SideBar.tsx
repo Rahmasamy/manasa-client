@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Users, BookOpen, Library, FileText, Info, Grid, LogOut } from 'lucide-react';
+import { Home, Users, BookOpen, Library, FileText, Info, Grid, LogOut, ArrowLeft } from 'lucide-react';
 
 const menuItems = [
     {
@@ -88,6 +88,16 @@ export default function DashboardSidebar() {
                     })}
                 </ul>
             </nav>
+
+            {/* Exit Admin Panel Button */}
+            <div className="p-4 border-t border-gray-200">
+                <Link href="/">
+                    <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors">
+                        <ArrowLeft className="w-5 h-5" />
+                        <span className="font-medium">الخروج من لوحة الإدارة</span>
+                    </button>
+                </Link>
+            </div>
 
             {/* Logout Button */}
             <div className="p-4 border-t border-gray-200">

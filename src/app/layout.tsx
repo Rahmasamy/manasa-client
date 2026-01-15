@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Tajawal } from "next/font/google";
+import Script from "next/script";
 
 import AuthProvider from "../components/providers/AuthProvider";
 import FloatingWhatsAppButton from "../components/domain/FloatingWhatsAppButton/FloatingWhatsAppButton";
@@ -40,6 +41,10 @@ export default function RootLayout({
           {children}
           <FloatingWhatsAppButton />
         </AuthProvider>
+        <Script
+          src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );

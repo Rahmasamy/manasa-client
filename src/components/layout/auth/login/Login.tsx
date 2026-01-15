@@ -31,10 +31,22 @@ export default function Login() {
       // Handle different response structures
       // Check if token is in response directly or in response.data
       const token = response.token || (response as any).data?.token || (response as any).accessToken || (response as any).access_token;
-      const userData = response.user || (response as any).data?.user || { 
-        id: (response as any).data?.id || (response as any).id || "", 
-        email: (response as any).data?.email || email 
-      };
+      
+      // Extract user data with isAdmin flag
+      let userData: { id: string; email: string; isAdmin: boolean };
+      if (response.user) {
+        userData = {
+          id: response.user.id,
+          email: response.user.email,
+          isAdmin: response.user.isAdmin || false
+        };
+      } else {
+        userData = { 
+          id: (response as any).data?.id || (response as any).id || "", 
+          email: (response as any).data?.email || email,
+          isAdmin: (response as any).data?.isAdmin || (response as any).isAdmin || false
+        };
+      }
       
       if (token) {
         login(token, userData);

@@ -4,7 +4,10 @@ import Image from "next/image";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { academicServiceApi } from "@/src/infrastructure/api/academicServiceApi";
+import { courseApi } from "@/src/infrastructure/api/courseApi";
 import { Service } from "@/src/types/services/services";
+import { Course } from "@/src/types/courses/courses";
+import { mapApiCourseToCourse } from "@/src/lib/utils/mappers";
 import RequestServiceModal from "../../domain/RequestServiceModal/RequestServiceModal";
 import SuccessPopup from "../../domain/SuccessPopup/SuccessPopup";
 import ConsultationPopup from "../../domain/ConsultationPopup/ConsultationPopup";
@@ -12,19 +15,19 @@ import ConsultationPopup from "../../domain/ConsultationPopup/ConsultationPopup"
 export default function Hero() {
   const [searchQuery, setSearchQuery] = useState("");
   const [allServices, setAllServices] = useState<Service[]>([]);
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
   const [showConsultationPopup, setShowConsultationPopup] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Fetch all services on mount
+  // Fetch all services and courses on mount
   useEffect(() => {
-    const fetchServices = async () => {
+    const fetchData = async () => {
       try {
+        // Fetch services
         const categoriesResponse = await academicServiceApi.getAllCategories();
-
-        // Store flattened services for search
         const services: Service[] = [];
         categoriesResponse.data.forEach((category) => {
           if (category.services && category.services.length > 0) {
@@ -39,27 +42,69 @@ export default function Hero() {
             });
           }
         });
-
         setAllServices(services);
+
+        // Fetch courses
+        const coursesResponse = await courseApi.getAllCourses();
+        const courses: Course[] = [];
+        if (
+          coursesResponse.courseCategories &&
+          coursesResponse.courseCategories.length > 0
+        ) {
+          coursesResponse.courseCategories.forEach((group) => {
+            if (group.courses && group.courses.length > 0) {
+              group.courses.forEach((apiCourse) => {
+                courses.push(mapApiCourseToCourse(apiCourse));
+              });
+            }
+          });
+        } else if (coursesResponse.courses) {
+          courses.push(...coursesResponse.courses.map(mapApiCourseToCourse));
+        }
+        setAllCourses(courses);
       } catch (err) {
-        console.error("Error fetching services:", err);
+        console.error("Error fetching data:", err);
       }
     };
 
-    fetchServices();
+    fetchData();
   }, []);
 
-  // Filter services based on search query
+  // Filter services and courses based on search query
   const searchResults = useMemo(() => {
     if (searchQuery.trim().length > 0) {
-      return allServices.filter(
-        (service) =>
-          service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          service.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      const query = searchQuery.toLowerCase();
+
+      const filteredServices = allServices
+        .filter(
+          (s) =>
+            s.title.toLowerCase().includes(query) ||
+            s.description.toLowerCase().includes(query)
+        )
+        .map((s) => ({
+          id: s.id,
+          title: s.title,
+          description: s.description,
+          type: "service" as const,
+        }));
+
+      const filteredCourses = allCourses
+        .filter(
+          (c) =>
+            c.title.toLowerCase().includes(query) ||
+            c.desc.toLowerCase().includes(query)
+        )
+        .map((c) => ({
+          id: c.apiId || String(c.id),
+          title: c.title,
+          description: c.desc,
+          type: "course" as const,
+        }));
+
+      return [...filteredServices, ...filteredCourses];
     }
     return [];
-  }, [searchQuery, allServices]);
+  }, [searchQuery, allServices, allCourses]);
 
   const showDropdown =
     searchResults.length > 0 && searchQuery.trim().length > 0;
@@ -84,12 +129,23 @@ export default function Hero() {
     setSearchQuery("");
   };
 
+  const handleCourseClick = (courseId: string) => {
+    router.push(`/single-course/${courseId}`);
+    setSearchQuery("");
+  };
+
   const handleButtonClick = () => {
     setShowFormModal(true);
   };
 
   const handleConsultationClick = () => {
-    setShowConsultationPopup(true);
+    const phoneNumber = "+966557818234";
+    const message = "مرحباً، أود الاستفسار عن خدماتكم";
+    const cleanPhoneNumber = phoneNumber.replace(/\D/g, "");
+    const whatsappUrl = `https://wa.me/${cleanPhoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   const handleEmailRedirect = () => {
@@ -134,7 +190,7 @@ export default function Hero() {
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-relaxed mb-3 sm:mb-4">
             نُلهم الباحثين… ونوجّههم نحو التميُّز الأكاديمي
           </h1>
-          <p className="text-base sm:text-lg opacity-90 mb-4 sm:mb-6 text-[#71717A]">
+          <p className="text-base sm:text-lg font-bold opacity-90 mb-4 sm:mb-6 text-[#000000]">
             انضم إلى بوابة العلوم الإنسانية، حيث الإرشاد الأكاديمي والتدريب
             النوعي بأيدي خبراء معتمدين، لتمكينك من تطوير مهاراتك وتحقيق إنجازات
             أكاديمية تواكب المستقبل.
@@ -162,7 +218,7 @@ export default function Hero() {
               }}
               className="px-6 sm:px-9 py-3 sm:py-4 rounded-lg bg-white text-[#0B72B9] border-2 border-white hover:bg-[#0B72B9] hover:text-white hover:border-[#0B72B9] transition-colors text-sm sm:text-base font-medium"
             >
-              اطلب استشارة مجانية
+              إستشارة مجانية عبر الواتساب
             </button>
           </div>
 
@@ -186,17 +242,32 @@ export default function Hero() {
             {/* Search Dropdown */}
             {showDropdown && searchResults.length > 0 && (
               <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 max-h-96 overflow-y-auto z-50">
-                {searchResults.map((service) => (
+                {searchResults.map((item) => (
                   <div
-                    key={service.id}
-                    onClick={() => handleServiceClick(service.id!)}
+                    key={`${item.type}-${item.id}`}
+                    onClick={() =>
+                      item.type === "service"
+                        ? handleServiceClick(item.id!)
+                        : handleCourseClick(item.id!)
+                    }
                     className="p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors"
                   >
-                    <h3 className="font-semibold text-gray-900 mb-1">
-                      {service.title}
-                    </h3>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded ${
+                          item.type === "service"
+                            ? "bg-blue-100 text-blue-700"
+                            : "bg-green-100 text-green-700"
+                        }`}
+                      >
+                        {item.type === "service" ? "خدمة" : "دورة"}
+                      </span>
+                      <h3 className="font-semibold text-gray-900">
+                        {item.title}
+                      </h3>
+                    </div>
                     <p className="text-sm text-gray-600 line-clamp-2">
-                      {service.description}
+                      {item.description}
                     </p>
                   </div>
                 ))}
