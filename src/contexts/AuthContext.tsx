@@ -33,14 +33,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const storedUser = localStorage.getItem("auth_user");
 
       if (storedToken && storedUser) {
-        const userData = JSON.parse(storedUser);
-        setToken(storedToken);
-        setUser(userData);
-        setIsAdmin(userData.isAdmin || false);
-        setIsAuthenticated(true);
+        try {
+          const userData = JSON.parse(storedUser);
+          setToken(storedToken);
+          setUser(userData);
+          // Ensure isAdmin is set correctly from userData
+          const adminStatus = userData?.isAdmin === true;
+          setIsAdmin(adminStatus);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error("Error parsing stored user data:", error);
+          // Clear corrupted data
+          localStorage.removeItem("auth_token");
+          localStorage.removeItem("auth_user");
+        }
       }
     }
   }, []);
+
+  // Sync isAdmin with user.isAdmin when user changes
+  useEffect(() => {
+    if (user) {
+      const adminStatus = user.isAdmin === true;
+      if (isAdmin !== adminStatus) {
+        setIsAdmin(adminStatus);
+      }
+    } else if (isAdmin) {
+      setIsAdmin(false);
+    }
+  }, [user, isAdmin]);
 
   const login = (
     newToken: string,

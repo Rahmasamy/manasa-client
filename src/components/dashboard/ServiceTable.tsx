@@ -35,9 +35,7 @@ export default function ServiceTable({serviceHeadline, items, onDelete, onView ,
                             key={item.id} 
                             className="border-b border-gray-300 hover:bg-gray-50 transition-colors"
                         >
-                            <td className="px-6 py-4 text-right text-gray-700 cursor-pointer"
-                              onClick={() => onRowClick?.(item.id)}
-                            >
+                            <td className="px-6 py-4 text-right text-gray-700">
                                 {item.name}
                             </td>
                             <td className="px-6 py-4 text-center text-gray-700">
@@ -49,7 +47,7 @@ export default function ServiceTable({serviceHeadline, items, onDelete, onView ,
                                         onClick={() => onView(item.id)}
                                         className="px-10 py-3 text-sm font-bold text-[#0A66C2] border border-[#0A66C2]  rounded-lg hover:bg-teal-50 transition-colors"
                                     >
-                                        عرض
+                                        تعديل
                                     </button>
                                     <button
                                         onClick={() => onDelete(item.id)}

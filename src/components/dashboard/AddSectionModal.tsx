@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 interface AddSectionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (name: string, servicesCount: number) => void;
+  onSubmit: (title: string) => void;
   title?: string;
 }
 
@@ -17,16 +17,14 @@ export default function AddSectionModal({
   title = "إضافة قسم جديد",
 }: AddSectionModalProps) {
   const [sectionName, setSectionName] = useState("");
-  const [servicesCount, setServicesCount] = useState(0);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (sectionName.trim()) {
-      onSubmit(sectionName, servicesCount);
+      onSubmit(sectionName);
       setSectionName("");
-      setServicesCount(0);
       onClose();
     }
   };

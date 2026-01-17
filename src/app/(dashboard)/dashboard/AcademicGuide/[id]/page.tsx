@@ -1,140 +1,184 @@
 "use client";
 
-import AddSectionModal from "@/src/components/dashboard/AddSectionModal";
 import ServiceTable, {
   ServiceItem,
 } from "@/src/components/dashboard/ServiceTable";
 import TableCard from "@/src/components/dashboard/TableCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import AddServiceModal from "@/src/components/dashboard/AddServiceModal";
+import { academicServiceApi } from "@/src/infrastructure/api/academicServiceApi";
 
 export default function AcademicGuidancePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingService, setEditingService] = useState<{ id: string; title: string; description: string } | null>(null);
   const router = useRouter();
-   const params = useParams();
-  const { id, ServiceId } = params;
-  const [services, setServices] = useState<any[]>([
-    {
-      id: "1",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "2",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "3",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "4",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "5",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "6",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "7",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "8",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "9",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "10",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "11",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-    {
-      id: "12",
-      name: "الصياغة الأكاديمية والتحرير العلمي",
-      identity:
-        "تهدف هذه الخدمة إلى مساعدة الباحث في اختيار موضوع بحث دقيق وحديث ومناسب لتخصصة .....",
-    },
-  ]);
+  const params = useParams();
+  const { id } = params;
+  const categoryId = id as string;
+  const [services, setServices] = useState<ServiceItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [categoryTitle, setCategoryTitle] = useState<string>("");
 
-  const handleAddSection = (name: string, identity: number) => {
-    const newService: ServiceItem = {
-      id: Date.now().toString(),
-      name,
-      identity,
+  // Fetch services by category ID on component mount
+  useEffect(() => {
+    const fetchServices = async () => {
+      if (!categoryId) return;
+
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await academicServiceApi.getServicesByCategoryId(categoryId);
+        
+        // Map API response to ServiceItem format
+        const mappedServices: ServiceItem[] = response.data.map((service) => ({
+          id: service.id,
+          name: service.title,
+          identity: service.description,
+        }));
+        
+        setServices(mappedServices);
+        
+        // Set category title if available in response
+        if (response.category) {
+          setCategoryTitle(response.category.title);
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'فشل تحميل الخدمات');
+        console.error('Error fetching services by category:', err);
+      } finally {
+        setLoading(false);
+      }
     };
-    setServices([...services, newService]);
+
+    fetchServices();
+  }, [categoryId]);
+
+  const handleAddSection = async (title: string, description: string) => {
+    if (!categoryId) {
+      setError("معرف الفئة غير موجود");
+      return;
+    }
+
+    try {
+      setError(null);
+      await academicServiceApi.createService(title, description, categoryId);
+      
+      // Refresh services list after successful creation
+      const response = await academicServiceApi.getServicesByCategoryId(categoryId);
+      const mappedServices: ServiceItem[] = response.data.map((service) => ({
+        id: service.id,
+        name: service.title,
+        identity: service.description,
+      }));
+      setServices(mappedServices);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'فشل إنشاء الخدمة';
+      setError(errorMessage);
+      console.error('Error creating service:', err);
+      alert(errorMessage);
+    }
   };
 
-  const handleDeleteSection = (id: string) => {
-    if (confirm("هل أنت متأكد من حذف هذا القسم؟")) {
-      setServices(services.filter((service) => service.id !== id));
+  const handleDeleteSection = async (id: string) => {
+    if (!confirm("هل أنت متأكد من حذف هذه الخدمة؟")) {
+      return;
+    }
+
+    try {
+      setError(null);
+      await academicServiceApi.deleteService(id);
+      
+      // Refresh services list after successful deletion
+      const response = await academicServiceApi.getServicesByCategoryId(categoryId);
+      const mappedServices: ServiceItem[] = response.data.map((service) => ({
+        id: service.id,
+        name: service.title,
+        identity: service.description,
+      }));
+      setServices(mappedServices);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'فشل حذف الخدمة';
+      setError(errorMessage);
+      console.error('Error deleting service:', err);
+      alert(errorMessage);
     }
   };
 
   const handleViewSection = (id: string) => {
-    const service = services.find((s) => s.id === id);
-    console.log("View section:", service);
-    // Navigate to detail page or show modal
-    router.push(`/dashboard/AcademicGuide/${id}/${ServiceId}`);
+    // Find the service and open edit modal
+    const service = services.find(s => s.id === id);
+    if (service) {
+      setEditingService({
+        id: service.id,
+        title: service.name,
+        description: typeof service.identity === 'string' ? service.identity : '',
+      });
+      setIsModalOpen(true);
+    }
   };
-  const handleRowClick = () => {
-    // navigate to dynamic route based on id
-    //
-    router.push(`/dashboard/AcademicGuide/${id}/${ServiceId}`);
+
+  const handleEditService = async (title: string, description: string) => {
+    if (!editingService) return;
+
+    try {
+      setError(null);
+      await academicServiceApi.updateService(editingService.id, title, description);
+      
+      // Refresh services list after successful update
+      const response = await academicServiceApi.getServicesByCategoryId(categoryId);
+      const mappedServices: ServiceItem[] = response.data.map((service) => ({
+        id: service.id,
+        name: service.title,
+        identity: service.description,
+      }));
+      setServices(mappedServices);
+      setEditingService(null);
+      setIsModalOpen(false);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'فشل تحديث الخدمة';
+      setError(errorMessage);
+      console.error('Error updating service:', err);
+      alert(errorMessage);
+    }
   };
+
   return (
     <div className="space-y-6">
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          {error}
+        </div>
+      )}
+
       <TableCard
-        title="أقسام الإرشاد الأكاديمي"
+        title={categoryTitle || "خدمات القسم"}
         onAdd={() => setIsModalOpen(true)}
-        addButtonText="وصف القسم "
+        addButtonText="إضافة خدمة"
       >
-        <ServiceTable
-          items={services}
-          onDelete={handleDeleteSection}
-          onView={handleViewSection}
-          onRowClick={handleRowClick}
-        />
+        {loading ? (
+          <div className="px-6 py-8 text-center text-gray-500">
+            جاري التحميل...
+          </div>
+        ) : (
+          <ServiceTable
+            items={services}
+            onDelete={handleDeleteSection}
+            onView={handleViewSection}
+          />
+        )}
       </TableCard>
 
       <AddServiceModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleAddSection}
-        title="اضافة خدمة  "
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingService(null);
+        }}
+        onSubmit={editingService ? handleEditService : handleAddSection}
+        title={editingService ? "تعديل خدمة" : "إضافة خدمة"}
+        initialData={editingService || undefined}
       />
     </div>
   );

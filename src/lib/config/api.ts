@@ -7,9 +7,15 @@ export const API_ENDPOINTS = {
     BY_ID: (id: string) => `/api/course/courses/${id}`,
     BY_GROUP: (groupId: string) =>
       `/api/course/courses/group/${groupId}`,
+    CREATE: "/api/course/course",
+    UPDATE: (id: string) => `/api/course/course/${id}`,
+    DELETE: (id: string) => `/api/course/course/${id}`,
     GROUPS: "/api/course/course-groups",
     GROUP_BY_ID: (id: string) =>
       `/api/course/course-groups/${id}`,
+    INSTRUCTORS: "/api/course/course-instructors",
+    INSTRUCTOR_BY_ID: (id: string) =>
+      `/api/course/course-instructors/${id}`,
   },
 
   // Academic Services
@@ -27,10 +33,12 @@ export const API_ENDPOINTS = {
   // Articles
   ARTICLES: {
     ALL: "/api/articles/articles",
-    BY_ID: (id: string) =>
-      `/api/articles/articles/${id}`,
+    BY_ID: (id: string) => `/api/articles/articles/${id}`,
     BY_CATEGORY: (categoryId: string) =>
       `/api/articles/articles/category/${categoryId}`,
+    CREATE: "/api/articles/articles",
+    UPDATE: (id: string) => `/api/articles/articles/${id}`,
+    DELETE: (id: string) => `/api/articles/articles/${id}`,
   },
 
   // Auth
@@ -43,7 +51,9 @@ export const API_ENDPOINTS = {
   // Electronic Library
   ELECTRONIC_LIBRARY: {
     ALL: "/api/library/library",
-    BY_ID: (id: string) =>
-      `/api/library/library/${id}`,
+    BY_ID: (id: string | number) => `/api/library/library/${id}`,
+    CREATE: "/api/library/library",
+    UPDATE: (id: string | number) => `/api/library/library/${id}`,
+    DELETE: (id: string | number) => `/api/library/library/${id}`,
   },
 };

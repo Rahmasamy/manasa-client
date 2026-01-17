@@ -38,15 +38,19 @@ export default function Login() {
         userData = {
           id: response.user.id,
           email: response.user.email,
-          isAdmin: response.user.isAdmin || false
+          isAdmin: response.user.isAdmin === true // Explicitly check for true
         };
       } else {
+        const adminStatus = (response as any).data?.isAdmin === true || (response as any).isAdmin === true;
         userData = { 
           id: (response as any).data?.id || (response as any).id || "", 
           email: (response as any).data?.email || email,
-          isAdmin: (response as any).data?.isAdmin || (response as any).isAdmin || false
+          isAdmin: adminStatus
         };
       }
+      
+      // Debug log for admin status
+      console.log("Login - Admin status:", userData.isAdmin, "User data:", userData);
       
       if (token) {
         login(token, userData);

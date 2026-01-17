@@ -17,6 +17,44 @@ const NavBar = () => {
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const pathname = usePathname();
 
+  // Determine if user is admin - check multiple sources for reliability
+  const userIsAdmin = (() => {
+    // First check context values
+    if (isAdmin || user?.isAdmin === true) {
+      return true;
+    }
+
+    // Fallback to localStorage check (for SSR/hydration cases)
+    if (typeof window !== "undefined") {
+      try {
+        const storedUser = localStorage.getItem("auth_user");
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          return userData?.isAdmin === true;
+        }
+      } catch (error) {
+        console.error("Error reading from localStorage:", error);
+      }
+    }
+
+    return false;
+  })();
+
+  // Debug logging - always log to help troubleshoot
+  useEffect(() => {
+    console.log("🔍 NavBar Admin Status Check:", {
+      isAuthenticated,
+      "isAdmin (context)": isAdmin,
+      "user?.isAdmin": user?.isAdmin,
+      "userIsAdmin (computed)": userIsAdmin,
+      "Should show button": isAuthenticated && userIsAdmin,
+      "localStorage check":
+        typeof window !== "undefined"
+          ? JSON.parse(localStorage.getItem("auth_user") || "null")
+          : null,
+    });
+  }, [isAuthenticated, isAdmin, user?.isAdmin, userIsAdmin]);
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -112,16 +150,10 @@ const NavBar = () => {
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-3">
-            {/* Admin Dashboard Button - Desktop */}
-            {isAuthenticated && isAdmin && (
-              <Link href="/dashboard/analytics" className="hidden md:block">
-                <Button
-                  className={`px-6 lg:px-8 py-2 rounded-lg font-medium transition-all duration-300 ${
-                    isScrolled
-                      ? "bg-[#0B72B9] text-white hover:bg-[#0B72B9]/90"
-                      : "bg-[#0B72B9] text-white hover:bg-[#0B72B9]/90"
-                  }`}
-                >
+            {/* Admin Dashboard Button - Only shows for admin users */}
+            {isAuthenticated && userIsAdmin && (
+              <Link href="/dashboard/analytics" className="flex items-center">
+                <Button className="px-6 lg:px-8 py-2 rounded-lg font-medium transition-all duration-300 bg-[#0B72B9] text-white hover:bg-[#0B72B9]/90">
                   لوحة الإدارة
                 </Button>
               </Link>
@@ -198,7 +230,7 @@ const NavBar = () => {
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
         isAuthenticated={isAuthenticated}
-        isAdmin={isAdmin}
+        isAdmin={userIsAdmin}
         user={user}
         onLogout={handleLogout}
       />

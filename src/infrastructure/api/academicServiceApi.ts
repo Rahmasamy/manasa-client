@@ -128,6 +128,165 @@ export class AcademicServiceApi {
       throw new Error(`Failed to fetch categories: ${String(error)}`);
     }
   }
+
+  async createCategory(title: string): Promise<{
+    message: string;
+    data: ApiAcademicCategory;
+  }> {
+    try {
+      const response = await fetch(
+        `${this.baseUrl}${API_ENDPOINTS.ACADEMIC.CATEGORIES}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title }),
+        }
+      );
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Failed to create category: ${response.status} ${response.statusText}. ${errorText}`
+        );
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error(`Failed to create category: ${String(error)}`);
+    }
+  }
+
+  async deleteCategory(id: string): Promise<{
+    message: string;
+  }> {
+    try {
+      const response = await fetch(
+        `${this.baseUrl}${API_ENDPOINTS.ACADEMIC.CATEGORY_BY_ID(id)}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: response.statusText }));
+        const error = new Error(errorData.message || `Failed to delete category: ${response.statusText}`);
+        (error as any).status = response.status;
+        throw error;
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error(`Failed to delete category: ${String(error)}`);
+    }
+  }
+
+  async createService(
+    title: string,
+    description: string,
+    categoryId: string
+  ): Promise<{
+    message: string;
+    data: ApiAcademicService;
+  }> {
+    try {
+      const response = await fetch(
+        `${this.baseUrl}${API_ENDPOINTS.ACADEMIC.SERVICES}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title, description, categoryId }),
+        }
+      );
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Failed to create service: ${response.status} ${response.statusText}. ${errorText}`
+        );
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error(`Failed to create service: ${String(error)}`);
+    }
+  }
+
+  async updateService(
+    id: string,
+    title?: string,
+    description?: string,
+    categoryId?: string
+  ): Promise<{
+    message: string;
+    data: ApiAcademicService;
+  }> {
+    try {
+      const updateData: any = {};
+      if (title !== undefined) updateData.title = title;
+      if (description !== undefined) updateData.description = description;
+      if (categoryId !== undefined) updateData.categoryId = categoryId;
+
+      const response = await fetch(
+        `${this.baseUrl}${API_ENDPOINTS.ACADEMIC.SERVICE_BY_ID(id)}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updateData),
+        }
+      );
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Failed to update service: ${response.status} ${response.statusText}. ${errorText}`
+        );
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error(`Failed to update service: ${String(error)}`);
+    }
+  }
+
+  async deleteService(id: string): Promise<{
+    message: string;
+  }> {
+    try {
+      const response = await fetch(
+        `${this.baseUrl}${API_ENDPOINTS.ACADEMIC.SERVICE_BY_ID(id)}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Failed to delete service: ${response.status} ${response.statusText}. ${errorText}`
+        );
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error(`Failed to delete service: ${String(error)}`);
+    }
+  }
 }
 
 export const academicServiceApi = new AcademicServiceApi();
