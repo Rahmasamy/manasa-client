@@ -10,11 +10,6 @@ const menuItems = [
         label: 'لوحة التحكم',
     },
     {
-        href: '/dashboard/home',
-        icon: Home,
-        label: 'الصفحة الرئيسية',
-    },
-    {
         href: '/dashboard/AcademicGuide',
         icon: Users,
         label: 'الإرشاد الأكاديمي',
@@ -22,7 +17,7 @@ const menuItems = [
     {
         href: '/dashboard/courses',
         icon: BookOpen,
-        label: 'خدمات التدريب',
+        label: 'الدورات التدريبية',
     },
     {
         href: '/dashboard/electronic-library',
@@ -33,16 +28,6 @@ const menuItems = [
         href: '/dashboard/articles',
         icon: FileText,
         label: 'المقالات',
-    },
-    {
-        href: '/dashboard/about-us',
-        icon: Info,
-        label: 'عن الأكاديمية',
-    },
-    {
-        href: '/dashboard/control-panel',
-        icon: Grid,
-        label: 'تنسيق الصفحة الرئيسية',
     },
 ];
 
@@ -86,6 +71,16 @@ export default function DashboardSidebar() {
                             </li>
                         );
                     })}
+                    {/* Home Page Button */}
+                    <li className="pt-4 border-t border-gray-200">
+                        <Link
+                            href="/"
+                            className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-gray-700 hover:bg-gray-100"
+                        >
+                            <Home className="w-5 h-5" />
+                            <span>الصفحة الرئيسية</span>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
 

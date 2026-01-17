@@ -5,15 +5,17 @@ const DashboardNavbar = () => {
   return (
     <header className="bg-white border-b border-gray-200 px-8 py-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4"><Image
-              src="/icons/logo.png"
-              alt="Logo"
-              width={90}
-              height={90}
-              className=" rounded-3xl w-33! h-33! object-cover"
-            /></div>
+        <div className="flex items-center gap-4">
+          <Image
+            src="/icons/logo.png"
+            alt="Logo"
+            width={90}
+            height={90}
+            className=" rounded-3xl w-33! h-33! object-cover"
+          />
+        </div>
         <div className="flex items-center gap-3">
-          <button className="p-2 hover:bg-gray-100 rounded-lg">
+          {/* <button className="p-2 hover:bg-gray-100 rounded-lg">
             <svg
               className="w-6 h-6"
               fill="none"
@@ -27,7 +29,7 @@ const DashboardNavbar = () => {
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
-          </button>
+          </button> */}
           <div className="w-10 h-10  rounded-full flex items-center justify-center">
             <span className="font-semibold">
               <svg
