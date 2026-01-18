@@ -127,6 +127,7 @@ export default function SingleElectronicLibrary() {
         services={services}
         viewCount={0}
         direction={textDirection}
+        backgroundImage={libraryItem.imageUrl || libraryItem.photoUrl || "/imgs/academic-guide.jpg"}
       />
 
       {/* Main Content Area */}

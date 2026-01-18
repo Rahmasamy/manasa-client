@@ -121,6 +121,7 @@ export default function SingleArticle() {
         services={services}
         viewCount={0}
         direction={textDirection}
+        backgroundImage={article.imageUrl || article.photoUrl || "/imgs/academic-guide.jpg"}
       />
 
       {/* Main Content Area */}

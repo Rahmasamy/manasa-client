@@ -17,6 +17,7 @@ export default function HeaderBanner({
   title,
   services,
   viewCount = 5412,
+  backgroundImage,
   direction = "rtl",
 }: HeaderBannerProps) {
   return (
@@ -24,13 +25,13 @@ export default function HeaderBanner({
       {/* Blurred background image */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0 bg-cover bg-center blur-sm">
-            <div className="w-full">
+            <div className="w-full h-full">
               <Image
-              src={"/imgs/academic-guide.jpg"}
-              width={100}
-              height={100}
+              src={backgroundImage || "/imgs/academic-guide.jpg"}
+              width={1920}
+              height={500}
               alt="cover image"
-              className="w-full object-cover"
+              className="w-full h-full object-cover"
               />
 
              
