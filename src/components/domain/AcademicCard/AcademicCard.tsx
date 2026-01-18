@@ -14,7 +14,10 @@ export default function AcademicCard({
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col h-full border border-gray-100 hover:shadow-xl hover:border-[#2885AC]/20 transition-all duration-300">
       {/* Image Container */}
-      <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-48 flex items-center justify-center overflow-hidden relative group">
+      <div 
+        onClick={onButtonClick}
+        className="bg-gradient-to-br from-gray-100 to-gray-200 h-48 flex items-center justify-center overflow-hidden relative group cursor-pointer"
+      >
         {image ? (
           <Image
             src={image}
@@ -97,7 +100,7 @@ export default function AcademicCard({
             {writenBy}
           </div> */}
         </div>
-        <p className="text-sm  text-gray-500 mb-4 text-right flex-1 leading-relaxed">
+        <p className="text-sm text-gray-500 mb-4 text-justify flex-1 leading-relaxed">
           {description}
         </p>
 

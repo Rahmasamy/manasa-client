@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useMemo } from "react";
-import { Calendar, User, ExternalLink } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import { Calendar, User, ExternalLink, List, ChevronDown, ChevronUp } from "lucide-react";
 
 interface ArticleContentProps {
   categoryTitle?: string;
@@ -10,6 +10,12 @@ interface ArticleContentProps {
   articleTitle: string;
   articleText: string;
   direction?: "rtl" | "ltr";
+}
+
+interface Heading {
+  id: string;
+  text: string;
+  level: number;
 }
 
 // Function to parse URLs and convert them to clickable links
@@ -21,6 +27,37 @@ function parseUrls(text: string): string {
     // Ensure URL has protocol
     const fullUrl = url.startsWith("http") ? url : `https://${url}`;
     return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" class="text-[#2885AC] hover:underline">${url}</a>`;
+  });
+}
+
+// Function to extract headings from markdown text
+function extractHeadings(text: string): Heading[] {
+  const headings: Heading[] = [];
+  const headerRegex = /^(#{1,6})\s+(.+)$/gm;
+  let match;
+
+  while ((match = headerRegex.exec(text)) !== null) {
+    const level = match[1].length;
+    const headingText = match[2].trim();
+    const id = headingText.toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-أ-ي]/g, "");
+    headings.push({ id, text: headingText, level });
+  }
+
+  return headings;
+}
+
+// Function to convert markdown headings to HTML with anchor IDs
+function convertHeadingsToAnchors(text: string): string {
+  const headerRegex = /^(#{1,6})\s+(.+)$/gm;
+  
+  return text.replace(headerRegex, (match, hashes, headingText) => {
+    const level = hashes.length;
+    const text = headingText.trim();
+    const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-أ-ي]/g, "");
+    
+    const fontSize = level === 1 ? '3xl' : level === 2 ? '2xl' : level === 3 ? 'xl' : 'lg';
+    
+    return `<h${level} id="${id}" class="font-bold text-${fontSize} mt-8 mb-4 text-gray-800 scroll-mt-24">${text}</h${level}>`;
   });
 }
 
@@ -92,9 +129,21 @@ export default function ArticleContent({
   articleText,
   direction = "rtl",
 }: ArticleContentProps) {
-  // Parse content with clickable URLs
+  const [tocOpen, setTocOpen] = useState(false);
+
+  // Extract headings for TOC
+  const headings = useMemo(() => {
+    return extractHeadings(articleText);
+  }, [articleText]);
+
+  // Parse content with clickable URLs and anchored headings
   const parsedContent = useMemo(() => {
-    return parseUrls(articleText);
+    let content = articleText;
+    // First convert headings to anchors
+    content = convertHeadingsToAnchors(content);
+    // Then parse URLs
+    content = parseUrls(content);
+    return content;
   }, [articleText]);
 
   // Extract last section
@@ -113,6 +162,17 @@ export default function ArticleContent({
       } else {
         // External URL
         window.open(lastSection.url, "_blank", "noopener,noreferrer");
+      }
+    }
+  };
+
+  const handleTocClick = (headingId: string) => {
+    const element = document.getElementById(headingId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      // Close TOC on mobile after clicking
+      if (window.innerWidth < 1024) {
+        setTocOpen(false);
       }
     }
   };
@@ -142,6 +202,47 @@ export default function ArticleContent({
       <h1 className="font-bold text-3xl lg:text-4xl mb-6 text-[#2885AC]">
         {articleTitle}
       </h1>
+
+      {/* Table of Contents */}
+      {headings.length > 0 && (
+        <div className="mb-8 border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+          <button
+            onClick={() => setTocOpen(!tocOpen)}
+            className="w-full flex items-center justify-between px-4 py-3 bg-[#2885AC] text-white hover:bg-teal-600 transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <List className="w-5 h-5" />
+              <span className="font-semibold">
+                {direction === "ltr" ? "Table of Contents" : "جدول المحتويات"}
+              </span>
+            </div>
+            {tocOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+          </button>
+          
+          {tocOpen && (
+            <nav className="px-4 py-3">
+              <ul className={`space-y-2 ${direction === "ltr" ? "text-left" : "text-right"}`}>
+                {headings.map((heading, index) => (
+                  <li
+                    key={`${heading.id}-${index}`}
+                    style={{ 
+                      paddingRight: direction === "rtl" ? `${(heading.level - 1) * 1}rem` : undefined,
+                      paddingLeft: direction === "ltr" ? `${(heading.level - 1) * 1}rem` : undefined,
+                    }}
+                  >
+                    <button
+                      onClick={() => handleTocClick(heading.id)}
+                      className="text-[#2885AC] hover:underline hover:text-teal-600 transition-colors text-sm text-left w-full"
+                    >
+                      {heading.text}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+        </div>
+      )}
 
       {/* Article Text */}
       <div className="prose prose-lg max-w-none">

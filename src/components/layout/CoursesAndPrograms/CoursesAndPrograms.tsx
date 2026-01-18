@@ -146,33 +146,6 @@ export default function CoursesAndPrograms() {
           {totalCourses} دورة / {totalGroups} أقسام
         </p>
       </div>
-      <div className="w-full px-4 sm:px-8 lg:px-24 py-3 sm:py-6">
-        <section className="container mx-auto px-4 py-6 sm:py-9 flex flex-col gap-4 sm:gap-5">
-          <h1 className="font-bold text-[#2885AC] py-2 sm:py-4 text-xl sm:text-2xl">
-            اكمل دوراتك
-          </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-            {(showAll ? allCourses : allCourses.slice(0, DISPLAY_LIMIT)).map(
-              (course) => (
-                <CourseCard
-                  key={course.apiId || course.id + course.title}
-                  course={course}
-                />
-              )
-            )}
-          </div>
-          {allCourses.length > DISPLAY_LIMIT && (
-            <div className="flex justify-center mt-8">
-              <Button
-                onClick={() => setShowAll(!showAll)}
-                className="text-[#2885AC] border-2 border-[#2885AC] bg-white hover:bg-[#2885AC] hover:text-white py-3 px-6 rounded-lg font-semibold transition-colors"
-              >
-                {showAll ? "عرض أقل" : "عرض المزيد"}
-              </Button>
-            </div>
-          )}
-        </section>
-      </div>
       <div className="w-full px-4 sm:px-8 lg:px-24 py-6 sm:py-10">
         <section className="container mx-auto px-4 py-6 sm:py-9">
           <h1 className="font-bold text-[#2885AC] py-2 sm:py-4 text-xl sm:text-2xl">
@@ -215,6 +188,34 @@ export default function CoursesAndPrograms() {
           </div>
         </section>
       </div>
+      <div className="w-full px-4 sm:px-8 lg:px-24 py-3 sm:py-6">
+        <section className="container mx-auto px-4 py-6 sm:py-9 flex flex-col gap-4 sm:gap-5">
+          <h1 className="font-bold text-[#2885AC] py-2 sm:py-4 text-xl sm:text-2xl">
+            اكمل دوراتك
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            {(showAll ? allCourses : allCourses.slice(0, DISPLAY_LIMIT)).map(
+              (course) => (
+                <CourseCard
+                  key={course.apiId || course.id + course.title}
+                  course={course}
+                />
+              )
+            )}
+          </div>
+          {allCourses.length > DISPLAY_LIMIT && (
+            <div className="flex justify-center mt-8">
+              <Button
+                onClick={() => setShowAll(!showAll)}
+                className="text-[#2885AC] border-2 border-[#2885AC] bg-white hover:bg-[#2885AC] hover:text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+              >
+                {showAll ? "عرض أقل" : "عرض المزيد"}
+              </Button>
+            </div>
+          )}
+        </section>
+      </div>
+
       <div className="w-full px-4 sm:px-8 lg:px-24 py-6 sm:py-10 bg-[#D6ECF5]">
         <div className="container mx-auto px-4">
           <h1 className="font-bold text-black py-2 sm:py-4 text-lg sm:text-xl">

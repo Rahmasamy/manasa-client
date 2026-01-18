@@ -53,12 +53,13 @@ export default function HeaderBanner({
               <span className="text-sm">{viewCount}</span>
             </div> */}
 
-            {/* Title */}
-            <div className="mt-14 w-full">
-
-           <h1 className="text-white font-bold text-3xl sm:text-4xl lg:text-5xl mb-8 mt-5 leading-tight">
-              {title}
-            </h1>
+            {/* Title in Decorative Box */}
+            <div className="mt-14 w-full flex justify-center mb-8">
+              <div className="border-2 border-white rounded-xl bg-white/95 shadow-xl px-6 py-4 sm:px-8 sm:py-6 md:px-10 md:py-6 lg:px-12 lg:py-8 backdrop-blur-sm max-w-4xl">
+                <h1 className="text-[#2885AC] font-bold text-2xl sm:text-3xl lg:text-4xl xl:text-5xl leading-tight text-center">
+                  {title}
+                </h1>
+              </div>
             </div>
 
             {/* Services List */}

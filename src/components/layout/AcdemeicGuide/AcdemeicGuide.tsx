@@ -84,7 +84,7 @@ export default function AcdemeicGuide() {
       <div>
         <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] flex flex-col items-center justify-center px-4">
           <h2 className="text-center text-white font-bold text-2xl sm:text-3xl lg:text-5xl p-3 sm:p-5">
-            الأرشاد الأكاديمي
+            الإرشاد الأكاديمي
           </h2>
           <p className="text-center text-white font-bold text-base sm:text-lg lg:text-xl p-3 sm:p-5">
             جاري التحميل...
@@ -99,7 +99,7 @@ export default function AcdemeicGuide() {
       <div>
         <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] flex flex-col items-center justify-center px-4">
           <h2 className="text-center text-white font-bold text-2xl sm:text-3xl lg:text-5xl p-3 sm:p-5">
-            الأرشاد الأكاديمي
+            الإرشاد الأكاديمي
           </h2>
           <p className="text-center text-white font-bold text-base sm:text-lg lg:text-xl p-3 sm:p-5">
             {error}
@@ -113,7 +113,7 @@ export default function AcdemeicGuide() {
     <div>
       <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] flex flex-col items-center justify-center px-4">
         <h2 className="text-center text-white font-bold text-2xl sm:text-3xl lg:text-5xl p-3 sm:p-5">
-          الأرشاد الأكاديمي
+          الإرشاد الأكاديمي
         </h2>
         <p className="text-center text-white font-bold text-base sm:text-lg lg:text-xl p-3 sm:p-5">
           {totalServices} خدمة / {totalCategories} أقسام

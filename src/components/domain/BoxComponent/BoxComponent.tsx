@@ -13,8 +13,8 @@ export default function BoxComponent({
       <div className="flex gap-3 items-start">
         <div className="flex-shrink-0 mt-1">{icon}</div>
         <div className="flex-1">
-          <h2 className="font-bold py-2 text-lg text-gray-800">{title}</h2>
-          <p className="text-gray-600 pb-3 text-sm leading-relaxed">
+          <h2 className="font-bold py-2 text-lg text-gray-800 text-right">{title}</h2>
+          <p className="text-gray-600 pb-3 text-sm leading-relaxed text-justify">
             {description}
           </p>
         </div>

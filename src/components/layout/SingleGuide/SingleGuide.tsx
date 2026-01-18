@@ -96,7 +96,7 @@ export default function SingleGuide() {
       <div>
         <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] md:min-h-[500px] flex flex-col items-center justify-center px-4">
           <h2 className="text-center text-white font-bold text-3xl sm:text-4xl md:text-5xl p-3 sm:p-4 md:p-5">
-            الأرشاد الأكاديمي
+            الإرشاد الأكاديمي
           </h2>
           <p className="text-center text-white font-bold text-base sm:text-lg md:text-xl p-3 sm:p-4 md:p-5">
             جاري التحميل...
@@ -111,7 +111,7 @@ export default function SingleGuide() {
       <div>
         <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] md:min-h-[500px] flex flex-col items-center justify-center px-4">
           <h2 className="text-center text-white font-bold text-3xl sm:text-4xl md:text-5xl p-3 sm:p-4 md:p-5">
-            الأرشاد الأكاديمي
+            الإرشاد الأكاديمي
           </h2>
           <p className="text-center text-white font-bold text-base sm:text-lg md:text-xl p-3 sm:p-4 md:p-5">
             {error || "الخدمة غير موجودة"}
@@ -148,7 +148,7 @@ export default function SingleGuide() {
       {/* Hero Section */}
       <div className="w-full bg-gradient-to-br from-[#39A975] to-[#2885AC] min-h-[300px] sm:min-h-[400px] md:min-h-[500px] flex flex-col items-center justify-center px-4">
         <h2 className="text-center text-white font-bold text-3xl sm:text-4xl md:text-5xl p-3 sm:p-4 md:p-5">
-          الأرشاد الأكاديمي
+          الإرشاد الأكاديمي
         </h2>
         <p className="text-center text-white font-bold text-base sm:text-lg md:text-xl p-3 sm:p-4 md:p-5">
           {service.category?.title || "خدمة أكاديمية"}

@@ -27,7 +27,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
 
       {/* Content */}
       <div className="p-5 space-y-4">
-        <p className="text-gray-600 leading-relaxed text-sm">
+        <p className="text-gray-600 leading-relaxed text-sm text-justify">
           {service.description}
         </p>
         

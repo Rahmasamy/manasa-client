@@ -59,7 +59,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         {/* Content */}
         <div className="p-5 space-y-3">
           {/* Title */}
-          <h3 className="font-bold text-lg line-clamp-2 text-gray-800 leading-tight">
+          <h3 className="font-bold text-lg line-clamp-2 text-gray-800 leading-tight text-right">
             {course.title}
           </h3>
 
@@ -82,7 +82,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
               {course.instructor}
             </span>
           </p> */}
-          <p className="text-sm text-gray-400 p-2">{course.desc}</p>
+          <p className="text-sm text-gray-400 p-2 text-justify">{course.desc}</p>
           <div className="flex items-center gap-1">
             {[...Array(5)].map((_, i) => (
               <Star
