@@ -40,6 +40,16 @@ export interface ServicesByCategoryResponse {
   };
 }
 
+export interface ServiceRequestPayload {
+  name: string;
+  email: string;
+  whatsappCode: string;
+  whatsappNumber: string;
+  serviceId: string;
+  categoryId?: string;
+  request: string;
+}
+
 export class AcademicServiceApi {
   private baseUrl: string;
 
@@ -285,6 +295,38 @@ export class AcademicServiceApi {
         throw error;
       }
       throw new Error(`Failed to delete service: ${String(error)}`);
+    }
+  }
+
+  async submitServiceRequest(
+    payload: ServiceRequestPayload
+  ): Promise<{
+    message: string;
+  }> {
+    try {
+      const response = await fetch(
+        `${this.baseUrl}${API_ENDPOINTS.ACADEMIC.SUBMIT_SERVICE_REQUEST}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Failed to submit service request: ${response.status} ${response.statusText}. ${errorText}`
+        );
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error(`Failed to submit service request: ${String(error)}`);
     }
   }
 }

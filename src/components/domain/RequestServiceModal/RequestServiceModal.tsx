@@ -111,10 +111,22 @@ export default function RequestServiceModal({
       return;
     }
 
+    if (!selectedCategoryId || !serviceId) {
+      setFormError("يرجى تعبئة جميع الحقول المطلوبة");
+      return;
+    }
+
     try {
       setLoading(true);
-      // TODO: Send form data to API endpoint
-      // await academicServiceApi.submitServiceRequest(formData);
+      await academicServiceApi.submitServiceRequest({
+        name,
+        email,
+        whatsappCode,
+        whatsappNumber,
+        serviceId,
+        categoryId: selectedCategoryId,
+        request,
+      });
 
       // Reset form
       setFormData({
@@ -200,9 +212,13 @@ export default function RequestServiceModal({
                 type="email"
                 value={formData.email}
                 onChange={handleFormChange}
+                required
                 placeholder="البريد الإلكتروني"
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0B72B9] focus:border-transparent"
               />
+              {formError && (
+                <p className="text-red-600 text-xs">{formError}</p>
+              )}
             </div>
           </div>
 

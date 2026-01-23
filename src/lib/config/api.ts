@@ -28,6 +28,7 @@ export const API_ENDPOINTS = {
     CATEGORIES: "/api/academic/categories",
     CATEGORY_BY_ID: (id: string) =>
       `/api/academic/categories/${id}`,
+    SUBMIT_SERVICE_REQUEST: "/api/academic/services/request",
   },
 
   // Articles
