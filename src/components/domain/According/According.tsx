@@ -7,6 +7,8 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
 }) => {
   return (
     <div className="border-b border-gray-200">
+
+      
       <button
         onClick={onClick}
         className="w-full py-4 px-6 flex items-center justify-between hover:bg-gray-50 transition-colors text-right"
