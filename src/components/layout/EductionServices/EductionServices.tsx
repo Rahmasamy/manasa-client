@@ -8,6 +8,7 @@ import {
   ApiAcademicCategory,
 } from "@/src/infrastructure/api/academicServiceApi";
 import { Service } from "@/src/types/services/services";
+import { API_BASE_URL, API_ENDPOINTS } from "@/src/lib/config/api";
 
 export default function EductionServices() {
   const [categories, setCategories] = useState<ApiAcademicCategory[]>([]);
@@ -71,7 +72,7 @@ export default function EductionServices() {
       try {
         const link = document.createElement("link");
         link.rel = "prefetch";
-        link.href = "https://edu-3nj8.onrender.com/api/academic/categories";
+        link.href = `${API_BASE_URL}${API_ENDPOINTS.ACADEMIC.CATEGORIES}`;
         link.as = "fetch";
         link.crossOrigin = "anonymous";
         document.head.appendChild(link);

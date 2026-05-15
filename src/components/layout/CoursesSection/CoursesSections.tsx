@@ -6,6 +6,7 @@ import CourseCard from "../../domain/CourseCardComponent/CourseCardComponent";
 import { courseApi, ApiCourseGroup } from "@/src/infrastructure/api/courseApi";
 import { mapApiCourseToCourse } from "@/src/lib/utils/mappers";
 import { Course } from "@/src/types/courses/courses";
+import { API_BASE_URL, API_ENDPOINTS } from "@/src/lib/config/api";
 
 export default function CoursesSections() {
   const [courseGroups, setCourseGroups] = useState<ApiCourseGroup[]>([]);
@@ -77,7 +78,7 @@ export default function CoursesSections() {
       try {
         const link = document.createElement("link");
         link.rel = "prefetch";
-        link.href = "https://edu-3nj8.onrender.com/api/course/courses";
+        link.href = `${API_BASE_URL}${API_ENDPOINTS.COURSES.ALL}`;
         link.as = "fetch";
         link.crossOrigin = "anonymous";
         document.head.appendChild(link);
